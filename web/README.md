@@ -18,11 +18,10 @@ The project needs to be configured with your Auth0 domain and client ID in order
 
 To do this, first copy `auth_config.json.example` into a new file in the same folder called `auth_config.json`, and replace the values within with your own Auth0 application credentials:
 
-```json
-{
-  "domain": "<YOUR AUTH0 DOMAIN>",
-  "clientId": "<YOUR AUTH0 CLIENT ID>"
-}
+```txt
+AUTH0_TENANT_DOMAIN=<YOUR AUTH0 DOMAIN>
+AUTH0_CLIENT_ID=<YOUR AUTH0 CLIENT ID>
+API_AUDIENCE=<YOUR API AUDIENCE>
 ```
 
 ### Compiles and hot-reloads for development
