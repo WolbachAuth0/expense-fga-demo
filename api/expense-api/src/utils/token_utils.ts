@@ -33,17 +33,17 @@ export async function verifyJWT(jwt: string) {
     
     let JWKS;
     if (!cached_jwks) {
-        JWKS = jose.createRemoteJWKSet(new URL('https://samyapkowitz.us.auth0.com/.well-known/jwks.json'))
+        JWKS = jose.createRemoteJWKSet(new URL('https://fga-experiment.us.auth0.com/.well-known/jwks.json'))
     } else {
         let jwks = cached_jwks as jose.JSONWebKeySet;
         JWKS = jose.createLocalJWKSet(jwks);
     }
     
     const { payload } = await jose.jwtVerify(jwt, JWKS, {
-        issuer: 'https://auth.samyap.dev/',
+        issuer: 'https://fga-experiment.us.auth0.com/',
         audience: [
-            "http://localhost:8080",
-            "https://samyapkowitz.us.auth0.com/userinfo"
+            "https://api.expenses",
+            "https://fga-experiment.us.auth0.com/userinfo"
         ],
     });
 
