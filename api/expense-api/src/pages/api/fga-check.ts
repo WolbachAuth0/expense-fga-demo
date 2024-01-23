@@ -3,6 +3,7 @@ import { OpenFgaClient, CredentialsMethod } from '@openfga/sdk';
 import { kv } from '@vercel/kv';
 import { checkIsJwtExpired, renewFGAJWT } from '@/utils/token_utils';
 
+// Vercel commit
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     // Parse FGA fields
     const { user, relation, object } = req.body;
