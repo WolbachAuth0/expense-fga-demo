@@ -49,3 +49,17 @@ export async function verifyJWT(jwt: string) {
 
     return !!payload;
 }
+
+export async function getFGAJWT() {
+    // Check cache for FGA Access Token
+    let cached_token = await kv.get('fga_token');
+    let fga_token = cached_token?.toString();
+
+    // If token is not found or is expired, get a new one
+    if (!fga_token || checkIsJwtExpired(fga_token)) {
+        fga_token = await renewFGAJWT();
+        await kv.set('fga_token', fga_token);
+    }
+
+    return fga_token;
+}
