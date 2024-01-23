@@ -5,7 +5,6 @@ import { createAuth0 } from "@auth0/auth0-vue";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faLink, faUser, faPowerOff } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
-import authConfig from "../auth_config.json";
 import hljs from 'highlight.js/lib/core';
 import json from 'highlight.js/lib/languages/json';
 import hljsVuePlugin from "@highlightjs/vue-plugin";
@@ -22,8 +21,8 @@ app
   .use(createRouter(app))
   .use(
     createAuth0({
-      domain: authConfig.domain,
-      clientId: authConfig.clientId,
+      domain: process.env.AUTH0_TENANT_DOMAIN,
+      clientId: process.env.AUTH0_CLIENT_ID,
       authorizationParams: {
         redirect_uri: window.location.origin,
       }
