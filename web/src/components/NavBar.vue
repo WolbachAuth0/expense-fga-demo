@@ -94,7 +94,7 @@
 
 <script>
 import { useAuth0 } from '@auth0/auth0-vue';
-const vercelEnv = process.env.VERCEL_ENV
+
 export default {
   name: "NavBar",
   setup() {
