@@ -22,11 +22,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         });
 
         // Check Result
-        const result = await fgaClient.check({
-            user: user,
-            relation: relation,
-            object: object,
-        });
+        const result = await fgaClient.listObjects({
+            user,
+            relation,
+            // TODO: type
+            type: "document",
+        })
         return res.status(200).json({
             result: result
         });

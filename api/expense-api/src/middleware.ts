@@ -14,6 +14,4 @@ export default async function middleware(req: NextRequest) {
     } catch (e) {
         return NextResponse.json({ message: e }, { status: 401 })
     }
-   
-    
 }
