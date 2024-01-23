@@ -1,7 +1,0 @@
-{
-  "dependencies": {
-    "@openfga/sdk": "^0.3.0",
-    "@vercel/kv": "^1.0.1",
-    "jose": "^5.2.0"
-  }
-}
