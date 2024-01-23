@@ -25,7 +25,10 @@ app
       clientId: process.env.AUTH0_CLIENT_ID,
       authorizationParams: {
         redirect_uri: window.location.origin,
-      }
+        audience: 'https://api.expenses'
+      },
+      cache: 'on',
+      cacheLocation: 'localstorage'
     })
   )
   .component("font-awesome-icon", FontAwesomeIcon)

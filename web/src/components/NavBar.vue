@@ -105,15 +105,7 @@ export default {
       isLoading: auth0.isLoading,
       user: auth0.user,
       async login() {
-        auth0.loginWithRedirect();
-        const response = await auth0.getAccessTokenSilently({
-          authorizationParams: {
-            audience: 'https://api.expenses'
-          }
-        })
-        // TODO: only log if in development environment
-        console.log(vercelEnv)
-        console.log(response)
+        auth0.loginWithRedirect()
       },
       logout() {
         auth0.logout({
