@@ -92,9 +92,9 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import { useAuth0 } from '@auth0/auth0-vue';
-
+const vercelEnv = process.env.VERCEL_ENV
 export default {
   name: "NavBar",
   setup() {
@@ -104,8 +104,16 @@ export default {
       isAuthenticated: auth0.isAuthenticated,
       isLoading: auth0.isLoading,
       user: auth0.user,
-      login() {
+      async login() {
         auth0.loginWithRedirect();
+        const response = await auth0.getAccessTokenSilently({
+          authorizationParams: {
+            audience: 'https://api.expenses'
+          }
+        })
+        // TODO: only log if in development environment
+        console.log(vercelEnv)
+        console.log(response)
       },
       logout() {
         auth0.logout({
