@@ -11,8 +11,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     if (fga_token) {
         // Instantiate FGA client
         const fgaClient = new OpenFgaClient({
-            apiHost: 'api.us1.fga.dev', 
-            storeId: '01GJ3SQKTDV7AXQWMPYYZGEF0B',
+            apiHost: process.env.FGA_API_HOST || '',
+            storeId: process.env.FGA_STORE_ID,
             credentials: {
                 method: CredentialsMethod.ApiToken,
                 config: {

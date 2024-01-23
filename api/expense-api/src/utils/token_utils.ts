@@ -10,7 +10,7 @@ export function checkIsJwtExpired(jwt: string) {
 
 export async function renewFGAJWT() {
     const res = await fetch(
-        `https://fga.us.auth0.com/oauth/token`,
+        `${process.env.FGA_TOKEN_ENDPOINT}`,
         {
             method: 'POST',
             headers: {
@@ -18,8 +18,8 @@ export async function renewFGAJWT() {
             },
             body: JSON.stringify({ 
                 client_id: process.env.FGA_CLIENT_ID, 
-                client_secret: process.env.FGA_CLIENT_SECRET, 
-                audience: 'https://api.us1.fga.dev/', 
+                client_secret: process.env.FGA_CLIENT_SECRET,
+                audience: process.env.FGA_API_AUDIENCE,
                 grant_type: 'client_credentials' 
             }),
         }
@@ -33,17 +33,17 @@ export async function verifyJWT(jwt: string) {
     
     let JWKS;
     if (!cached_jwks) {
-        JWKS = jose.createRemoteJWKSet(new URL('https://fga-experiment.us.auth0.com/.well-known/jwks.json'))
+        JWKS = jose.createRemoteJWKSet(new URL(`https://${process.env.AUTH0_DOMAIN}/.well-known/jwks.json`))
     } else {
         let jwks = cached_jwks as jose.JSONWebKeySet;
         JWKS = jose.createLocalJWKSet(jwks);
     }
     
     const { payload } = await jose.jwtVerify(jwt, JWKS, {
-        issuer: 'https://fga-experiment.us.auth0.com/',
+        issuer: `https://${process.env.AUTH0_DOMAIN}/`,
         audience: [
-            "https://api.expenses",
-            "https://fga-experiment.us.auth0.com/userinfo"
+            `${process.env.AUTH0_API_AUDIENCE}`,
+            `https:/${process.env.AUTH0_DOMAIN}/userinfo`
         ],
     });
 
