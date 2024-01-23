@@ -10,6 +10,8 @@ import json from 'highlight.js/lib/languages/json';
 import hljsVuePlugin from "@highlightjs/vue-plugin";
 import "highlight.js/styles/github.css";
 
+const env = import.meta.env
+
 hljs.registerLanguage('json', json);
 
 const app = createApp(App);
@@ -21,13 +23,12 @@ app
   .use(createRouter(app))
   .use(
     createAuth0({
-      domain: process.env.AUTH0_TENANT_DOMAIN,
-      clientId: process.env.AUTH0_CLIENT_ID,
+      domain: env.VITE_AUTH0_TENANT_DOMAIN,
+      clientId: env.VITE_AUTH0_CLIENT_ID,
       authorizationParams: {
         redirect_uri: window.location.origin,
         audience: 'https://api.expenses'
       },
-      cache: 'on',
       cacheLocation: 'localstorage'
     })
   )
