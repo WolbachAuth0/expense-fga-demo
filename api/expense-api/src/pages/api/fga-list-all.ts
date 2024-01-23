@@ -25,7 +25,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         const result = await fgaClient.listObjects({
             user,
             relation,
-            type: type,
+            type,
         })
         return res.status(200).json({
             result: result
