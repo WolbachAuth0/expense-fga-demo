@@ -30,7 +30,7 @@ async function getSubmittedReports (auth) {
   }
   try {
     const accesstoken = await auth.getAccessTokenSilently()
-    const response = await http(accesstoken, 1000).post(url, data)
+    const response = await http(accesstoken).post(url, data)
     return response
   } catch (error) {
     console.log(error)
@@ -40,14 +40,20 @@ async function getSubmittedReports (auth) {
 
 async function getReportsToApprove (auth) {
   const url = '/fga-list-all'
+  // const data = {
+  //   user: `user:${auth.user.value.sub}`,
+  //   relation: 'approver',
+  //   type: 'report'
+  // }
+
   const data = {
-    user: `user:${auth.user.value.sub}`,
-    relation: 'approver',
-    type: 'report'
+    user: 'user:sam',
+    relation: 'viewer',
+    type: 'document'
   }
   try {
     const accesstoken = await auth.getAccessTokenSilently()
-    const response = await http(accesstoken, 1000).post(url, data)
+    const response = await http(accesstoken).post(url, data)
     return response
   } catch (error) {
     console.log(error)
