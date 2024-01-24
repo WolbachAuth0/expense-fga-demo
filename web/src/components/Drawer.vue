@@ -5,12 +5,14 @@
         
         <v-list>
           <v-list-item
-            :title="isAuthenticated ? user.name : 'Login'"
-            :subtitle="isAuthenticated ? user.email : 'to continue'"
+            :title="isAuthenticated ? user.name : ''"
+            :subtitle="isAuthenticated ? user.email : ''"
             :to="isAuthenticated ? '/profile' : '/'"
           >
             <template v-slot:prepend>
-              <v-avatar v-if="isAuthenticated" :src="user.picture"></v-avatar>
+              <v-avatar v-if="isAuthenticated">
+                <v-img :src="user.picture"></v-img>
+              </v-avatar>
               <v-avatar v-else>
                 <v-icon color="white">mdi-account</v-icon>
               </v-avatar>
