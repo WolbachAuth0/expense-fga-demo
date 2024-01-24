@@ -1,4 +1,4 @@
-import {  NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { NextApiResponse } from 'next';
 
 export function setCorsMiddlewareHeaders(response: NextResponse) {
