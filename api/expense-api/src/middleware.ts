@@ -7,20 +7,8 @@ export const config = {
 
 export default async function middleware(req: NextRequest) {
     const token = req.headers.get('authorization')?.split(' ')[1];
-    let response = null;
-    try {
-        if (token) {
-            const isPayloadValid = await verifyJWT(token);
-            if (isPayloadValid) {
-                response = NextResponse.next();
-            } else {
-                response = NextResponse.json({ message: 'Authorization Required'}, { status: 401 });
-            }
-        } else {
-            response = NextResponse.json({ message: 'Authorization Required'}, { status: 401 });
-        }
-        return response;
-    } catch (e) {
-        return NextResponse.json({ message: e }, { status: 401 })
+    if (token && await verifyJWT(token)) {
+        return NextResponse.next();
     }
+    return NextResponse.json({ message: 'Authorization Required'}, { status: 401 });
 }
