@@ -27,6 +27,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             relation,
             type,
         })
+        
         return res.status(200).json({
             result: result
         });
