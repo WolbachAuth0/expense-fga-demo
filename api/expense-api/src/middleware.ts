@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { verifyJWT } from '@/utils/token_utils';
 
 export const config = {
-    matcher: '/api/*',
+    matcher: '/',
 };
 
 export default async function middleware(req: NextRequest) {
