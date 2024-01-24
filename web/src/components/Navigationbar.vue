@@ -10,6 +10,7 @@
       </v-app-bar-title>
 
       <template v-slot:append>
+        
         <v-btn
           v-if="!isAuthenticated"
           prepend-icon="mdi-login"
@@ -23,9 +24,10 @@
           Login
         </v-btn>
 
-        <v-avatar class="m-4" color="grey-darken-1" size="50" v-if="isAuthenticated">
+        <!-- <v-avatar class="m-4" color="grey-darken-1" size="50" v-if="isAuthenticated">
           <img :src="user.picture" />
-        </v-avatar>
+        </v-avatar> -->
+
         <v-btn 
           v-if="isAuthenticated"
           prepend-icon="mdi-logout"
@@ -38,6 +40,7 @@
           </template>
           Logout
         </v-btn>
+
       </template>
     </v-app-bar>
 </template>
