@@ -22,4 +22,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             result: result
         });
     }
+
+    return res.status(400).json({
+        result: 'Bad Request'
+    })
 };
