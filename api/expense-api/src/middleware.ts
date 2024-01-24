@@ -7,7 +7,7 @@ export const config = {
 
 export default async function middleware(req: NextRequest, res: NextResponse) {
     if (req.method === 'OPTIONS') {
-        return res.ok;
+        return setCorsHeaders(res).ok;
     }
 
     const response = NextResponse.next();
