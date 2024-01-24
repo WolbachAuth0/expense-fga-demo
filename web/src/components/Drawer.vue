@@ -1,28 +1,40 @@
 <template>
 
   <v-navigation-drawer permanent theme="dark" v-model="drawer">
-      <v-sheet color="blue-darken-2" class="pa-4" v-if="isAuthenticated">
+      <v-sheet color="blue-darken-2" class="pa-4">
+        
         <v-list>
-          <v-list-item>
-            <v-list-item-avatar class="mb-4" color="grey-darken-1" size="50">
-              <img :src="isAuthenticated ? user.picture : ''" />
-            </v-list-item-avatar>
-            <v-list-item-content>
-              {{ isAuthenticated ? user.email : '' }}
-            </v-list-item-content>
+          <v-list-item
+            :title="isAuthenticated ? user.name : 'Login'"
+            :subtitle="isAuthenticated ? user.email : 'to continue'"
+            :to="isAuthenticated ? '/profile' : '/'"
+          >
+            <template v-slot:prepend>
+              <v-avatar v-if="isAuthenticated" :src="user.picture"></v-avatar>
+              <v-avatar v-else>
+                <v-icon color="white">mdi-account</v-icon>
+              </v-avatar>
+            </template>
           </v-list-item>
         </v-list>
+
       </v-sheet>
 
       <v-divider></v-divider>
 
-      <v-list>
+      <v-list nav>
         <v-list-item
-          v-for="[icon, text] in routes"
+          prepend-icon="mdi-home"
+          title="Home"
+          to="/"
+        ></v-list-item>
+
+        <v-list-item
+          v-for="[icon, text, route] in routes"
           :key="icon"
           :prepend-icon="icon"
           :title="text"
-          link
+          :to="route"
         ></v-list-item>
 
       <v-list-item v-if="!isAuthenticated"
@@ -72,8 +84,8 @@ export default {
         return []
       } else {
         return [
-          ['mdi-file-chart', 'Reports'],
-          ['mdi-account-supervisor-circle', 'Supervisors'],
+          ['mdi-file-chart', 'Expense Reports', '/reports'],
+          ['mdi-account-supervisor-circle', 'Supervisors', '/people'],
         ]
       }
     }

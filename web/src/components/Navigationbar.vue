@@ -13,9 +13,13 @@
         <v-btn
           v-if="!isAuthenticated"
           prepend-icon="mdi-login"
-          @click="login"
           variant="outlined"
+          class="mx-4 text-blue-darken-2"
+          @click="login"
         >
+          <template v-slot:prepend>
+            <v-icon color="primary"></v-icon>
+          </template>
           Login
         </v-btn>
 
@@ -23,12 +27,15 @@
           <img :src="user.picture" />
         </v-avatar>
         <v-btn 
-          class="mx-4"
           v-if="isAuthenticated"
           prepend-icon="mdi-logout"
           variant="outlined"
+          class="mx-4 text-blue-darken-2"
           @click="logout"
         >
+          <template v-slot:prepend>
+            <v-icon color="primary"></v-icon>
+          </template>
           Logout
         </v-btn>
       </template>

@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <v-col cols="12">
-      <v-card title="Welcome">
+      <v-card title="People">
         
       </v-card>
     </v-col>
@@ -11,7 +11,7 @@
 <script>
 
 export default {
-  name: "home-view",
+  name: "People",
   data () {
     return {
     }
