@@ -1,30 +1,26 @@
 <template>
-  <div id="app" class="d-flex flex-column h-100">
-    <nav-bar />
-    <div class="container flex-grow-1">
-      <error />
-      <div class="mt-5">
-        <router-view />
-      </div>
-    </div>
-    <footer class="bg-light text-center p-3">
-      <div class="logo"></div>
-      <p>
-        Sample project provided by
-        <a href="https://auth0.com">Auth0</a>
-      </p>
-    </footer>
-  </div>
+  <v-app>
+    <navigation-bar></navigation-bar>
+    <drawer></drawer>
+    <error />
+    <v-main>
+       <v-container class="py-8 px-6" fluid>
+            <router-view />
+      </v-container>
+    </v-main>
+  </v-app>
 </template>
 
-<script lang="ts">
-import NavBar from "./components/NavBar.vue";
-import Error from "./components/Error.vue";
+<script>
+import Error from './components/Error.vue';
+import NavigationBar from './components/Navigationbar.vue';
+import Drawer from './components/Drawer.vue'
 
 export default {
   components: {
-    NavBar,
-    Error
+    NavigationBar,
+    Error,
+    Drawer
   }
 };
 </script>

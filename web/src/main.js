@@ -2,9 +2,18 @@ import App from "./App.vue";
 import { createApp } from "vue";
 import { createRouter } from "./router";
 import { createAuth0 } from "@auth0/auth0-vue";
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { faLink, faUser, faPowerOff } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
+
+// Vuetify
+import 'vuetify/styles'
+import { createVuetify } from 'vuetify'
+import * as components from 'vuetify/components'
+import * as directives from 'vuetify/directives'
+import { aliases, mdi } from "vuetify/lib/iconsets/mdi";
+// make sure to also import the coresponding css
+import "@mdi/font/css/materialdesignicons.css"; // Ensure you are using css-loader
+import theme from './plugins/theme'
+
+// hljs stuff
 import hljs from 'highlight.js/lib/core';
 import json from 'highlight.js/lib/languages/json';
 import hljsVuePlugin from "@highlightjs/vue-plugin";
@@ -14,23 +23,33 @@ const environ = import.meta.env
 
 hljs.registerLanguage('json', json);
 
+const vuetify = createVuetify({
+  components,
+  directives,
+  theme,
+  icons: {
+    defaultSet: "mdi",
+    aliases,
+    sets: {
+      mdi
+    },
+  }, 
+})
+
 const app = createApp(App);
-
-library.add(faLink, faUser, faPowerOff);
-
 app
   .use(hljsVuePlugin)
   .use(createRouter(app))
+  .use(vuetify)
   .use(
     createAuth0({
       domain: environ.VITE_AUTH0_TENANT_DOMAIN,
       clientId: environ.VITE_AUTH0_CLIENT_ID,
       authorizationParams: {
         redirect_uri: window.location.origin,
-        audience: environ.VITE_API_AUDIENCE// 'https://api.expenses'
+        audience: environ.VITE_API_AUDIENCE
       },
       cacheLocation: 'localstorage'
     })
   )
-  .component("font-awesome-icon", FontAwesomeIcon)
   .mount("#app");
