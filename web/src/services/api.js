@@ -1,13 +1,9 @@
 import axios from 'axios'
-
-async function getAccessToken (auth) {
-  const token = await auth.getTokenSilently()
-  return token
-}
+const environ = import.meta.env
 
 function http (accesstoken, timeout=0) {
   const request = {
-    baseURL: process.env.VITE_API_BASEURL,
+    baseURL: environ.VITE_API_BASEURL,
     timeout,
     headers: {
       'Content-Type': 'application/json',
@@ -25,10 +21,37 @@ async function checkPermission () {
 
 }
 
-async function listMyReports (auth) {
-  url = '/fga-list-all'
-  body = {
+async function getSubmittedReports (auth) {
+  const url = '/fga-list-all'
+  const data = {
+    user: `user:${auth.user.value.sub}`,
+    relation: "submitter",
+    type: 'report'
+  }
+  try {
+    const accesstoken = await auth.getAccessTokenSilently()
+    const response = await http(accesstoken, 1000).post(url, data)
+    return response
+  } catch (error) {
+    console.log(error)
+    return error
+  }
+}
 
+async function getReportsToApprove (auth) {
+  const url = '/fga-list-all'
+  const data = {
+    user: `user:${auth.user.value.sub}`,
+    relation: 'approver',
+    type: 'report'
+  }
+  try {
+    const accesstoken = await auth.getAccessTokenSilently()
+    const response = await http(accesstoken, 1000).post(url, data)
+    return response
+  } catch (error) {
+    console.log(error)
+    return error
   }
 }
 
@@ -38,8 +61,9 @@ async function approveReport () {
 
 export default {
   checkPermission,
-  listObjects,
-
+  getSubmittedReports,
+  getReportsToApprove,
+  approveReport
 }
 
 

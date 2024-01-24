@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import api from './../services/api'
 
 export default {
   name: "Expense Reports",
@@ -72,6 +73,22 @@ export default {
           ]
         }
       ]
+    }
+  },
+  async mounted () {
+    // const accesstoken = await this.$auth0.getAccessTokenSilently()
+    const response = await api.getSubmittedReports(this.$auth0)
+    console.log(response)
+    // console.log(accesstoken)
+  },
+  methods: {
+    async fetchSubmittedReports () {
+      const response = await api.getSubmittedReports(this.$auth0)
+      return response
+    },
+    async fetchReportsToApprove () {
+      const response = await api.getReportsToApprove(this.$auth0)
+      return response
     }
   }
 };
