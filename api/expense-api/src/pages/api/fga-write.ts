@@ -20,6 +20,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 }
             } 
         });
+        
         // Check Result
         const result = await fgaClient.write({
             writes: [{
@@ -28,6 +29,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 object,
         }]
         });
+
         return res.status(200).json({
             result: result
         });

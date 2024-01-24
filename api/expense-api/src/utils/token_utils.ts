@@ -39,15 +39,18 @@ export async function verifyJWT(jwt: string) {
         JWKS = jose.createLocalJWKSet(jwks);
     }
     
-    const { payload } = await jose.jwtVerify(jwt, JWKS, {
-        issuer: `https://${process.env.AUTH0_DOMAIN}/`,
-        audience: [
-            `${process.env.AUTH0_API_AUDIENCE}`,
-            `https:/${process.env.AUTH0_DOMAIN}/userinfo`
-        ],
-    });
-
-    return !!payload;
+    try {
+        const { payload } = await jose.jwtVerify(jwt, JWKS, {
+            issuer: `https://${process.env.AUTH0_DOMAIN}/`,
+            audience: [
+                `${process.env.AUTH0_API_AUDIENCE}`,
+                `https:/${process.env.AUTH0_DOMAIN}/userinfo`
+            ],
+        });
+        return !!payload;
+    } catch (e) {
+        return false;
+    }   
 }
 
 export async function getFGAJWT() {
