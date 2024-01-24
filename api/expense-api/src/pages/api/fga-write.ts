@@ -22,11 +22,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         });
         // Check Result
         const result = await fgaClient.write({
-            writes: [
+            writes: [{
                 user,
                 relation,
                 object,
-            ]
+        }]
         });
         return res.status(200).json({
             result: result

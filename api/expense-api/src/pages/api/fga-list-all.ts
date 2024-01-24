@@ -4,7 +4,7 @@ import { getFGAJWT } from '@/utils/token_utils';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     // Parse FGA fields
-    const { user, relation, object } = req.body;
+    const { user, relation, type } = req.body;
 
     const fga_token = await getFGAJWT();
 
@@ -25,8 +25,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         const result = await fgaClient.listObjects({
             user,
             relation,
-            // TODO: type
-            type: "document",
+            type,
         })
         return res.status(200).json({
             result: result
