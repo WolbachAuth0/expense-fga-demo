@@ -23,10 +23,15 @@ async function checkPermission () {
 
 async function getSubmittedReports (auth) {
   const url = '/fga-list-all'
+  // const data = {
+  //   user: `user:${auth.user.value.sub}`,
+  //   relation: "submitter",
+  //   type: 'report'
+  // }
   const data = {
-    user: `user:${auth.user.value.sub}`,
-    relation: "submitter",
-    type: 'report'
+    user: 'user:sam',
+    relation: 'viewer',
+    type: 'document'
   }
   try {
     const accesstoken = await auth.getAccessTokenSilently()
