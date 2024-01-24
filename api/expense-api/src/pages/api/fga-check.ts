@@ -1,5 +1,4 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { OpenFgaClient, CredentialsMethod } from '@openfga/sdk';
 import { getFGAJWT } from '@/utils/token_utils';
 import { checkTuple } from '@/utils/fga_utils';
 
