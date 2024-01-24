@@ -8,8 +8,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const fga_token = await getFGAJWT();
 
     if (fga_token) {
-        // Instantiate FGA client
-        const result = listAllTuples(fga_token, payload);
+        const result = await listAllTuples(fga_token, payload);
 
         return res.status(200).json({
             result: result

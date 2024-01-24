@@ -68,7 +68,9 @@ export async function listAllTuples(token: string, payload: FGAListTuple) {
         user,
         relation,
         type,
-    })
+    });
+
+    return result;
 }
 
 export type FGAWriteTuple = {
