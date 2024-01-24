@@ -5,7 +5,11 @@ export const config = {
     matcher: '/api/:path*'
 }
 
-export default async function middleware(req: NextRequest) {
+export default async function middleware(req: NextRequest, res: NextResponse) {
+    if (req.method === 'OPTIONS') {
+        return res.ok;
+    }
+
     const response = NextResponse.next();
 
     const token = req.headers.get('authorization')?.split(' ')[1];
