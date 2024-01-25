@@ -32,9 +32,30 @@ export async function createExpenseReport(payload: createExpenseReportDto) {
     return result;
 }
 
+export async function approveExpenseReport(payload: approveExpenseReportDto) {
+    const { approver_id, report_id } = payload;
+    const today = DateTime.now().toJSDate();
+
+    const result =
+    await db
+        .updateTable('expense_reports')
+        .set({ approver_id: approver_id, approved_date: today })
+        .where('report_id', '=', report_id)
+        .returningAll()
+        .execute();
+    
+    return result;
+}
+
 export type createExpenseReportDto = {
     amount: number;
     merchant: string;
     description: string;
     submitter_id: string;
 }
+
+export type approveExpenseReportDto = {
+    report_id: number;
+    approver_id: string;
+}
+
