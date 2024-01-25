@@ -3,7 +3,7 @@ import { verifyJWT } from '@/utils/token_utils';
 import { cors } from './utils/cors';
 
 export const config = {
-    matcher: '/api/:path*'
+    matcher: '/api/list'
 }
 
 export default async function middleware(req: NextRequest, res: NextResponse) {
