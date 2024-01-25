@@ -11,7 +11,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     if (fga_token) {
         const result = await listAllTuples(fga_token, payload);
 
-        return setCorsApiHeaders(res).status(200).json({
+        return res.status(200).json({
             result: result
         });
     }
