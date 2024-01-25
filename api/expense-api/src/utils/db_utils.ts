@@ -3,7 +3,7 @@ import { Generated } from 'kysely';
 import { DateTime } from 'luxon';
  
 interface Database {
-  expenseReports: ExpenseReportsTable;
+  'expense_reports': ExpenseReportsTable;
 }
 
 interface ExpenseReportsTable {
@@ -24,7 +24,7 @@ export async function createExpenseReport(payload: createExpenseReportDto) {
     const today = DateTime.now().toJSDate();
 
     const result = await db
-        .insertInto('expenseReports')
+        .insertInto('expense_reports')
         .values({ amount: amount, merchant: merchant, description: description, submitter_id: submitter_id, submitted_date: today })
         .returning('report_id')
         .execute();
