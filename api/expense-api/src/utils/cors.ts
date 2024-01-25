@@ -1,7 +1,7 @@
 import type { NextMiddleware, NextRequest, NextResponse } from "next/server";
 
 const DEFAULT_HEADERS = new Headers({
-  "Access-Control-Allow-Origin": "https://expense-fga-demo-web.vercel.app/",
+  "Access-Control-Allow-Origin": "https://expense-fga-demo-web.vercel.app",
   "Access-Control-Allow-Methods": "GET,HEAD,PUT,PATCH,POST,DELETE"
 });
 
