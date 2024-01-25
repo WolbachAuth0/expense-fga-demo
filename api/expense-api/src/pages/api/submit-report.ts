@@ -31,7 +31,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         //     })
         // }
         return res.status(201).json({
-            report_id: report_id
+            result: db_result
         })
     } catch (e) {
         return res.status(400).json({
