@@ -7,14 +7,13 @@ export const config = {
 }
 
 export default async function middleware(req: NextRequest, res: NextResponse) {
-    let response = null;
 
     const token = req.headers.get('authorization')?.split(' ')[1];
     if (token && await verifyJWT(token)) {
-        response = NextResponse.next();
+        res = NextResponse.next();
     } else {
-        response = NextResponse.json({ message: 'Authorization Required'}, { status: 401 });
+        res = NextResponse.json({ message: 'Authorization Required'}, { status: 401 });
     }
 
-    return cors(req, response);
+    return cors(req, res);
 }
