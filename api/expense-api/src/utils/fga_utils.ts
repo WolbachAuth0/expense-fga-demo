@@ -6,6 +6,7 @@ export async function writeTuple(token: string, payload: FGAWriteTuple) {
     const fgaClient = new OpenFgaClient({
         apiHost: process.env.FGA_API_HOST || '',
         storeId: process.env.FGA_STORE_ID,
+        authorizationModelId: process.env.FGA_MODEL_ID || undefined,
         credentials: {
             method: CredentialsMethod.ApiToken,
             config: {
