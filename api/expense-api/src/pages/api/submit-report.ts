@@ -9,8 +9,8 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const { amount, submitter_id, merchant, description } = payload;
 
     try {
-        const db_result = await createExpenseReport(payload);
-        const report_id = db_result[0].report_id.toString();
+        // const db_result = await createExpenseReport(payload);
+        // const report_id = db_result[0].report_id.toString();
     
         // const fga_payload: FGAWriteTuple = {
         //     user: `employee:${payload.submitter_id}`,
@@ -31,7 +31,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         //     })
         // }
         return res.status(201).json({
-            report_id: report_id
+            report_id: 'testing'
         })
     } catch (e) {
         return res.status(400).json({
