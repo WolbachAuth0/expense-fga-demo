@@ -76,3 +76,14 @@ export type getExpenseReportDto = {
     user_id: string;
     report_ids: number[];
 }
+
+export type dbResult = {
+    report_id: number;
+    amount: number;
+    merchant: string;
+    description: string;
+    submitter_id: string;
+    approver_id?: string;
+    approved_date?: Date;
+    submitted_date: Date;
+}
