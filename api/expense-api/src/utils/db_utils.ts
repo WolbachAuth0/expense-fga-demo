@@ -51,17 +51,10 @@ export async function getExpenseReports (payload: getExpenseReportDto) {
 
     const result = await db
         .selectFrom('expense_reports')
-<<<<<<< HEAD
         .selectAll()
         .where(function(eb: Function) {
             return eb('submitter_id', '=', user_id).or('approver_id', '=', user_id)
         })
-=======
-        .selectAll('expense_reports')
-        // .where(function(eb: Function) {
-        //     return eb('submitter_id', '=', user_id).or('approver_id', '=', user_id)
-        // })
->>>>>>> 11b6447141a07ab8fe31ff318f43eb9db8bf5c91
         .execute();
 
     return result;
