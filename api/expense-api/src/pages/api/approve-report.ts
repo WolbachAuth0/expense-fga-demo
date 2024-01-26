@@ -24,6 +24,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                     //TODO: how does this result set look like
                     db_result
                 });
+            } else {
+                return res.status(401).json({
+                    message: 'Insufficient access'
+                })
             }
             
         }
