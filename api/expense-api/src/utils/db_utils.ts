@@ -48,23 +48,13 @@ export async function approveExpenseReport (payload: approveExpenseReportDto) {
 
 export async function getExpenseReports (payload: getExpenseReportDto) {
     const { user_id } = payload;
-    const columns = [
-        'report_id',
-        'amount',
-        'merchant',
-        'description',
-        'submitter_id',
-        'approver_id',
-        'approved_date',
-        'submitted_date'
-    ]
 
     const result = await db
         .selectFrom('expense_reports')
-        .select(columns)
-        // .where(function(eb: Function) {
-        //     return eb('submitter_id', '=', user_id).or('approver_id', '=', user_id)
-        // })
+        .selectAll()
+        .where(function(eb: Function) {
+            return eb('submitter_id', '=', user_id).or('approver_id', '=', user_id)
+        })
         .execute();
 
     return result;
