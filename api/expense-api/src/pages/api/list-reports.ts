@@ -4,8 +4,7 @@ import { getFGAJWT } from '@/utils/token_utils';
 import { FGAListTuple, listAllTuples } from '@/utils/fga_utils';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-    const payload = req.body;
-    const { user_id } = payload;
+    const { user_id } = req.body;
     
     const fga_token = await getFGAJWT();
     const fga_payload: FGAListTuple = {
@@ -40,6 +39,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         return res.status(400).json({
             result: 'Bad Request',
             error: e
-        })
+        });
     }
 };
