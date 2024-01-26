@@ -26,7 +26,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 console.log('fga_result', fga_result);
                 return res.status(401).json({
                     message: 'Insufficient access'
-                })
+                });
             }
             
         }
@@ -34,6 +34,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         return res.status(400).json({
             result: 'Bad Request',
             error: e
-        })
+        });
     }
 };

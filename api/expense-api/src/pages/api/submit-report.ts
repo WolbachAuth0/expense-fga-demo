@@ -27,15 +27,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 merchant: merchant,
                 submitter_id: submitter_id,
                 description: description
-            })
+            });
         }
         return res.status(201).json({
             result: db_result
-        })
+        });
     } catch (e) {
         return res.status(400).json({
             result: 'Bad Request',
             error: e
-        })
+        });
     }
 };
