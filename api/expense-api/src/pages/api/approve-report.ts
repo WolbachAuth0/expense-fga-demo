@@ -4,8 +4,7 @@ import { getFGAJWT } from '@/utils/token_utils';
 import { FGACheckTuple, checkTuple } from '@/utils/fga_utils';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-    const payload = req.body;
-    const { approver_id, report_id } = payload;
+    const { approver_id, report_id } = req.body;
 
     try {
         const fga_payload: FGACheckTuple = {
@@ -19,10 +18,14 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         if (fga_payload && fga_token) {
             const fga_result = await checkTuple(fga_token, fga_payload);
             if (fga_result.allowed) {
-                const db_result = await approveExpenseReport(payload);
+                const db_result = await approveExpenseReport({approver_id, report_id});
                 return res.status(200).json({
-                    //TODO: how does this result set look like
                     db_result
+                });
+            } else {
+                console.log('fga_result', fga_result);
+                return res.status(401).json({
+                    message: 'Insufficient access'
                 });
             }
             
@@ -31,6 +34,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         return res.status(400).json({
             result: 'Bad Request',
             error: e
-        })
+        });
     }
 };

@@ -47,21 +47,14 @@ export async function approveExpenseReport (payload: approveExpenseReportDto) {
 }
 
 export async function getExpenseReports (payload: getExpenseReportDto) {
-    const { user_id } = payload;
+    const { user_id, report_ids } = payload;
 
     const result = await db
         .selectFrom('expense_reports')
-<<<<<<< HEAD
         .selectAll()
         .where(function(eb: Function) {
-            return eb('submitter_id', '=', user_id).or('approver_id', '=', user_id)
+            return eb('submitter_id', '=', user_id).or('approver_id', '=', user_id).or('report_id', 'in', report_ids)
         })
-=======
-        .selectAll('expense_reports')
-        // .where(function(eb: Function) {
-        //     return eb('submitter_id', '=', user_id).or('approver_id', '=', user_id)
-        // })
->>>>>>> 11b6447141a07ab8fe31ff318f43eb9db8bf5c91
         .execute();
 
     return result;
@@ -81,4 +74,16 @@ export type approveExpenseReportDto = {
 
 export type getExpenseReportDto = {
     user_id: string;
+    report_ids: number[];
+}
+
+export interface ExpenseReport {
+    report_id: number;
+    amount: number;
+    merchant: string;
+    description: string;
+    submitter_id: string;
+    approver_id?: string;
+    approved_date?: Date;
+    submitted_date: Date;
 }

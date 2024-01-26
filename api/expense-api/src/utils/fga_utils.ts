@@ -19,7 +19,7 @@ function initializeFGAClient (token: string) : OpenFgaClient {
 export async function writeTuple(token: string, payload: FGAWriteTuple) {
     const { user, object, relation } = payload;
     
-    const fgaClient = initializeFGAClient(token)
+    const fgaClient = initializeFGAClient(token);
 
     const result = await fgaClient.write({
         writes: [{
@@ -35,7 +35,7 @@ export async function writeTuple(token: string, payload: FGAWriteTuple) {
 export async function checkTuple(token: string, payload: FGACheckTuple) {
     const { user, object, relation } = payload;
     
-    const fgaClient = initializeFGAClient(token)
+    const fgaClient = initializeFGAClient(token);
 
     const result = await fgaClient.check({
         user,
@@ -49,7 +49,7 @@ export async function checkTuple(token: string, payload: FGACheckTuple) {
 export async function listAllTuples(token: string, payload: FGAListTuple) {
     const { user, relation, type } = payload;
 
-    const fgaClient = initializeFGAClient(token)
+    const fgaClient = initializeFGAClient(token);
 
     const result = await fgaClient.listObjects({
         user,
