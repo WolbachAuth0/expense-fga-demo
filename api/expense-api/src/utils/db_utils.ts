@@ -46,13 +46,6 @@ export async function approveExpenseReport (payload: approveExpenseReportDto) {
     return result;
 }
 
-/**
- * NOTE: we can just get all of the reports from the DB for which the submitter_id, or the 
- * approver_id is the user_id. Then sort them separately.
- * 
- * @param payload
- * @returns 
- */
 export async function getExpenseReports (payload: getExpenseReportDto) {
     const { user_id } = payload;
     const columns = [
@@ -69,7 +62,9 @@ export async function getExpenseReports (payload: getExpenseReportDto) {
     const result = await db
         .selectFrom('expense_reports')
         .select(columns)
-        .where((eb:Function) => eb('submitter_id', '=', user_id).or('approver_id', '=', user_id))
+        // .where(function(eb: Function) {
+        //     return eb('submitter_id', '=', user_id).or('approver_id', '=', user_id)
+        // })
         .execute();
 
     return result;
