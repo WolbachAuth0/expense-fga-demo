@@ -77,7 +77,7 @@ export type getExpenseReportDto = {
     report_ids: number[];
 }
 
-export type dbResult = {
+export interface ExpenseReport {
     report_id: number;
     amount: number;
     merchant: string;
