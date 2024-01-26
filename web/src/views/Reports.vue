@@ -9,8 +9,8 @@
         <v-list lines="two">
           <v-list-subheader :title="card.title"></v-list-subheader>
 
-          <template v-for="(item, index) in card.items" :key="index">
-            <v-list-item >
+          <template>
+            <v-list-item v-for="(item, index) in card.items" :key="index">
               <template v-slot:prepend>
                 <v-avatar color="grey-darken-1"></v-avatar>
               </template>
