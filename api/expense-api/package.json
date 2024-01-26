@@ -15,12 +15,17 @@
     "@types/react": "18.2.48",
     "@types/react-dom": "18.2.18",
     "@vercel/kv": "^1.0.1",
+    "@vercel/postgres-kysely": "^0.7.2",
     "eslint": "8.56.0",
     "eslint-config-next": "14.1.0",
     "jose": "^5.2.0",
+    "luxon": "^3.4.4",
     "next": "14.1.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "typescript": "5.3.3"
+  },
+  "devDependencies": {
+    "@types/luxon": "^3.4.2"
   }
 }
