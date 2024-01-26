@@ -69,7 +69,7 @@ export async function getExpenseReports (payload: getExpenseReportDto) {
     const result = await db
         .selectFrom('expense_reports')
         .select(columns)
-        .where((eb) => eb('submitter_id', '=', user_id).or('approver_id', '=', user_id))
+        .where((eb:Function) => eb('submitter_id', '=', user_id).or('approver_id', '=', user_id))
         .execute();
 
     return result;
