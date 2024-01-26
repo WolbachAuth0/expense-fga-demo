@@ -25,6 +25,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                     db_result
                 });
             } else {
+                console.log('fga_result', fga_result);
                 return res.status(401).json({
                     message: 'Insufficient access'
                 })
