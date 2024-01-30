@@ -9,8 +9,8 @@
         <v-list lines="two">
           <v-list-subheader :title="card.title"></v-list-subheader>
 
-          <template>
-            <v-list-item v-for="(item, index) in card.items" :key="index">
+          <template v-for="(item, index) in card.items" :key="index">
+            <v-list-item>
               <template v-slot:prepend>
                 <v-avatar color="grey-darken-1"></v-avatar>
               </template>
@@ -77,7 +77,7 @@ export default {
   },
   async mounted () {
     // const accesstoken = await this.$auth0.getAccessTokenSilently()
-    const response = await api.getSubmittedReports(this.$auth0)
+    const response = await api.getReports(this.$auth0)
     console.log(response)
     // console.log(accesstoken)
   },
