@@ -60,9 +60,9 @@ async function getReportsToApprove (auth) {
 async function getReports (auth) {
   const url = '/list-reports'
   const data = {
-    user_id: auth.user.sub
+    user_id: auth.user._value.sub
   }
-
+  console.log('getReports data:', data)
   try {
     const accesstoken = await auth.getAccessTokenSilently()
     const response = await http(accesstoken).post(url, data)
