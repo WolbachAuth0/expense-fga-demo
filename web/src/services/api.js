@@ -28,6 +28,7 @@ async function getSubmittedReports (auth) {
     relation: "submitter",
     type: 'report'
   }
+
   try {
     const accesstoken = await auth.getAccessTokenSilently()
     const response = await http(accesstoken).post(url, data)
@@ -40,17 +41,12 @@ async function getSubmittedReports (auth) {
 
 async function getReportsToApprove (auth) {
   const url = '/fga-list-all'
-  // const data = {
-  //   user: `user:${auth.user.value.sub}`,
-  //   relation: 'approver',
-  //   type: 'report'
-  // }
-
   const data = {
     user: 'user:sam',
     relation: 'viewer',
     type: 'document'
   }
+
   try {
     const accesstoken = await auth.getAccessTokenSilently()
     const response = await http(accesstoken).post(url, data)
@@ -61,16 +57,43 @@ async function getReportsToApprove (auth) {
   }
 }
 
+async function getReports (auth) {
+  const url = '/list-reports'
+  const data = {
+    user_id: auth.user._value.sub
+  }
+  console.log('getReports data:', data)
+  try {
+    const accesstoken = await auth.getAccessTokenSilently()
+    const response = await http(accesstoken).post(url, data)
+    return response.data
+  } catch (error) {
+    console.log(error)
+    return error
+  }
+}
 
+async function approveReport (auth, report_id) {
+  const url = '/approve-report'
+  const data = {
+    approver_id: auth.user.sub,
+    report_id
+  }
 
-
-async function approveReport () {
-
+  try {
+    const accesstoken = await auth.getAccessTokenSilently()
+    const response = await http(accesstoken).post(url, data)
+    return response.data
+  } catch (error) {
+    console.log(error)
+    return error
+  }
 }
 
 export default {
   checkPermission,
   getSubmittedReports,
   getReportsToApprove,
-  approveReport
+  approveReport,
+  getReports
 }

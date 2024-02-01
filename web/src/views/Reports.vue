@@ -1,34 +1,67 @@
 <template>
   <v-row>
+    <v-progress-linear :model-value="progress.value" :color="progress.color" :indeterminate="progress.indeterminate"></v-progress-linear>
     <v-col
-      v-for="card in cards"
+      v-for="card in my_reports"
       :key="card"
       cols="12"
     >
       <v-card>
-        <v-list lines="two">
+        
+        <v-list lines="five">
           <v-list-subheader :title="card.title"></v-list-subheader>
 
-          <template>
-            <v-list-item v-for="(item, index) in card.items" :key="index">
+          <template v-for="(item, index) in card.items" :key="index">
+            <v-list-item>
               <template v-slot:prepend>
-                <v-avatar color="grey-darken-1"></v-avatar>
+                <v-chip>${{ parseFloat(item.amount).toFixed(2) }}</v-chip>
+                <v-chip :color="item.color">{{ item.isApproved ? 'Approved' : 'Awaiting Approval'}}</v-chip>
               </template>
-
-              <v-list-item-title :title="item.title"></v-list-item-title>
-
-              <v-list-item-subtitle :title="item.subtitle"></v-list-item-subtitle>
+              <v-list-item-title>{{ `${item.description}` }}</v-list-item-title>
+              <v-list-item-subtitle>Submitter: {{ item.submitter_id }}</v-list-item-subtitle>
+              <v-list-item-subtitle>Submitted Date: {{ item.submitted_date }} </v-list-item-subtitle>
+              <v-list-item-subtitle v-if="item.isApproved">Approver: {{ item.approver_id }}</v-list-item-subtitle>
+              <v-list-item-subtitle v-if="item.isApproved">Approved Date: {{ item.approved_date }} </v-list-item-subtitle>
             </v-list-item>
 
-            <v-divider
-              v-if="index !== card.items.length"
-              :key="`divider-${index}`"
-              inset
-            ></v-divider>
+            <v-divider v-if="index !== card.items.length" :key="`divider-${index}`" inset></v-divider>
           </template>
+
         </v-list>
       </v-card>
     </v-col>
+
+    <v-col
+      v-for="card in team_reports"
+      :key="card"
+      cols="12"
+    >
+      <v-card>
+        
+        <v-list lines="five">
+          <v-list-subheader :title="card.title"></v-list-subheader>
+
+          <template v-for="(item, index) in card.items" :key="index">
+            <v-list-item>
+              <template v-slot:prepend>
+                <v-chip>${{ parseFloat(item.amount).toFixed(2) }}</v-chip>
+                <v-chip :color="item.color">{{ item.isApproved ? 'Approved' : 'Awaiting Approval'}}</v-chip>
+              </template>
+              <v-list-item-title>{{ `${item.description}` }}</v-list-item-title>
+              <v-list-item-subtitle>Submitter: {{ item.submitter_id }}</v-list-item-subtitle>
+              <v-list-item-subtitle>Submitted Date: {{ item.submitted_date }} </v-list-item-subtitle>
+              <v-list-item-subtitle v-if="item.isApproved">Approver: {{ item.approver_id }}</v-list-item-subtitle>
+              <v-list-item-subtitle v-if="item.isApproved">Approved Date: {{ item.approved_date }} </v-list-item-subtitle>
+            </v-list-item>
+
+            <v-divider v-if="index !== card.items.length" :key="`divider-${index}`" inset></v-divider>
+          </template>
+
+        </v-list>
+      </v-card>
+    </v-col>
+
+    
   </v-row>
 </template>
 
@@ -36,60 +69,55 @@
 import api from './../services/api'
 
 export default {
-  name: "Expense Reports",
+  name: "ExpenseReports",
   data () {
     return {
-      cards: [
-        {
-          title: 'Submitted', items: [
-            {
-              title: 'Expense Report Title',
-              subtitle: 'Expense Report Reason'
-            },
-            {
-              title: 'Expense Report Title',
-              subtitle: 'Expense Report Reason'
-            },
-            {
-              title: 'Expense Report Title',
-              subtitle: 'Expense Report Reason'
-            }
-          ]
-        },
-        {
-          title: 'For My Approval', items: [
-            {
-              title: 'Expense Report Title',
-              subtitle: 'Expense Report Reason'
-            },
-            {
-              title: 'Expense Report Title',
-              subtitle: 'Expense Report Reason'
-            },
-            {
-              title: 'Expense Report Title',
-              subtitle: 'Expense Report Reason'
-            }
-          ]
-        }
-      ]
+      progress: {
+        indeterminate: false,
+        value: 100,
+        color: 'primary'
+      },
+      my_reports: [],
+      team_reports: []
     }
   },
   async mounted () {
-    // const accesstoken = await this.$auth0.getAccessTokenSilently()
-    const response = await api.getSubmittedReports(this.$auth0)
-    console.log(response)
-    // console.log(accesstoken)
+    this.progress.indeterminate = true
+    await this.refreshReports(this.$auth0)
+    this.progress.indeterminate = false
   },
   methods: {
-    async fetchSubmittedReports () {
-      const response = await api.getSubmittedReports(this.$auth0)
-      return response
+    async refreshReports () {
+      const response = await api.getReports(this.$auth0)
+      console.log(response)
+      this.my_reports.push({
+        title: 'My Expenses: Awaiting Approval',
+        items: response.my_submitted_reports.map(processItems)
+      })
+      this.my_reports.push({
+        title: 'My Expenses: Approved',
+        items: response.my_approved_reports.map(processItems)
+      })  
+
+      this.team_reports.push({
+        title: 'My Team\'s Expenses: Awaiting Approval',
+        items: response.team_reports_submitted.map(processItems)
+      })
+      this.team_reports.push({
+        title: 'My Team\'s Expenses: Approved',
+        items: response.team_reports_approved.map(processItems)
+      })
+
+      function processItems (x) {
+        x.isApproved = !!x.approver_id
+        x.color = x.isApproved ? 'green' : 'red'
+        return x
+      }    
+    
+      
+
     },
-    async fetchReportsToApprove () {
-      const response = await api.getReportsToApprove(this.$auth0)
-      return response
-    }
+
   }
 };
 </script>

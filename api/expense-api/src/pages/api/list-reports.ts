@@ -22,17 +22,22 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             // Query DB for reports where you are a submitter, approver or can approve
             const db_result = await getExpenseReports({user_id, report_ids});
 
-            // Map DB result into separate arrays for each condition
-            const [submitted_reports, approved_reports, approved_by_others, needs_approval_reports]: [ExpenseReport[], ExpenseReport[], ExpenseReport[], ExpenseReport[]] = db_result.reduce((acc, item) => {
-                acc[item.submitter_id === user_id ? 0 : item.approver_id === user_id ? 1 : !!item.approved_date ? 2 : 3].push(item);
-                return acc;
-            }, [[] as ExpenseReport[], [] as ExpenseReport[], [] as ExpenseReport[], [] as ExpenseReport[]]);
+            // // Map DB result into separate arrays for each condition
+            // const [submitted_reports, approved_reports, approved_by_others, needs_approval_reports]: [ExpenseReport[], ExpenseReport[], ExpenseReport[], ExpenseReport[]] = db_result.reduce((acc, item) => {
+            //     acc[item.submitter_id === user_id ? 0 : item.approver_id === user_id ? 1 : !!item.approved_date ? 2 : 3].push(item);
+            //     return acc;
+            // }, [[] as ExpenseReport[], [] as ExpenseReport[], [] as ExpenseReport[], [] as ExpenseReport[]]);
             
+            const my_submitted_reports = db_result.filter(x => x.submitter_id === user_id && !x.approver_id)
+            const my_approved_reports = db_result.filter(x => x.submitter_id === user_id && !!x.approver_id)
+            const team_reports_approved = db_result.filter(x => x.submitter_id !== user_id && !!x.approver_id)
+            const team_reports_submitted = db_result.filter(x => x.submitter_id !== user_id && !x.approver_id)
+
             return res.status(200).json({
-                submitted_reports,
-                approved_reports,
-                approved_by_others,
-                needs_approval_reports
+                my_submitted_reports,
+                my_approved_reports,
+                team_reports_approved,
+                team_reports_submitted
             });
         }        
     } catch (e) {
