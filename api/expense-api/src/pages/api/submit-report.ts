@@ -5,10 +5,10 @@ import { FGAWriteTuple } from '@/utils/fga_utils';
 import { writeTuple } from '@/utils/fga_utils';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-    const { amount, submitter_id, merchant, description } = req.body;
+    const { amount, submitter_id, merchant, description, submitter_email } = req.body;
 
     try {
-        const db_result = await createExpenseReport({ amount, submitter_id, merchant, description });
+        const db_result = await createExpenseReport({ amount, submitter_id, merchant, description, submitter_email });
         const report_id = db_result[0].report_id.toString();
     
         const fga_payload: FGAWriteTuple = {

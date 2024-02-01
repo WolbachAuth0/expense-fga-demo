@@ -15,17 +15,19 @@ interface ExpenseReportsTable {
     approver_id?: string;
     approved_date?: Date;
     submitted_date: Date;
+    submitter_email: string;
+    approver_email?: string;
 }
- 
+
 const db = createKysely<Database>();
 
 export async function createExpenseReport (payload: createExpenseReportDto) {
-    const { amount, merchant, description, submitter_id } = payload;
+    const { amount, merchant, description, submitter_id, submitter_email } = payload;
     const today = DateTime.now().toJSDate();
 
     const result = await db
         .insertInto('expense_reports')
-        .values({ amount: amount, merchant: merchant, description: description, submitter_id: submitter_id, submitted_date: today })
+        .values({ amount: amount, merchant: merchant, description: description, submitter_id: submitter_id, submitted_date: today, submitter_email: submitter_email })
         .returning('report_id')
         .execute();
     
@@ -65,11 +67,13 @@ export type createExpenseReportDto = {
     merchant: string;
     description: string;
     submitter_id: string;
+    submitter_email: string;
 }
 
 export type approveExpenseReportDto = {
     report_id: number;
     approver_id: string;
+    approver_email: string;
 }
 
 export type getExpenseReportDto = {
@@ -86,4 +90,6 @@ export interface ExpenseReport {
     approver_id?: string;
     approved_date?: Date;
     submitted_date: Date;
+    approver_email?: string;
+    submitter_email: string;
 }
