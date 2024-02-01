@@ -18,9 +18,9 @@
                 <v-chip :color="item.color">{{ item.isApproved ? 'Approved' : 'Awaiting Approval'}}</v-chip>
               </template>
               <v-list-item-title>{{ `${item.description}` }}</v-list-item-title>
-              <v-list-item-subtitle>Submitter: {{ item.submitter_id }}</v-list-item-subtitle>
+              <v-list-item-subtitle>Submitter: {{ item.submitter_email }}</v-list-item-subtitle>
               <v-list-item-subtitle>Submitted Date: {{ item.submitted_date }} </v-list-item-subtitle>
-              <v-list-item-subtitle v-if="item.isApproved">Approver: {{ item.approver_id }}</v-list-item-subtitle>
+              <v-list-item-subtitle v-if="item.isApproved">Approver: {{ item.approver_email }}</v-list-item-subtitle>
               <v-list-item-subtitle v-if="item.isApproved">Approved Date: {{ item.approved_date }} </v-list-item-subtitle>
             </v-list-item>
 
@@ -48,9 +48,9 @@
                 <v-chip :color="item.color">{{ item.isApproved ? 'Approved' : 'Awaiting Approval'}}</v-chip>
               </template>
               <v-list-item-title>{{ `${item.description}` }}</v-list-item-title>
-              <v-list-item-subtitle>Submitter: {{ item.submitter_id }}</v-list-item-subtitle>
+              <v-list-item-subtitle>Submitter: {{ item.submitter_email }}</v-list-item-subtitle>
               <v-list-item-subtitle>Submitted Date: {{ item.submitted_date }} </v-list-item-subtitle>
-              <v-list-item-subtitle v-if="item.isApproved">Approver: {{ item.approver_id }}</v-list-item-subtitle>
+              <v-list-item-subtitle v-if="item.isApproved">Approver: {{ item.approver_email }}</v-list-item-subtitle>
               <v-list-item-subtitle v-if="item.isApproved">Approved Date: {{ item.approved_date }} </v-list-item-subtitle>
             </v-list-item>
 
