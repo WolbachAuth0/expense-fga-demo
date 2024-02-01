@@ -4,7 +4,7 @@ import { getFGAJWT } from '@/utils/token_utils';
 import { FGACheckTuple, checkTuple } from '@/utils/fga_utils';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-    const { approver_id, report_id } = req.body;
+    const { approver_id, report_id, approver_email } = req.body;
 
     try {
         const fga_payload: FGACheckTuple = {
@@ -18,7 +18,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         if (fga_payload && fga_token) {
             const fga_result = await checkTuple(fga_token, fga_payload);
             if (fga_result.allowed) {
-                const db_result = await approveExpenseReport({approver_id, report_id});
+                const db_result = await approveExpenseReport({approver_id, report_id, approver_email});
                 return res.status(200).json({
                     db_result
                 });
