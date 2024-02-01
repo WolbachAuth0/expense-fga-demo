@@ -35,12 +35,12 @@ export async function createExpenseReport (payload: createExpenseReportDto) {
 }
 
 export async function approveExpenseReport (payload: approveExpenseReportDto) {
-    const { approver_id, report_id } = payload;
+    const { approver_id, report_id, approver_email } = payload;
     const today = DateTime.now().toJSDate();
 
     const result = await db
         .updateTable('expense_reports')
-        .set({ approver_id: approver_id, approved_date: today })
+        .set({ approver_id: approver_id, approved_date: today, approver_email: approver_email })
         .where('report_id', '=', report_id)
         .returningAll()
         .execute();
