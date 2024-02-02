@@ -38,9 +38,34 @@ const lightTheme = {
   }
 }
 
+const darkTheme = {
+  dark: true,
+  colors: {
+    background: '#303e41', // dark grey
+    surface: colors.shades.white,
+    primary: '#3b7069', // greyish-blue // '#628184'
+    secondary: '#48A9A6',
+    error: '#B00020',
+    info: '#2196F3',
+    success: '#4CAF50',
+    warning: '#FB8C00',
+  }
+}
+
+// colors from Raindrops background image
+// https://raw.githubusercontent.com/WolbachAuth0/image-repo/main/public/raindrops-dark.jpg?raw=true
+
+// #3b7069 - primary (grey-blue)
+// #315045 - dark grey-green
+// #3e5d4b - dark green
+// #315045 - grey
+// #406055 - grey darken
+// #e3f9fe - pale grey
+// #0d1611 - black
 export default {
   defaultTheme: 'dark',
   themes: {
-    lightTheme
+    lightTheme,
+    darkTheme,
   }
 }
