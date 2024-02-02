@@ -1,18 +1,50 @@
 <template>
-  <v-row>
-    <v-col cols="12">
-      <v-card>
-        <v-card-title class="bg-primary text-white">Welcome</v-card-title>
-        <v-card-subtitle class="text-white">How This App is Built</v-card-subtitle>
-        <v-img class="align-end" :src="architecture.dark" cover></v-img>
 
-        <v-card-subtitle class="text-white">How the Users are Organized</v-card-subtitle>
-        <v-img class="align-end" :src="orgChart.dark" cover></v-img>
-        
-        
-      </v-card>
-    </v-col>
-  </v-row>
+  <v-card class="bg-secondary">
+    <v-card-title class="bg-primary text-white">Welcome</v-card-title>
+
+    <v-row class="py-1">
+      <v-col cols="5">
+        <v-card class="ml-2">
+          <v-card-subtitle class="bg-primary text-white">Application Architecture</v-card-subtitle>
+          <v-card-body>
+            <p>Explain in this section how the app is architected.</p>
+            <p>Describe how the authN and authZ flow works.</p>
+            <p v-for="i in 22" :key="i">blah blah blahbity blah blah</p>
+          </v-card-body>
+        </v-card>
+      </v-col>
+
+      <v-col cols="7">
+        <v-card class="mr-2 p-2">
+          <v-card-subtitle class="bg-primary text-white">Authorization Flow</v-card-subtitle>
+          <v-img class="align-end" :src="architecture.dark" cover></v-img>
+        </v-card>
+      </v-col>
+    </v-row>
+
+    <v-row>
+      <v-col cols="5">
+        <v-card class="ml-2 p-2">
+          <v-card-subtitle class="bg-primary text-white">How To Use This App</v-card-subtitle>
+          <v-card-body>
+            <p>Explain how the Authorization model works.</p>
+            <p>Explain which users to login with.</p>
+            <p v-for="i in 11" :key="i">blah blah blahbity blah blah</p>
+          </v-card-body>
+        </v-card>
+      </v-col>
+
+      <v-col cols="7">
+        <v-card class="mr-2 p-2">
+          <v-card-subtitle class="bg-primary text-white">User Organization</v-card-subtitle>
+          <v-img class="align-end" :src="orgChart.dark" cover></v-img>
+        </v-card>
+      </v-col>
+    </v-row>
+
+  </v-card>
+
 </template>
 
 <script>
