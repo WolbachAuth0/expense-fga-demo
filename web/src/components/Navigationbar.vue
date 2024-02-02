@@ -14,12 +14,13 @@
         <v-btn
           v-if="!isAuthenticated"
           prepend-icon="mdi-login"
-          variant="outlined"
-          class="mx-4 text-blue-darken-2"
+          variant="elevated"
+          color="primary"
+          class="mx-4 text-white"
           @click="login"
         >
           <template v-slot:prepend>
-            <v-icon color="primary"></v-icon>
+            <v-icon color="white"></v-icon>
           </template>
           Login
         </v-btn>
@@ -31,12 +32,13 @@
         <v-btn 
           v-if="isAuthenticated"
           prepend-icon="mdi-logout"
-          variant="outlined"
-          class="mx-4 text-blue-darken-2"
+          variant="elevated"
+          color="primary"
+          class="mx-4 text-white"
           @click="logout"
         >
           <template v-slot:prepend>
-            <v-icon color="primary"></v-icon>
+            <v-icon color="white"></v-icon>
           </template>
           Logout
         </v-btn>
