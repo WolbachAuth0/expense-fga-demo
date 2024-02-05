@@ -4,7 +4,7 @@
     <v-tabs v-model="tab" bg-color="primary">
       <v-tab v-for="(tab, kdx) of tabs" :value="kdx" :key="kdx">{{ tab.name }}</v-tab>
     </v-tabs>
-    
+    <v-divider></v-divider>
     <v-progress-linear :model-value="progress.value" :color="progress.color" :indeterminate="progress.indeterminate"></v-progress-linear>
 
     <v-window v-model="tab">
@@ -19,30 +19,29 @@
                 <v-data-table-virtual
                   :items="table.items"
                   :headers="tableHeaders"
-                  height="300"
+                  :loading="progress.indeterminate"
+                  height="250"
                 >
-                  <template v-slot:item.amount="{ item }">
-                    <v-chip color="success">${{ parseFloat(item.amount).toFixed(2) }}</v-chip>
-                  </template>
-
-                  <template v-slot:item.submitter_email="{ item }">
-                    <v-chip color="primary">{{ item.submitter_email }}</v-chip>
-                  </template>
-
-                  <template v-slot:item.submitted_date="{ item }">
-                    {{ formatDate(item.submitted_date) }}
-                  </template>
-
-                  <template v-slot:item.approver_email="{ item }">
-                    <v-chip v-if="item.isApproved" color="primary">{{ item.approver_email }}</v-chip>
-                  </template>
-
-                  <template v-slot:item.approved_date="{ item }">
-                    {{ item.isApproved ? formatDate(item.approved_date) : '' }}
-                  </template>
-                
-                  <template v-slot:item.report_id="{ item }">
-                    <v-btn v-if="!item.isApproved" variant="outlined" color="primary">Approve</v-btn>
+                  <template v-slot:item="{ item }">
+                    <tr>
+                      <td><v-chip color="success">${{ parseFloat(item.amount).toFixed(2) }}</v-chip></td>
+                      <td>{{ item.merchant }}</td>
+                      <td>{{ item.description }}</td>
+                      <td><v-chip color="primary">{{ item.submitter_email }}</v-chip></td>
+                      <td>{{ formatDate(item.submitted_date) }}</td>
+                      <td><v-chip v-if="item.isApproved" color="primary">{{ item.approver_email }}</v-chip></td>
+                      <td>{{ item.isApproved ? formatDate(item.approved_date) : '' }}</td>
+                      <td>
+                        <v-btn
+                          v-if="!item.isApproved"
+                          variant="outlined"
+                          color="primary"
+                          @click="approveReport(item.report_id)"
+                        >
+                          Approve
+                        </v-btn>
+                      </td>
+                    </tr>
                   </template>
                 </v-data-table-virtual>
 
@@ -121,6 +120,7 @@ export default {
           }
         ]
       })
+      
       this.tab = 1
 
       function processItems (x) {
@@ -129,10 +129,13 @@ export default {
         return x
       }    
     },
-    formatDate(dateString) {
+    formatDate (dateString) {
       const date = new Date(dateString);
       // Then specify how you want your dates to be formatted
       return new Intl.DateTimeFormat('default', {dateStyle: 'long'}).format(date);
+    },
+    async approveReport (report_id) {
+      alert(`you clicked "Approve" on expense report ${report_id}`)
     }
   }
 };
