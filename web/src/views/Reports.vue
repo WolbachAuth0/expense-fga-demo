@@ -1,10 +1,12 @@
 <template>
   <v-card>
     
-    <v-tabs v-model="tab" bg-color="primary">
-      <!-- <v-tab v-for="(tab, kdx) of tabs" :value="kdx" :key="kdx">{{ tab.name }}</v-tab> -->
-      <v-tab value="0">My Expenses</v-tab>
-      <v-tab value="1">Team Expenses</v-tab>
+    <v-tabs
+      v-model="tab"
+      density="compact"
+    >
+      <v-tab value="0" class="bg-primary" rounded="shaped">My Expenses</v-tab>
+      <v-tab value="1" class="bg-primary" rounded="shaped">Team Expenses</v-tab>
     </v-tabs>
     <v-divider></v-divider>
     <v-progress-linear :model-value="progress.value" :color="progress.color" :indeterminate="progress.indeterminate"></v-progress-linear>
