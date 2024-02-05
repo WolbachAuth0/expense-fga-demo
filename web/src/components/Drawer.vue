@@ -1,7 +1,7 @@
 <template>
 
   <v-navigation-drawer permanent theme="dark" v-model="drawer">
-      <v-sheet color="blue-darken-2" class="pa-4">
+      <v-sheet color="primary" class="pa-4">
         
         <v-list>
           <v-list-item
@@ -10,10 +10,10 @@
             :to="isAuthenticated ? '/profile' : '/'"
           >
             <template v-slot:prepend>
-              <v-avatar v-if="isAuthenticated">
+              <v-avatar v-if="isAuthenticated" size="60">
                 <v-img :src="user.picture"></v-img>
               </v-avatar>
-              <v-avatar v-else>
+              <v-avatar v-else size="60" color="info">
                 <v-icon color="white">mdi-account</v-icon>
               </v-avatar>
             </template>
