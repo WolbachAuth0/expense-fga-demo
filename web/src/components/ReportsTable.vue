@@ -25,6 +25,14 @@
             >
               Approve
             </v-btn>
+            <v-btn
+              v-else
+              variant="outlined"
+              color="error"
+              @click="disapproveReport(item.report_id)"
+            >
+              Disapprove
+            </v-btn>
           </td>
         </tr>
       </template>
@@ -33,6 +41,8 @@
 </template>
 
 <script>
+import { approveReport, disapproveReport } from './../services/api'
+import EventBus from './../services/EventBus'
 
 export default {
   name: "ExpenseReports",
@@ -90,6 +100,58 @@ export default {
       const date = new Date(dateString);
       // Then specify how you want your dates to be formatted
       return new Intl.DateTimeFormat('default', {dateStyle: 'long'}).format(date);
+    },
+    async approveReport (report_id) {
+      // hit the approve report endpoint
+      const response = await approveReport(this.$auth0, report_id)
+      
+      // display the alert
+      let header = 'Header'
+      let body = 'Body'
+      if (response.message == 'Insufficient access') {
+        header = 'Warning:'
+        body = `${this.$auth0.user._value.email} has insufficient permission to update expense report report_id: ${report_id}.`
+      } else {
+        header = 'Success:'
+        body = `Expense report ${report_id} was successfully approved by ${this.$auth0.user._value.email}.`
+      }
+      const announcement = {
+        text: `<h3>${header}</h3><p>${body}</p>`,
+        type: String(response.message).toLowerCase() == 'success' ? 'success' : 'error',
+        top: true,
+        right: true,
+        left: false
+      }
+
+      // emit events
+      EventBus.emit('announce', announcement)
+      EventBus.emit('refresh', { report_id })
+    },
+    async disapproveReport (report_id) {
+      // hit the approve report endpoint
+      const response = await disapproveReport(this.$auth0, report_id)
+      
+      // display the alert
+      let header = 'Header'
+      let body = 'Body'
+      if (response.message == 'Insufficient access') {
+        header = 'Warning:'
+        body = `${this.$auth0.user._value.email} has insufficient permission to update expense report report_id: ${report_id}.`
+      } else {
+        header = 'Success:'
+        body = `Expense report ${report_id} was successfully approved by ${this.$auth0.user._value.email}.`
+      }
+      const announcement = {
+        text: `<h3>${header}</h3><p>${body}</p>`,
+        type: String(response.message).toLowerCase() == 'success' ? 'success' : 'error',
+        top: true,
+        right: true,
+        left: false
+      }
+
+      // emit events
+      EventBus.emit('announce', announcement)
+      EventBus.emit('refresh', { report_id })
     }
   }
 };

@@ -74,8 +74,9 @@
 </template>
 
 <script>
-import api from './../services/api'
+import { getReports } from './../services/api'
 import ReportsTable from './../components/ReportsTable.vue'
+import EventBus from './../services/EventBus'
 
 export default {
   name: "ExpenseReports",
@@ -97,32 +98,41 @@ export default {
     }
   },
   async mounted () {
-    this.progress.color = 'warning'
-    this.progress.indeterminate = true
-    await this.refreshReports(this.$auth0)
-    this.progress.indeterminate = false
-    this.progress.color = 'success'
+    await this.refreshReports()
+    EventBus.on('refresh', this.refreshReports())
   },
   methods: {
     async refreshReports () {
-      const response = await api.getReports(this.$auth0)
-      console.log(response)
+      this.progress.color = 'warning'
+      this.progress.indeterminate = true
+      const response = await getReports(this.$auth0)
+      this.progress.indeterminate = false
+      this.progress.color = 'success'
 
       this.my_reports_submitted = response.my_submitted_reports.map(processItems)
       this.my_reports_approved = response.my_approved_reports.map(processItems)
       this.team_reports_submitted = response.team_reports_submitted.map(processItems)
       this.team_reports_approved = response.team_reports_approved.map(processItems)
-    
       this.tab = 0
+      
+      const count = this.my_reports_submitted.length + this.team_reports_submitted.length;
+      
+      console.log(response)
+
+      const announcement = {
+        text: `Successfully found ${count} expense reports awaiting approval for ${this.$auth0.user._value.email}`,
+        type: 'success',
+        top: true,
+        right: true,
+        left: false
+      }
+      EventBus.emit('announce', announcement)
 
       function processItems (x) {
         x.isApproved = !!x.approver_id
         x.color = x.isApproved ? 'green' : 'red'
         return x
       }    
-    },
-    async approveReport (report_id) {
-      alert(`you clicked "Approve" on expense report ${report_id}`)
     }
   }
 };

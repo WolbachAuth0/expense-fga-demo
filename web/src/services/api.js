@@ -17,52 +17,20 @@ function http (accesstoken, timeout=0) {
   return http
 }
 
-async function checkPermission () {
+function user (auth) {
+  return auth.user._value
+} 
+
+export async function submitReport (auth, report) {
 
 }
 
-async function getSubmittedReports (auth) {
-  const url = '/fga-list-all'
-  const data = {
-    user: `employee:${auth.user.value.sub}`,
-    relation: "submitter",
-    type: 'report'
-  }
-
-  try {
-    const accesstoken = await auth.getAccessTokenSilently()
-    const response = await http(accesstoken).post(url, data)
-    return response.data
-  } catch (error) {
-    console.log(error)
-    return error
-  }
-}
-
-async function getReportsToApprove (auth) {
-  const url = '/fga-list-all'
-  const data = {
-    user: 'user:sam',
-    relation: 'viewer',
-    type: 'document'
-  }
-
-  try {
-    const accesstoken = await auth.getAccessTokenSilently()
-    const response = await http(accesstoken).post(url, data)
-    return response.data
-  } catch (error) {
-    console.log(error)
-    return error
-  }
-}
-
-async function getReports (auth) {
+export async function getReports (auth) {
   const url = '/list-reports'
   const data = {
-    user_id: auth.user._value.sub
+    user_id: user(auth).sub
   }
-  console.log('getReports data:', data)
+
   try {
     const accesstoken = await auth.getAccessTokenSilently()
     const response = await http(accesstoken).post(url, data)
@@ -73,10 +41,11 @@ async function getReports (auth) {
   }
 }
 
-async function approveReport (auth, report_id) {
+export async function approveReport (auth, report_id) {
   const url = '/approve-report'
   const data = {
-    approver_id: auth.user.sub,
+    approver_id: user(auth).sub,
+    approver_email: user(auth).email,
     report_id
   }
 
@@ -85,15 +54,16 @@ async function approveReport (auth, report_id) {
     const response = await http(accesstoken).post(url, data)
     return response.data
   } catch (error) {
-    console.log(error)
+
+    if (error.response.status === 401) {
+      console.log(`The user ${user(auth).email} is not authorized to approve the expense report report_id:${report_id}.`)
+      return error.response.data
+    }
+
     return error
   }
 }
 
-export default {
-  checkPermission,
-  getSubmittedReports,
-  getReportsToApprove,
-  approveReport,
-  getReports
+export async function disapproveReport (auth, report_id) {
+  console.log(`you clicked dissapprove on expense report`)
 }
