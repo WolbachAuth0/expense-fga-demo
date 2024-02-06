@@ -16,13 +16,18 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         const fga_token = await getFGAJWT();
     
         if (fga_payload && fga_token) {
+            // check for authorization to perform action
             const fga_result = await checkTuple(fga_token, fga_payload);
+            // if allowed ...
             if (fga_result.allowed) {
+                // ... approve the expense report
                 const db_result = await approveExpenseReport({approver_id, report_id, approver_email});
                 return res.status(200).json({
+                    message: 'Success',
                     db_result
                 });
             } else {
+                // else respond unauthorized
                 console.log('fga_result', fga_result);
                 return res.status(401).json({
                     message: 'Insufficient access'

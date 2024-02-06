@@ -8,6 +8,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
     const { amount, submitter_id, merchant, description, submitter_email } = req.body;
 
     try {
+        // add the new expense report to the DB
         const db_result = await createExpenseReport({ amount, submitter_id, merchant, description, submitter_email });
         const report_id = db_result[0].report_id.toString();
     
@@ -20,6 +21,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         const fga_token = await getFGAJWT();
     
         if (fga_payload && fga_token) {
+            // create an FGA tuple
             await writeTuple(fga_token, fga_payload);
             return res.status(201).json({
                 report_id: report_id,
