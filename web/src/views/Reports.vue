@@ -98,8 +98,9 @@ export default {
     }
   },
   async mounted () {
+    const refresh = this.refreshReports
     await this.refreshReports()
-    EventBus.on('refresh', this.refreshReports())
+    EventBus.on('refresh', refresh)
   },
   methods: {
     async refreshReports () {
@@ -113,7 +114,7 @@ export default {
       this.my_reports_approved = response.my_approved_reports.map(processItems)
       this.team_reports_submitted = response.team_reports_submitted.map(processItems)
       this.team_reports_approved = response.team_reports_approved.map(processItems)
-      this.tab = 0
+      this.tab = this.tab || 0
       
       const count = this.my_reports_submitted.length + this.team_reports_submitted.length;
       

@@ -6,8 +6,8 @@
     :outlined="outlined"
     :color="color"
   >
-    <template v-slot:action="{ attrs }">
-      <v-btn text v-bind="attrs" @click="isShown = false">
+    <template v-slot:actions>
+      <v-btn text @click="isShown = false">
         Close
       </v-btn>
     </template>

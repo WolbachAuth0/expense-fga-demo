@@ -21,6 +21,7 @@
               v-if="!item.isApproved"
               variant="outlined"
               color="primary"
+              size="small"
               @click="approveReport(item.report_id)"
             >
               Approve
@@ -29,6 +30,7 @@
               v-else
               variant="outlined"
               color="error"
+              size="small"
               @click="disapproveReport(item.report_id)"
             >
               Disapprove
@@ -125,25 +127,18 @@ export default {
 
       // emit events
       EventBus.emit('announce', announcement)
-      EventBus.emit('refresh', { report_id })
+      EventBus.emit('refresh', { action: 'approved', report_id })
     },
     async disapproveReport (report_id) {
       // hit the approve report endpoint
-      const response = await disapproveReport(this.$auth0, report_id)
+      // const response = await disapproveReport(this.$auth0, report_id)
       
       // display the alert
-      let header = 'Header'
-      let body = 'Body'
-      if (response.message == 'Insufficient access') {
-        header = 'Warning:'
-        body = `${this.$auth0.user._value.email} has insufficient permission to update expense report report_id: ${report_id}.`
-      } else {
-        header = 'Success:'
-        body = `Expense report ${report_id} was successfully approved by ${this.$auth0.user._value.email}.`
-      }
+      let header = 'Disapproved'
+      let body = `Expense report ${report_id} was sent back to submitter.`
       const announcement = {
         text: `<h3>${header}</h3><p>${body}</p>`,
-        type: String(response.message).toLowerCase() == 'success' ? 'success' : 'error',
+        type: 'info',
         top: true,
         right: true,
         left: false
@@ -151,7 +146,7 @@ export default {
 
       // emit events
       EventBus.emit('announce', announcement)
-      EventBus.emit('refresh', { report_id })
+      EventBus.emit('refresh', { action: 'disapproved', report_id })
     }
   }
 };
