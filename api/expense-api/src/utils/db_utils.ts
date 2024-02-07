@@ -12,10 +12,10 @@ interface ExpenseReportsTable {
     merchant: string;
     description: string;
     submitter_id: string;
-    approver_id?: string;
-    approved_date?: Date;
     submitted_date: Date;
     submitter_email: string;
+    approver_id?: string;
+    approved_date?: Date;
     approver_email?: string;
 }
 
@@ -53,7 +53,7 @@ export async function disapproveExpenseReport (payload: disapproveExpenseReportD
 
     const result = await db
         .updateTable('expense_reports')
-        .set({ approver_id: null, approved_date: null, approver_email: null })
+        .set({ approver_id: undefined, approved_date: undefined, approver_email: undefined })
         .where('report_id', '=', report_id)
         .returningAll()
         .execute();
