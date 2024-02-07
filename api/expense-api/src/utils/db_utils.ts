@@ -75,10 +75,8 @@ export async function getExpenseReports (payload: getExpenseReportDto) {
     const query = db
         .selectFrom('expense_reports')
         .selectAll()
-        .where(where)
-
-     const result = query.execute();
-
+        .where(where);
+    const result = await query.execute();
     return result;
 }
 
