@@ -106,17 +106,14 @@ export default {
     async approveReport (report_id) {
       // hit the approve report endpoint
       const response = await approveReport(this.$auth0, report_id)
-      
+      console.log(response)
+
       // display the alert
-      let header = 'Header'
-      let body = 'Body'
-      if (response.message == 'Insufficient access') {
-        header = 'Warning:'
-        body = `${this.$auth0.user._value.email} has insufficient permission to update expense report report_id: ${report_id}.`
-      } else {
-        header = 'Success:'
-        body = `Expense report ${report_id} was successfully approved by ${this.$auth0.user._value.email}.`
-      }
+      let header = response.success ? 'Success:' : 'Warning:'
+      let body = response.success ? 
+        `Expense report ${report_id} was successfully approved by ${this.$auth0.user._value.email}.` :
+        `${this.$auth0.user._value.email} has insufficient permission to approve expense report ${report_id}.`;
+
       const announcement = {
         text: `<h3>${header}</h3><p>${body}</p>`,
         type: String(response.message).toLowerCase() == 'success' ? 'success' : 'error',
@@ -131,8 +128,9 @@ export default {
     },
     async disapproveReport (report_id) {
       // hit the approve report endpoint
-      // const response = await disapproveReport(this.$auth0, report_id)
-      
+      const response = await disapproveReport(this.$auth0, report_id)
+      console.log(response)
+
       // display the alert
       let header = 'Disapproved'
       let body = `Expense report ${report_id} was sent back to submitter.`

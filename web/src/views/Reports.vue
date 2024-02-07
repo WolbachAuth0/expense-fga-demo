@@ -98,42 +98,51 @@ export default {
     }
   },
   async mounted () {
-    const refresh = this.refreshReports
+    // fetch initial data
     await this.refreshReports()
-    EventBus.on('refresh', refresh)
+    // respond to refresh event.
+    this.announce()
+    EventBus.on('refresh', this.refreshReports)
   },
   methods: {
     async refreshReports () {
+      // get reports from API
       this.progress.color = 'warning'
       this.progress.indeterminate = true
       const response = await getReports(this.$auth0)
       this.progress.indeterminate = false
       this.progress.color = 'success'
+      console.log(response)
 
+      // store data to state
       this.my_reports_submitted = response.my_submitted_reports.map(processItems)
       this.my_reports_approved = response.my_approved_reports.map(processItems)
       this.team_reports_submitted = response.team_reports_submitted.map(processItems)
       this.team_reports_approved = response.team_reports_approved.map(processItems)
       this.tab = this.tab || 0
       
-      const count = this.my_reports_submitted.length + this.team_reports_submitted.length;
-      
-      console.log(response)
+      function processItems (x) {
+        x.isApproved = !!x.approver_id
+        x.color = x.isApproved ? 'green' : 'red'
+        return x
+      }    
+    },
+    announce () {
+      // show alert
+      const email = this.$auth0.user._value.email
+      const counts = [this.my_reports_submitted.length, this.team_reports_submitted.length]
+      const header = `Success:`
+      let body = `We found ${counts[0]} expense reports submitted by ${email} `
+      body += counts[1] > 0 ? ` and ${counts[1]} reports submitted by subordinates awaiting approval.` : 'awaiting approval.'
 
       const announcement = {
-        text: `Successfully found ${count} expense reports awaiting approval for ${this.$auth0.user._value.email}`,
+        text: `<h3>${header}</h3><p>${body}</p>`,
         type: 'success',
         top: true,
         right: true,
         left: false
       }
       EventBus.emit('announce', announcement)
-
-      function processItems (x) {
-        x.isApproved = !!x.approver_id
-        x.color = x.isApproved ? 'green' : 'red'
-        return x
-      }    
     }
   }
 };
