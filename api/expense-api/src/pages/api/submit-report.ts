@@ -23,21 +23,25 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         if (fga_payload && fga_token) {
             // create an FGA tuple
             await writeTuple(fga_token, fga_payload);
-            return res.status(201).json({
-                report_id: report_id,
-                amount: amount,
-                merchant: merchant,
-                submitter_id: submitter_id,
-                description: description
-            });
+            // return res.status(201).json({
+            //     report_id,
+            //     amount,
+            //     merchant,
+            //     submitter_id,
+            //     submitter_email,
+            //     description
+            // });
         }
         return res.status(201).json({
+            success: true,
+            message: `${submitter_email} successfully submitted expense report ${report_id}.`,
             result: db_result
         });
     } catch (e) {
         return res.status(400).json({
-            result: 'Bad Request',
-            error: e
+            success: false,
+            message: 'Bad Request',
+            result: e
         });
     }
 };

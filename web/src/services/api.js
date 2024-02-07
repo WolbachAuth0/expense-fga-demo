@@ -21,10 +21,6 @@ function user (auth) {
   return auth.user._value
 } 
 
-export async function submitReport (auth, report) {
-
-}
-
 export async function getReports (auth) {
   const url = '/list-reports'
   const data = {
@@ -40,6 +36,26 @@ export async function getReports (auth) {
     return error
   }
 }
+
+export async function submitReport (auth, { amount, merchant, description }) {
+  const url = '/submit-report'
+  const data = {
+    amount,
+    merchant,
+    description,
+    submitter_id: user(auth).sub,
+    submitter_email: user(auth).email
+  }
+  
+  try {
+    const accesstoken = await auth.getAccessTokenSilently()
+    const response = await http(accesstoken).post(url, data)
+    return response.data
+  } catch (error) {
+    return error
+  }
+}
+
 
 export async function approveReport (auth, report_id) {
   const url = '/approve-report'
