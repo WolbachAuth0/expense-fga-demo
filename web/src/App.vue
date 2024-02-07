@@ -46,13 +46,9 @@ export default {
 		EventBus.on('announce', this.makeAnnouncement)
   },
 	methods: {
-		makeAnnouncement ({ text='announcement text', type='success', top=true, right=true, left=false }) {
+		makeAnnouncement ({ text='announcement text', type='success' }) {
 			this.alert.text = text
 			this.alert.type = type
-			this.alert.top = top
-			this.alert.right = right
-			this.alert.left = left
-
 			this.alert.visible = true
 		},
 		show () {

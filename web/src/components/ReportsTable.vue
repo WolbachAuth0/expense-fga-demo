@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-card-title class="primary">{{ title }}</v-card-title>  
+    <v-card-title>{{ title }}</v-card-title>  
     <v-data-table-virtual
       :items="items"
       :headers="tableHeaders"
@@ -117,9 +117,6 @@ export default {
       const announcement = {
         text: `<h3>${header}</h3><p>${body}</p>`,
         type: String(response.message).toLowerCase() == 'success' ? 'success' : 'error',
-        top: true,
-        right: true,
-        left: false
       }
 
       // emit events
@@ -136,10 +133,7 @@ export default {
       let body = `Expense report ${report_id} was sent back to submitter.`
       const announcement = {
         text: `<h3>${header}</h3><p>${body}</p>`,
-        type: 'info',
-        top: true,
-        right: true,
-        left: false
+        type: 'info'
       }
 
       // emit events
