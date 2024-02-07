@@ -50,7 +50,6 @@ export async function approveExpenseReport (payload: approveExpenseReportDto) {
 
 export async function disapproveExpenseReport (payload: disapproveExpenseReportDto) {
     const { report_id } = payload;
-    const today = DateTime.now().toJSDate();
 
     const result = await db
         .updateTable('expense_reports')
