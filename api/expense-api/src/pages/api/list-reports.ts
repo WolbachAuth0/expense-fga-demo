@@ -22,6 +22,9 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             // Query DB for reports where you are a submitter, approver or can approve
             const db_result = await getExpenseReports({user_id, report_ids});
 
+            console.log('fga_payload:', fga_payload)
+            console.log('report_ids:', report_ids)
+            console.log('db_result:', db_result)
             // // Map DB result into separate arrays for each condition
             // const [submitted_reports, approved_reports, approved_by_others, needs_approval_reports]: [ExpenseReport[], ExpenseReport[], ExpenseReport[], ExpenseReport[]] = db_result.reduce((acc, item) => {
             //     acc[item.submitter_id === user_id ? 0 : item.approver_id === user_id ? 1 : !!item.approved_date ? 2 : 3].push(item);
