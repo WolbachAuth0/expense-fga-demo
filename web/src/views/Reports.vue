@@ -5,8 +5,9 @@
       v-model="tab"
       density="compact"
     >
-      <v-tab value="0" class="bg-primary" rounded="shaped">My Expenses</v-tab>
-      <v-tab value="1" class="bg-primary" rounded="shaped">Team Expenses</v-tab>
+      <v-tab value="0" class="bg-blue-darken-3" rounded="shaped" prepend-icon="mdi-file-account">My Expenses</v-tab>
+      <v-tab value="1" class="bg-blue-darken-3" rounded="shaped" prepend-icon="mdi-file-multiple">Team Expenses</v-tab>
+      <v-tab value="2" class="bg-blue-darken-3" rounded="shaped" prepend-icon="mdi-file-plus">Submit Expense</v-tab>
     </v-tabs>
     <v-divider></v-divider>
     <v-progress-linear :model-value="progress.value" :color="progress.color" :indeterminate="progress.indeterminate"></v-progress-linear>
@@ -22,7 +23,7 @@
                 title="Submitted, Awaiting Approval"
                 :items="my_reports_submitted"
                 :loading="progress.indeterminate"
-                :height="250"
+                :height="275"
               ></reports-table>
             </v-col>
           </v-row>
@@ -33,7 +34,7 @@
                 title="Approved"
                 :items="my_reports_approved"
                 :loading="progress.indeterminate"
-                :height="250"
+                :height="275"
               ></reports-table>
             </v-col>
           </v-row>
@@ -50,7 +51,7 @@
                 title="Submitted, Awaiting Approval"
                 :items="team_reports_submitted"
                 :loading="progress.indeterminate"
-                :height="250"
+                :height="275"
               ></reports-table>
             </v-col>
           </v-row>
@@ -61,10 +62,22 @@
                 title="Approved"
                 :items="team_reports_approved"
                 :loading="progress.indeterminate"
-                :height="250"
+                :height="275"
               ></reports-table>
             </v-col>
           </v-row>
+
+        </v-container>
+      </v-window-item>
+
+      <v-window-item :value="2">
+        <v-container fluid>
+
+         <v-row>
+            <v-col cols="12">
+              <submit-report></submit-report>
+            </v-col>
+         </v-row>
 
         </v-container>
       </v-window-item>
@@ -76,12 +89,14 @@
 <script>
 import { getReports } from './../services/api'
 import ReportsTable from './../components/ReportsTable.vue'
+import SubmitReport from './../components/SubmitReport.vue'
 import EventBus from './../services/EventBus'
 
 export default {
   name: "ExpenseReports",
   components: {
-    ReportsTable
+    ReportsTable,
+    SubmitReport
   },
   data () {
     return {
@@ -137,10 +152,7 @@ export default {
 
       const announcement = {
         text: `<h3>${header}</h3><p>${body}</p>`,
-        type: 'success',
-        top: true,
-        right: true,
-        left: false
+        type: 'success'
       }
       EventBus.emit('announce', announcement)
     }
