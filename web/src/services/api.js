@@ -59,11 +59,19 @@ export async function approveReport (auth, report_id) {
       console.log(`The user ${user(auth).email} is not authorized to approve the expense report report_id:${report_id}.`)
       return error.response.data
     }
-
     return error
   }
 }
 
 export async function disapproveReport (auth, report_id) {
-  console.log(`you clicked dissapprove on expense report`)
+  const url = '/disapprove-report'
+  const data = { report_id }
+
+  try {
+    const accesstoken = await auth.getAccessTokenSilently()
+    const response = await http(accesstoken).post(url, data)
+    return response.data
+  } catch (error) {
+    return error
+  }
 }
