@@ -14,9 +14,9 @@ interface ExpenseReportsTable {
     submitter_id: string;
     submitted_date: Date;
     submitter_email: string;
-    approver_id?: string;
-    approved_date?: Date;
-    approver_email?: string;
+    approver_id?: string | null;
+    approved_date?: Date | null;
+    approver_email?: string | null;
 }
 
 const db = createKysely<Database>();
@@ -53,7 +53,7 @@ export async function disapproveExpenseReport (payload: disapproveExpenseReportD
 
     const result = await db
         .updateTable('expense_reports')
-        .set({ approver_id: '', approved_date: '', approver_email: '' })
+        .set({ approver_id: null, approved_date: null, approver_email: null })
         .where('report_id', '=', report_id)
         .returningAll()
         .execute();
