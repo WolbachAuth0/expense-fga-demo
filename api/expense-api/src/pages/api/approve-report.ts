@@ -1,4 +1,4 @@
-import { approveExpenseReport, createExpenseReport } from '@/utils/db_utils';
+import { approveExpenseReport } from '@/utils/db_utils';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getFGAJWT } from '@/utils/token_utils';
 import { FGACheckTuple, checkTuple } from '@/utils/fga_utils';
@@ -23,22 +23,26 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 // ... approve the expense report
                 const db_result = await approveExpenseReport({approver_id, report_id, approver_email});
                 return res.status(200).json({
-                    message: 'Success',
-                    db_result
+                    success: true,
+                    message: `Expense report ${report_id} was successfully approved by ${approver_email}.`,
+                    result: db_result
                 });
             } else {
                 // else respond unauthorized
                 console.log('fga_result', fga_result);
                 return res.status(401).json({
-                    message: 'Insufficient access'
+                    success: false,
+                    message: `${approver_email} has insufficient permission to update expense report report_id: ${report_id}.`,
+                    result: []
                 });
             }
             
         }
     } catch (e) {
         return res.status(400).json({
-            result: 'Bad Request',
-            error: e
+            success: false,
+            message: 'Bad Request',
+            result: e
         });
     }
 };
