@@ -130,10 +130,10 @@ export default {
       console.log(response)
 
       // store data to state
-      this.my_reports_submitted = response.results.my_submitted_reports.map(processItems)
-      this.my_reports_approved = response.results.my_approved_reports.map(processItems)
-      this.team_reports_submitted = response.results.team_reports_submitted.map(processItems)
-      this.team_reports_approved = response.results.team_reports_approved.map(processItems)
+      this.my_reports_submitted = response.result.my_submitted_reports.map(processItems)
+      this.my_reports_approved = response.result.my_approved_reports.map(processItems)
+      this.team_reports_submitted = response.result.team_reports_submitted.map(processItems)
+      this.team_reports_approved = response.result.team_reports_approved.map(processItems)
       this.tab = this.tab || 0
       
       function processItems (x) {
