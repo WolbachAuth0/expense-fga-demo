@@ -63,14 +63,21 @@ export async function disapproveExpenseReport (payload: disapproveExpenseReportD
 
 export async function getExpenseReports (payload: getExpenseReportDto) {
     const { user_id, report_ids } = payload;
-
-    const result = await db
+    
+    function where (eb: Function) {
+        if (report_ids.length > 0) {
+            return eb('submitter_id', '=', user_id).or('approver_id', '=', user_id).or('report_id', 'in', report_ids)
+        } else {
+            return eb('submitter_id', '=', user_id).or('approver_id', '=', user_id)
+        }
+    }
+    
+    const query = db
         .selectFrom('expense_reports')
         .selectAll()
-        .where(function(eb: Function) {
-            return eb('submitter_id', '=', user_id).or('approver_id', '=', user_id).or('report_id', 'in', report_ids)
-        })
-        .execute();
+        .where(where)
+
+     const result = query.execute();
 
     return result;
 }
