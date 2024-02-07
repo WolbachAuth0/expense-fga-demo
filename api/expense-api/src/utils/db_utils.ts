@@ -53,7 +53,7 @@ export async function disapproveExpenseReport (payload: disapproveExpenseReportD
 
     const result = await db
         .updateTable('expense_reports')
-        .set({ approver_id: undefined, approved_date: undefined, approver_email: undefined })
+        .set({ approver_id: '', approved_date: '', approver_email: '' })
         .where('report_id', '=', report_id)
         .returningAll()
         .execute();
