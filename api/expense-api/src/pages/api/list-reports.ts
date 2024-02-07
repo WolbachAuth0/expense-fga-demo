@@ -22,31 +22,36 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             // Query DB for reports where you are a submitter, approver or can approve
             const db_result = await getExpenseReports({user_id, report_ids});
 
-            console.log('fga_payload:', fga_payload)
-            console.log('report_ids:', report_ids)
-            console.log('db_result:', db_result)
             // // Map DB result into separate arrays for each condition
             // const [submitted_reports, approved_reports, approved_by_others, needs_approval_reports]: [ExpenseReport[], ExpenseReport[], ExpenseReport[], ExpenseReport[]] = db_result.reduce((acc, item) => {
             //     acc[item.submitter_id === user_id ? 0 : item.approver_id === user_id ? 1 : !!item.approved_date ? 2 : 3].push(item);
             //     return acc;
             // }, [[] as ExpenseReport[], [] as ExpenseReport[], [] as ExpenseReport[], [] as ExpenseReport[]]);
             
-            const my_submitted_reports = db_result.filter(x => x.submitter_id === user_id && !x.approver_id)
-            const my_approved_reports = db_result.filter(x => x.submitter_id === user_id && !!x.approver_id)
-            const team_reports_approved = db_result.filter(x => x.submitter_id !== user_id && !!x.approver_id)
-            const team_reports_submitted = db_result.filter(x => x.submitter_id !== user_id && !x.approver_id)
-
+            const result = {
+                my_submitted_reports: db_result.filter(x => x.submitter_id === user_id && !x.approver_id),
+                my_approved_reports: db_result.filter(x => x.submitter_id === user_id && !!x.approver_id),
+                team_reports_approved: db_result.filter(x => x.submitter_id !== user_id && !!x.approver_id),
+                team_reports_submitted: db_result.filter(x => x.submitter_id !== user_id && !x.approver_id)
+            }
+            const count = db_result.length;
             return res.status(200).json({
-                my_submitted_reports,
-                my_approved_reports,
-                team_reports_approved,
-                team_reports_submitted
+                success: true,
+                message: `Found ${count} expense reports matching your query.`,
+                result
             });
-        }        
+        } else {
+            return res.status(401).json({
+                success: false,
+                message: `Unauthorized`,
+                result: []
+            });
+        }
     } catch (e) {
         return res.status(400).json({
-            result: 'Bad Request',
-            error: e
+            success: false,
+            message: 'An error occured',
+            result: e
         });
     }
 };
