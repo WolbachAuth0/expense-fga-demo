@@ -23,13 +23,7 @@ export function createRouter(app) {
       name: "Profile",
       component: Profile,
       beforeEnter: createAuthGuard(app)
-    },
-    {
-      path: "/people",
-      name: "People",
-      component: People,
-      beforeEnter: createAuthGuard(app)
-    },
+    }
   ]
 
   return createVueRouter({
