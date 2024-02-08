@@ -2,7 +2,8 @@
   <v-card>
     <v-tabs v-model="tab" density="compact">
       <v-tab value="0" class="bg-blue-darken-3" rounded="shaped" prepend-icon="mdi-human-greeting">Welcome</v-tab>
-      <v-tab value="1" class="bg-blue-darken-3" rounded="shaped" prepend-icon="mdi-information">About</v-tab>
+      <!-- <v-tab value="1" class="bg-blue-darken-3" rounded="shaped" prepend-icon="mdi-information">Architecture</v-tab> -->
+      <v-tab value="1" class="bg-blue-darken-3" rounded="shaped" prepend-icon="mdi-wrench">Architecture</v-tab>
       <v-tab value="2" class="bg-blue-darken-3" rounded="shaped" prepend-icon="mdi-globe-model">FGA Model</v-tab>
     </v-tabs>
 

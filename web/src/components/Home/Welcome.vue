@@ -8,6 +8,17 @@
     <v-row>
       <v-col cols="6">
         <v-card class="ml-2 my-2 px-2">
+
+          <v-card-subtitle class="bg-primary text-white">Welcome</v-card-subtitle>
+          <v-card-text>
+            <p>
+              The purpose of this application is to demonstrate how the Auth0 FGA service might be used in a live
+              production application. This application uses a fairly simple fine grained authorization (FGA) model, 
+              but it's still a model that illustrates the limitations of role based access control (RBAC) for common
+              applications.
+            </p>
+          </v-card-text>
+
           <v-card-subtitle class="bg-primary text-white">About Auth0 Fine Grained Authorization</v-card-subtitle>
           <v-card-text>
             <p>
@@ -23,22 +34,17 @@
               is that it permits your application to grant access to individual resources in your system. 
             </p>
           </v-card-text>
-
-          <!-- <v-card-subtitle class="bg-primary text-white">Application Architecture</v-card-subtitle>
-          <v-card-text>
-            
-          </v-card-text> -->
-
         </v-card>
       </v-col>
 
       <v-col cols="6">
-        <v-card class="mr-2 my-2">
-          <video playsinline="" autoplay="" muted="" width="600">
-            <source :src="video.src" :type="video.type">
-            Your browser does not support the video tag.
-          </video>
-
+        <v-card class="mr-2 my-2 pa-4">
+          <v-card-text class="text-center">
+            <video playsinline="" autoplay="" muted="" >
+              <source :src="video.src" :type="video.type">
+              Your browser does not support the video tag.
+            </video>
+          </v-card-text>
         </v-card>
       </v-col>
     </v-row>
@@ -59,3 +65,10 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  video {
+    width: 100%    !important;
+    height: auto   !important;
+  }
+</style>
