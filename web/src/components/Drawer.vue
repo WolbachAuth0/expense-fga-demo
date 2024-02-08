@@ -31,27 +31,31 @@
           to="/"
         ></v-list-item>
 
-        <v-list-item
-          v-for="[icon, text, route] in routes"
-          :key="icon"
-          :prepend-icon="icon"
-          :title="text"
-          :to="route"
+        <v-list-item v-if="isAuthenticated"
+          prepend-icon="mdi-account-supervisor-circle"
+          title="Profile"
+          to="/profile"
         ></v-list-item>
 
-      <v-list-item v-if="!isAuthenticated"
-        prepend-icon="mdi-login"
-        title="Login"
-        link
-        @click="login"
-      ></v-list-item>
+        <v-list-item v-if="isAuthenticated"
+          prepend-icon="mdi-file-chart"
+          title="Expense Reports"
+          to="/reports"
+        ></v-list-item>
 
-      <v-list-item v-if="isAuthenticated"
-        prepend-icon="mdi-logout"
-        title="Logout"
-        link
-        @click="logout"
-      ></v-list-item>
+        <v-list-item v-if="!isAuthenticated"
+          prepend-icon="mdi-login"
+          title="Login"
+          link
+          @click="login"
+        ></v-list-item>
+
+        <v-list-item v-if="isAuthenticated"
+          prepend-icon="mdi-logout"
+          title="Logout"
+          link
+          @click="logout"
+        ></v-list-item>
       </v-list>
     </v-navigation-drawer>
 </template>
@@ -80,16 +84,6 @@ export default {
     },
     user () {
       return this.$auth0.user.value
-    },
-    routes () {
-      if (!this.isAuthenticated) {
-        return []
-      } else {
-        return [
-          ['mdi-file-chart', 'Expense Reports', '/reports'],
-          ['mdi-account-supervisor-circle', 'Supervisors', '/people'],
-        ]
-      }
     }
   },
   methods: {
