@@ -1,100 +1,46 @@
 <template>
+  <v-card>
+    <v-tabs v-model="tab" density="compact">
+      <v-tab value="0" class="bg-blue-darken-3" rounded="shaped" prepend-icon="mdi-human-greeting">Welcome</v-tab>
+      <v-tab value="1" class="bg-blue-darken-3" rounded="shaped" prepend-icon="mdi-information">About</v-tab>
+      <v-tab value="2" class="bg-blue-darken-3" rounded="shaped" prepend-icon="mdi-globe-model">FGA Model</v-tab>
+    </v-tabs>
 
-  <v-card class="bg-secondary">
-    <v-card-title class="bg-primary text-white">Welcome</v-card-title>
+    <v-divider></v-divider>
 
-    <v-row class="py-1">
-      <v-col cols="5">
-        <v-card class="ml-2 pa-2">
-          <v-card-subtitle class="bg-primary text-white">Application Architecture</v-card-subtitle>
-          <v-card-text>
-            <p>Explain in this section how the app is architected.</p>
-            <p>Describe how the authN and authZ flow works.</p>
-            <p v-for="i in 22" :key="i">blah blah blahbity blah blah</p>
-          </v-card-text>
-        </v-card>
-      </v-col>
+    <v-window v-model="tab">
 
-      <v-col cols="7">
-        <v-card class="mr-2 pa-2">
-          <v-card-subtitle class="bg-primary text-white">Authorization Flow</v-card-subtitle>
-          <v-img class="align-end" :src="architecture.dark" cover></v-img>
-        </v-card>
-      </v-col>
-    </v-row>
+        <v-window-item :value="0">
+          <Welcome/>
+        </v-window-item>
 
-    <v-row>
-      <v-col cols="5">
-        <v-card class="ml-2 pa-2">
-          <v-card-subtitle class="bg-primary text-white">How To Use This App</v-card-subtitle>
-          <v-card-text>
-            <p>Explain how the Authorization model works.</p>
-            <p>Explain which users to login with.</p>
-            <p v-for="i in 9" :key="i">blah blah blahbity blah blah</p>
-          </v-card-text>
-        </v-card>
-      </v-col>
+        <v-window-item :value="1">
+          <About/>
+        </v-window-item>
 
-      <v-col cols="7">
-        <v-card class="mr-2 pa-2">
-          <v-card-subtitle class="bg-primary text-white">User Organization</v-card-subtitle>
-          <v-img class="align-end" :src="orgChart.dark" cover></v-img>
-        </v-card>
-      </v-col>
-    </v-row>
+        <v-window-item :value="2">
+          <AuthModel/>
+        </v-window-item>
 
-    <v-row>
-      <v-col cols="5">
-        <v-card class="ml-2 pa-2">
-          <v-card-subtitle class="bg-primary text-white">How To Use This App</v-card-subtitle>
-          <v-card-text>
-            <p>Explain how the Authorization model works.</p>
-            <p>Explain which users to login with.</p>
-            <p v-for="i in 9" :key="i">blah blah blahbity blah blah</p>
-          </v-card-text>
-        </v-card>
-      </v-col>
-
-      <v-col cols="7">
-        <v-card class="mr-2 pa-2">
-          <v-card-subtitle class="bg-primary text-white">Authorization Model</v-card-subtitle>
-          <div class="row">
-            <highlightjs language="yaml" :code="authModel" />
-          </div>
-        </v-card>
-      </v-col>
-    </v-row>
-
+    </v-window>
   </v-card>
-
 </template>
 
 <script>
+import About from '../components/Home/About.vue'
+import Welcome from '../components/Home/Welcome.vue'
+import AuthModel from '../components/Home/AuthModel.vue'
 
 export default {
   name: "home-view",
+  components: {
+    About,
+    Welcome,
+    AuthModel
+  },
   data () {
     return {
-      orgChart: {
-        light: '/img/org-chart-light.png',
-        dark: '/img/org-chart-dark.png',
-      },
-      architecture: {
-        light: '/img/architecture-light.png',
-        dark: '/img/architecture-dark.png'
-      },
-      authModel: `model
-  schema 1.1
-
-type employee
-  relations
-    define can_manage: manager or can_manage from manager
-    define manager: [employee]
-
-type report
-  relations
-    define approver: can_manage from submitter
-    define submitter: [employee]`
+      tab: 0
     }
   }
 };

@@ -15,71 +15,96 @@
     <v-window v-model="tab">
 
       <v-window-item :value="0">
-        <v-container fluid>
+        <v-sheet
+          color="grey-darken-1"
+          elevation="16"
+          border
+          rounded
+        >
 
           <v-row>
             <v-col cols="12">
+              <v-card class="mx-2 mt-2 px-2">
               <reports-table
                 title="Submitted, Awaiting Approval"
                 :items="my_reports_submitted"
                 :loading="progress.indeterminate"
                 :height="275"
               ></reports-table>
+              </v-card>
             </v-col>
           </v-row>
 
           <v-row>
             <v-col cols="12">
+              <v-card class="mx-2 mb-2 px-2">
               <reports-table
                 title="Approved"
                 :items="my_reports_approved"
                 :loading="progress.indeterminate"
                 :height="275"
               ></reports-table>
+              </v-card>
             </v-col>
           </v-row>
 
-        </v-container>
+        </v-sheet>
       </v-window-item>
 
       <v-window-item :value="1">
-        <v-container fluid>
+        <v-sheet
+          color="grey-darken-1"
+          elevation="16"
+          border
+          rounded
+        >
 
          <v-row>
             <v-col cols="12">
+              <v-card class="mx-2 mt-2 px-2">
               <reports-table
                 title="Submitted, Awaiting Approval"
                 :items="team_reports_submitted"
                 :loading="progress.indeterminate"
                 :height="275"
               ></reports-table>
+              </v-card>
             </v-col>
           </v-row>
 
           <v-row>
             <v-col cols="12">
+              <v-card class="mx-2 mb-2 px-2">
               <reports-table
                 title="Approved"
                 :items="team_reports_approved"
                 :loading="progress.indeterminate"
                 :height="275"
               ></reports-table>
+              </v-card>
             </v-col>
           </v-row>
 
-        </v-container>
+        </v-sheet>
       </v-window-item>
 
       <v-window-item :value="2">
-        <v-container fluid>
+        <v-sheet
+          color="grey-darken-1"
+          elevation="16"
+          border
+          rounded
+        >
 
          <v-row>
             <v-col cols="12">
+              <v-card class="ma-2 pa-2">
               <submit-report></submit-report>
+              </v-card>
             </v-col>
          </v-row>
 
-        </v-container>
+        </v-sheet>
       </v-window-item>
 
     </v-window>
