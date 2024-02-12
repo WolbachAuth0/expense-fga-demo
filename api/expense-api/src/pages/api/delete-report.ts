@@ -3,11 +3,12 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { getFGAJWT } from '@/utils/token_utils';
 import { FGACheckTuple, FGADeleteTuple } from '@/utils/fga_utils';
 import { checkTuple, deleteTuple } from '@/utils/fga_utils';
-import { getEmailFromHeaders } from '@/utils/header_utils';
+import { getEmailFromHeaders, getUserIdFromHeaders } from '@/utils/header_utils';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-    const { submitter_id, report_id } = req.body;
-    const email = getEmailFromHeaders(req.headers);
+    const { report_id } = req.body;
+    const submitter_email = getEmailFromHeaders(req.headers);
+    const submitter_id = getUserIdFromHeaders(req.headers);
 
     try {
         const fga_payload: FGACheckTuple = {
@@ -29,7 +30,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 // If rows are successfully deleted - delete tuple from FGA
                 if (Number(db_result[0].numDeletedRows) === 1) {
                     return res.status(200).json({
-                        message: `Report ID: ${report_id} was successfully deleted by ${email}.`
+                        message: `Report ID: ${report_id} was successfully deleted by ${submitter_email}.`
                     })
                     // await deleteTuple(fga_token, fga_payload as FGADeleteTuple);
                     // return res.status(201).json({
