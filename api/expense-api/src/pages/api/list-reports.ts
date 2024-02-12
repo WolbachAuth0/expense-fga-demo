@@ -19,13 +19,13 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         if (fga_token) {
             // Get reports where user is allowed to approve and map report IDs for DB query
             const fga_result = await listAllTuples(fga_token, fga_payload);
-            const report_ids = fga_result.objects.map(x => Number(item.split(':')[1]));
+            const report_ids = fga_result.objects.map(x => Number(x.split(':')[1]));
 
             // Query DB for reports where you are a submitter, approver or can approve
             const db_result = await getExpenseReports({user_id, report_ids});
 
             // Map DB result into separate arrays for each condition
-            const [my_submitted_reports, my_approved_reports, team_reports_approved, team_reports_submitted, bad_results]: [ExpenseReport[], ExpenseReport[], ExpenseReport[], ExpenseReport[], ExpenseReport[]] = 
+            const [my_submitted_reports, my_approved_reports, team_reports_approved, team_reports_submitted, _bad_results]: [ExpenseReport[], ExpenseReport[], ExpenseReport[], ExpenseReport[], ExpenseReport[]] = 
             db_result.reduce((acc, item) => {
                 acc[item.submitter_id === user_id && !item.approver_id ? 0 
                     : item.submitter_id === user_id && !!item.approver_id ? 1 
