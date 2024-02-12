@@ -1,6 +1,6 @@
 <template>
 
-  <v-navigation-drawer permanent v-model="drawer">
+  <v-navigation-drawer permanent v-model="drawer" theme="dark">
       <v-sheet color="primary" class="pa-4">
         
         <v-list>
