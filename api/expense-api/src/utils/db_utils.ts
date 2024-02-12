@@ -34,7 +34,17 @@ export async function createExpenseReport (payload: createExpenseReportDto) {
     return result;
 }
 
-export async function approveExpenseReport (payload: approveExpenseReportDto) {
+export async function deleteExpenseReport(payload: deleteExpenseReportDto) {
+    const { report_id } = payload;
+    const result = await db
+        .deleteFrom('expense_reports')
+        .where('report_id', '=', report_id)
+        .executeTakeFirst();
+
+    return result;
+}
+
+export async function approveExpenseReport(payload: approveExpenseReportDto) {
     const { approver_id, report_id, approver_email } = payload;
     const today = DateTime.now().toJSDate();
 
@@ -61,7 +71,7 @@ export async function disapproveExpenseReport (payload: disapproveExpenseReportD
     return result;
 }
 
-export async function getExpenseReports (payload: getExpenseReportDto) {
+export async function getExpenseReports(payload: getExpenseReportDto) {
     const { user_id, report_ids } = payload;
     
     function where (eb: Function) {
@@ -102,6 +112,10 @@ export type disapproveExpenseReportDto = {
 export type getExpenseReportDto = {
     user_id: string;
     report_ids: number[];
+}
+
+export type deleteExpenseReportDto = {
+    report_id: number
 }
 
 export interface ExpenseReport {
