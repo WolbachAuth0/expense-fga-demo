@@ -47,9 +47,7 @@ export async function submitReport (auth, { amount, merchant, description }) {
   const data = {
     amount,
     merchant,
-    description,
-    submitter_id: user(auth).sub,
-    submitter_email: user(auth).email
+    description
   }
   return await post(auth, url, data)
 }
@@ -57,8 +55,6 @@ export async function submitReport (auth, { amount, merchant, description }) {
 export async function approveReport (auth, report_id) {
   const url = '/approve-report'
   const data = {
-    approver_id: user(auth).sub,
-    approver_email: user(auth).email,
     report_id
   }
 
@@ -79,9 +75,7 @@ export async function approveReport (auth, report_id) {
 export async function disapproveReport (auth, report_id) {
   const url = '/disapprove-report'
   const data = {
-    report_id,
-    approver_id: user(auth).sub,
-    approver_email: user(auth).email
+    report_id
   }
   return await post(auth, url, data)
   
@@ -90,9 +84,7 @@ export async function disapproveReport (auth, report_id) {
 export async function deleteReport (auth, report_id) {
   const url = '/delete-report'
   const data = {
-    report_id,
-    approver_id: user(auth).sub,
-    approver_email: user(auth).email
+    report_id
   }
   return await post(auth, url, data)
 }
