@@ -41,9 +41,10 @@
               variant="outlined"
               color="error"
               size="small"
+              class="mx-2"
+              icon="mdi-trash-can-outline"
               @click="unsubmit(item.report_id)"
             >
-              Delete
             </v-btn>
           </td>
         </tr>
