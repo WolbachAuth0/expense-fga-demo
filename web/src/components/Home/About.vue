@@ -23,7 +23,7 @@
             </p>
           </v-card-text>
           
-          <v-card-subtitle class="bg-primary text-white">Authentication</v-card-subtitle>
+          <v-card-subtitle class="bg-primary text-white">Authentication & Authorization</v-card-subtitle>
           
           <v-list lines="one">
             <v-list-subheader title="User Authentication"></v-list-subheader>
