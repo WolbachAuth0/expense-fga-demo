@@ -37,13 +37,14 @@
             </v-btn>
 
             <v-btn
-              v-if="!item.isApproved && item.submitter_id == user.sub"
+              v-if="!item.isApproved"
               variant="outlined"
               color="error"
               size="small"
-              @click="unsubmit(item.report_id)"
+              class="mx-2"
+              icon="mdi-trash-can-outline"
+              @click="deleteReport(item.report_id)"
             >
-              Delete
             </v-btn>
           </td>
         </tr>
@@ -53,7 +54,7 @@
 </template>
 
 <script>
-import { approveReport, disapproveReport } from './../services/api'
+import { approveReport, disapproveReport, deleteReport } from './../services/api'
 import EventBus from './../services/EventBus'
 
 export default {
@@ -119,44 +120,31 @@ export default {
       return new Intl.DateTimeFormat('default', {dateStyle: 'long'}).format(date);
     },
     async approveReport (report_id) {
-      // hit the approve report endpoint
       const response = await approveReport(this.$auth0, report_id)
       console.log(response)
-
-      // display the alert
-      let header = response.success ? 'Success:' : 'Warning:'
-      let body = response.success ? 
-        `Expense report ${report_id} was successfully approved by ${this.$auth0.user._value.email}.` :
-        `${this.$auth0.user._value.email} has insufficient permission to approve expense report ${report_id}.`;
-
-      const announcement = {
-        text: `<h3>${header}</h3><p>${body}</p>`,
-        type: String(response.message).toLowerCase() == 'success' ? 'success' : 'error',
-      }
-
-      // emit events
-      EventBus.emit('announce', announcement)
+      this.toastResponse(response)
       EventBus.emit('refresh', { action: 'approved', report_id })
     },
     async disapproveReport (report_id) {
-      // hit the approve report endpoint
       const response = await disapproveReport(this.$auth0, report_id)
       console.log(response)
-
-      // display the alert
-      let header = response.success ? 'Disapproved:' : 'Warning:'
-      let body = response.message
-      const announcement = {
-        text: `<h3>${header}</h3><p>${body}</p>`,
-        type: response.success ? 'success' : 'error'
-      }
-
-      // emit events
-      EventBus.emit('announce', announcement)
+      this.toastResponse(response)
       EventBus.emit('refresh', { action: 'disapproved', report_id })
     },
-    async unsubmit (report_id) {
-      alert(`you clicked unsubmit. Deleted report ${report_id}`)
+    async deleteReport (report_id) {
+      const response = await deleteReport(this.$auth0, report_id)
+      console.log(response)
+      this.toastResponse(response)
+      EventBus.emit('refresh', { action: 'disapproved', report_id })
+    },
+    toastResponse (response) {
+      let header = response.success ? 'Success:' : 'Warning:'
+      let body = response.message 
+      const announcement = {
+        text: `<h3>${header}</h3><p>${body}</p>`,
+        type: response.success ? 'success' : 'error',
+      }
+      EventBus.emit('announce', announcement)
     }
   }
 };

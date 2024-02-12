@@ -1,6 +1,6 @@
 <template>
     <!-- Application bar -->
-		<v-app-bar :elevation="11" rounded>
+		<v-app-bar :elevation="11" rounded theme="dark">
       <template v-slot:prepend>
         <v-app-bar-nav-icon></v-app-bar-nav-icon>
       </template>

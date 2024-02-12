@@ -23,7 +23,7 @@
             </p>
           </v-card-text>
           
-          <v-card-subtitle class="bg-primary text-white">Authentication</v-card-subtitle>
+          <v-card-subtitle class="bg-primary text-white">Authentication & Authorization</v-card-subtitle>
           
           <v-list lines="one">
             <v-list-subheader title="User Authentication"></v-list-subheader>
@@ -33,7 +33,7 @@
               :key="item.value"
               :title="item.title"
             >
-              <v-tooltip activator="parent" location="end" v-if="item.tooltip">
+              <v-tooltip activator="parent" location="bottom" v-if="item.tooltip">
                 {{ item.tooltip }}
               </v-tooltip>
             </v-list-item>
@@ -45,7 +45,7 @@
               :key="item.value"
               :title="item.title"
             >
-              <v-tooltip activator="parent" location="end" v-if="item.tooltip">
+              <v-tooltip activator="parent" location="bottom" v-if="item.tooltip">
                 {{ item.tooltip }}
               </v-tooltip>
             </v-list-item>
