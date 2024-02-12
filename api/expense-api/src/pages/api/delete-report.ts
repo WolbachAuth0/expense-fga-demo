@@ -39,8 +39,15 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                         result: db_result
                     });
                 }
+            } else {
+                return res.status(401).json({
+                    success: false,
+                    message: `Unauthorized`,
+                });
             }
-        }
+        } else {
+            return res.status(418).json({boof: 'boof'})
+        } 
     } catch (e) {
         return res.status(400).json({
             success: false,
