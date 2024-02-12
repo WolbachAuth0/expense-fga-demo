@@ -1,9 +1,8 @@
 import { IncomingHttpHeaders } from "http";
 
-export function getUserIdFromHeaders(headers: IncomingHttpHeaders) {
-    return headers.extracted_requester_id; //?.toString() || '';
-}
-
-export function getEmailFromHeaders(headers: IncomingHttpHeaders) {
-    return headers.extracted_requester_email; //?.toString() || ''
+export function getUserIdAndEmailFromHeaders(headers: IncomingHttpHeaders) {
+    return {
+        user_id: headers.extracted_requester_id?.toString() || '', 
+        email: headers.extracted_requester_email?.toString() || ''
+    };
 }

@@ -3,16 +3,15 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { getFGAJWT } from '@/utils/token_utils';
 import { FGACheckTuple, FGADeleteTuple } from '@/utils/fga_utils';
 import { checkTuple, deleteTuple } from '@/utils/fga_utils';
-import { getEmailFromHeaders, getUserIdFromHeaders } from '@/utils/header_utils';
+import { getUserIdAndEmailFromHeaders } from '@/utils/header_utils';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
     const { report_id } = req.body;
-    const submitter_email = getEmailFromHeaders(req.headers);
-    const submitter_id = getUserIdFromHeaders(req.headers);
+    const { email, user_id } = getUserIdAndEmailFromHeaders(req.headers);
 
     try {
         const fga_payload: FGACheckTuple = {
-            user: `employee:${submitter_id}`,
+            user: `employee:${user_id}`,
             relation: 'submitter',
             object: `report:${report_id}`
         }
@@ -31,25 +30,16 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 if (Number(db_result[0].numDeletedRows) === 1) {
                     await deleteTuple(fga_token, fga_payload as FGADeleteTuple);
                     return res.status(200).json({
-                        message: `Report ID: ${report_id} was successfully deleted by ${submitter_email}.`,
+                        message: `Report ID: ${report_id} was successfully deleted by ${email}.`,
                         success: true
                     });
-                } else {
-                    return res.status(400).json({
-                        success: false,
-                        message: `Bad request - db failed`,
-                        result: db_result
-                    });
-                }
-            } else {
-                return res.status(401).json({
-                    success: false,
-                    message: `Unauthorized`,
-                });
+                } 
             }
-        } else {
-            return res.status(418).json({boof: 'boof'})
-        } 
+        }
+        return res.status(400).json({
+            success: false,
+            message: 'Bad Request',
+        });
     } catch (e) {
         return res.status(400).json({
             success: false,
