@@ -92,6 +92,9 @@ export async function disapproveReport (auth, report_id) {
     const response = await http(accesstoken).post(url, data)
     return response.data
   } catch (error) {
+    if (error.response.status == 401) {
+      return error.response.data
+    }
     return error
   }
 }

@@ -122,41 +122,27 @@ export default {
       // hit the approve report endpoint
       const response = await approveReport(this.$auth0, report_id)
       console.log(response)
-
-      // display the alert
-      let header = response.success ? 'Success:' : 'Warning:'
-      let body = response.success ? 
-        `Expense report ${report_id} was successfully approved by ${this.$auth0.user._value.email}.` :
-        `${this.$auth0.user._value.email} has insufficient permission to approve expense report ${report_id}.`;
-
-      const announcement = {
-        text: `<h3>${header}</h3><p>${body}</p>`,
-        type: String(response.message).toLowerCase() == 'success' ? 'success' : 'error',
-      }
-
-      // emit events
-      EventBus.emit('announce', announcement)
+      this.toastResponse(response)
       EventBus.emit('refresh', { action: 'approved', report_id })
     },
     async disapproveReport (report_id) {
       // hit the approve report endpoint
       const response = await disapproveReport(this.$auth0, report_id)
       console.log(response)
-
-      // display the alert
-      let header = response.success ? 'Disapproved:' : 'Warning:'
-      let body = response.message
-      const announcement = {
-        text: `<h3>${header}</h3><p>${body}</p>`,
-        type: response.success ? 'success' : 'error'
-      }
-
-      // emit events
-      EventBus.emit('announce', announcement)
+      this.toastResponse(response)
       EventBus.emit('refresh', { action: 'disapproved', report_id })
     },
     async unsubmit (report_id) {
       alert(`you clicked unsubmit. Deleted report ${report_id}`)
+    },
+    toastResponse (response) {
+      let header = response.success ? 'Success:' : 'Warning:'
+      let body = response.message 
+      const announcement = {
+        text: `<h3>${header}</h3><p>${body}</p>`,
+        type: response.success ? 'success' : 'error',
+      }
+      EventBus.emit('announce', announcement)
     }
   }
 };
