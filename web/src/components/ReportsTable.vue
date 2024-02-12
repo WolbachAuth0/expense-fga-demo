@@ -35,6 +35,16 @@
             >
               Disapprove
             </v-btn>
+
+            <v-btn
+              v-if="!item.isApproved && item.submitter_id == user.sub"
+              variant="outlined"
+              color="error"
+              size="small"
+              @click="unsubmit(item.report_id)"
+            >
+              Delete
+            </v-btn>
           </td>
         </tr>
       </template>
@@ -97,6 +107,11 @@ export default {
       // }
     }
   },
+  computed: {
+    user () {
+      return this.$auth0.user._value
+    }
+  },
   methods: {
     formatDate (dateString) {
       const date = new Date(dateString);
@@ -139,6 +154,9 @@ export default {
       // emit events
       EventBus.emit('announce', announcement)
       EventBus.emit('refresh', { action: 'disapproved', report_id })
+    },
+    async unsubmit (report_id) {
+      alert(`you clicked unsubmit. Deleted report ${report_id}`)
     }
   }
 };
