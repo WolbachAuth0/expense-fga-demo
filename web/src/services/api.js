@@ -84,6 +84,7 @@ export async function disapproveReport (auth, report_id) {
   const data = {
     report_id,
     approver_id: user(auth).sub,
+    approver_email: user(auth).email
   }
 
   try {

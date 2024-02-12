@@ -144,11 +144,11 @@ export default {
       console.log(response)
 
       // display the alert
-      let header = 'Disapproved'
-      let body = `Expense report ${report_id} was sent back to submitter.`
+      let header = response.success ? 'Disapproved:' : 'Warning:'
+      let body = response.message
       const announcement = {
         text: `<h3>${header}</h3><p>${body}</p>`,
-        type: 'info'
+        type: response.success ? 'success' : 'error'
       }
 
       // emit events
