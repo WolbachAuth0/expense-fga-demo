@@ -60,6 +60,20 @@ export async function listAllTuples(token: string, payload: FGAListTuple) {
     return result;
 }
 
+export async function deleteTuple(token: string, payload: FGADeleteTuple) {
+    const { user, relation, object } = payload;
+
+    const fgaClient = initializeFGAClient(token);
+
+    const result = await fgaClient.write({
+        deletes: [{
+            user,
+            relation,
+            object,
+        }]
+    })
+}
+
 export type FGAWriteTuple = {
     user: string,
     object: string,
@@ -76,4 +90,10 @@ export type FGAListTuple = {
     user: string,
     relation: string,
     type: string
+}
+
+export type FGADeleteTuple = {
+    user: string,
+    relation: string,
+    object: string
 }

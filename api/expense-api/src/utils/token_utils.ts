@@ -47,7 +47,7 @@ export async function verifyJWT(jwt: string) {
                 `https:/${process.env.AUTH0_DOMAIN}/userinfo`
             ],
         });
-        return !!payload;
+        return payload;
     } catch (e) {
         return false;
     }   
