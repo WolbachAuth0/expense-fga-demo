@@ -35,7 +35,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 } else {
                     return res.status(400).json({
                         success: false,
-                        message: `Bad request`,
+                        message: `Bad request - db failed`,
                         result: db_result
                     });
                 }
