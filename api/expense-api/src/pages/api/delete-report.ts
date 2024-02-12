@@ -28,7 +28,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 if (db_result) {
                     console.log(db_result);
                     return res.status(200).json({
-                        db_result
+                        message: 'hello - you deleted something'
                     })
                     // await deleteTuple(fga_token, fga_payload as FGADeleteTuple);
                     // return res.status(201).json({
