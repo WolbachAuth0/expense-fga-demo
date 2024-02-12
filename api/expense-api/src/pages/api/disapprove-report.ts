@@ -4,7 +4,7 @@ import { getFGAJWT } from '@/utils/token_utils';
 import { FGACheckTuple, checkTuple } from '@/utils/fga_utils';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-    const { report_id, approver_id } = req.body;
+    const { report_id, approver_id, approver_email } = req.body;
 
     try {
         const fga_payload: FGACheckTuple = {
@@ -26,9 +26,16 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                     message: `Expense report ${report_id} was successfully disapproved.`,
                     result: db_result
                 });
+            } else {
+                // else respond unauthorized
+                console.log('fga_result', fga_result);
+                return res.status(401).json({
+                    success: false,
+                    message: `${approver_email} has insufficient permission to update expense report report_id: ${report_id}.`,
+                    result: []
+                });
             }
         }
-            
     } catch (e) {
         return res.status(400).json({
             success: false,

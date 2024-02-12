@@ -36,7 +36,6 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                     result: []
                 });
             }
-            
         }
     } catch (e) {
         return res.status(400).json({
