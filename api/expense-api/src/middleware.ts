@@ -11,9 +11,10 @@ export default async function middleware(req: NextRequest, res: NextResponse) {
     const token = req.headers.get('authorization')?.split(' ')[1];
     if (token) {
         const decoded_token = await verifyJWT(token);
-        if (decoded_token && decoded_token.sub) {
+        if (decoded_token && decoded_token.sub && decoded_token['email'] as string) {
             res = NextResponse.next();
             res.headers.set('extracted-requester-id', decoded_token.sub);
+            res.headers.set('extracted-requester-email', decoded_token['email'] as string);
         }
     } else {
         res = NextResponse.json({ message: 'Authorization Required'}, { status: 401 });
