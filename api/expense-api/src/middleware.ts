@@ -16,9 +16,9 @@ export default async function middleware(req: NextRequest, res: NextResponse) {
             res.headers.set('extracted_requester_id', decoded_token.sub);
             res.headers.set('extracted_requester_email', decoded_token['email'] as string);
         }
-    } 
-        
-    res = NextResponse.json({ message: 'Authorization Required'}, { status: 401 });
-
+    } else {
+        res = NextResponse.json({ message: 'Authorization Required'}, { status: 401 });
+    }    
+    
     return cors(req, res);
 }
