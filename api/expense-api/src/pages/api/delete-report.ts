@@ -32,6 +32,12 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                         message: `Expense report ${report_id} has been deleted.`,
                         result: db_result
                     });
+                } else {
+                    return res.status(400).json({
+                        success: false,
+                        message: `Bad request`,
+                        result: db_result
+                    });
                 }
             }
         }
