@@ -56,7 +56,6 @@ export async function submitReport (auth, { amount, merchant, description }) {
   }
 }
 
-
 export async function approveReport (auth, report_id) {
   const url = '/approve-report'
   const data = {
