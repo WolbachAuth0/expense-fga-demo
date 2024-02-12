@@ -124,9 +124,9 @@ export interface ExpenseReport {
     merchant: string;
     description: string;
     submitter_id: string;
-    approver_id?: string;
-    approved_date?: Date;
     submitted_date: Date;
-    approver_email?: string;
     submitter_email: string;
+    approver_id?: string | null;
+    approved_date?: Date | null;
+    approver_email?: string | null;
 }
