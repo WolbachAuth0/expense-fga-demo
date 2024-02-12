@@ -14,6 +14,7 @@ export default async function middleware(req: NextRequest, res: NextResponse) {
     if (token) {
         const decoded_token = await verifyJWT(token);
         if (decoded_token && decoded_token.sub && decoded_token['email'] as string) {
+            // Incoming JWT is valid - forward with appropriate headers
             res = NextResponse.next();
             res.headers.set('extracted_requester_id', decoded_token.sub);
             res.headers.set('extracted_requester_email', decoded_token['email'] as string);
