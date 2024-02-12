@@ -4,8 +4,8 @@ import { getFGAJWT } from '@/utils/token_utils';
 import { FGAListTuple, listAllTuples } from '@/utils/fga_utils';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-    //const { user_id } = req.body;
-    const user_id = req.headers.extracted_user_id?.toString() || '';
+    const { user_id } = req.body;
+    //const user_id = req.headers.extracted_user_id?.toString() || '';
     
     const fga_token = await getFGAJWT();
     const fga_payload: FGAListTuple = {
