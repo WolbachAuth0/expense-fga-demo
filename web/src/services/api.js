@@ -81,7 +81,10 @@ export async function approveReport (auth, report_id) {
 
 export async function disapproveReport (auth, report_id) {
   const url = '/disapprove-report'
-  const data = { report_id }
+  const data = {
+    report_id,
+    approver_id: user(auth).sub,
+  }
 
   try {
     const accesstoken = await auth.getAccessTokenSilently()
