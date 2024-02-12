@@ -47,3 +47,11 @@ export default {
 };
 </script>
 
+<style>
+
+  div.v-card-text > p {
+    text-indent: 30px;
+
+  }
+
+</style>
