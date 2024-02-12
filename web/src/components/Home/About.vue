@@ -33,7 +33,7 @@
               :key="item.value"
               :title="item.title"
             >
-              <v-tooltip activator="parent" location="end" v-if="item.tooltip">
+              <v-tooltip activator="parent" location="bottom" v-if="item.tooltip">
                 {{ item.tooltip }}
               </v-tooltip>
             </v-list-item>
@@ -45,7 +45,7 @@
               :key="item.value"
               :title="item.title"
             >
-              <v-tooltip activator="parent" location="end" v-if="item.tooltip">
+              <v-tooltip activator="parent" location="bottom" v-if="item.tooltip">
                 {{ item.tooltip }}
               </v-tooltip>
             </v-list-item>
