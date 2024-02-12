@@ -29,15 +29,11 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
 
                 // If rows are successfully deleted - delete tuple from FGA
                 if (Number(db_result[0].numDeletedRows) === 1) {
+                    await deleteTuple(fga_token, fga_payload as FGADeleteTuple);
                     return res.status(200).json({
-                        message: `Report ID: ${report_id} was successfully deleted by ${submitter_email}.`
-                    })
-                    // await deleteTuple(fga_token, fga_payload as FGADeleteTuple);
-                    // return res.status(201).json({
-                    //     success: true,
-                    //     message: `Expense report ${report_id} has been deleted.`,
-                    //     result: db_result
-                    // });
+                        message: `Report ID: ${report_id} was successfully deleted by ${submitter_email}.`,
+                        success: true
+                    });
                 } else {
                     return res.status(400).json({
                         success: false,
