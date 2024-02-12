@@ -9,5 +9,5 @@ export default function handler(
   const headers = req.headers;
   const user_id = getUserIdFromHeaders(headers);
   const email = getEmailFromHeaders(headers);
-  res.status(200).json({ user_id, headers })
+  res.status(200).json({ headers, user_id, email })
 }
