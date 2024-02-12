@@ -25,13 +25,17 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 const db_result = await deleteExpenseReport({ report_id });
 
                 // If rows are successfully deleted - delete tuple from FGA
-                if (!!db_result.numDeletedRows) {
-                    await deleteTuple(fga_token, fga_payload as FGADeleteTuple);
-                    return res.status(201).json({
-                        success: true,
-                        message: `Expense report ${report_id} has been deleted.`,
-                        result: db_result
-                    });
+                if (db_result) {
+                    console.log(db_result);
+                    return res.status(200).json({
+                        db_result
+                    })
+                    // await deleteTuple(fga_token, fga_payload as FGADeleteTuple);
+                    // return res.status(201).json({
+                    //     success: true,
+                    //     message: `Expense report ${report_id} has been deleted.`,
+                    //     result: db_result
+                    // });
                 } else {
                     return res.status(400).json({
                         success: false,

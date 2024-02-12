@@ -39,7 +39,7 @@ export async function deleteExpenseReport(payload: deleteExpenseReportDto) {
     const result = await db
         .deleteFrom('expense_reports')
         .where('report_id', '=', report_id)
-        .executeTakeFirst();
+        .execute();
 
     return result;
 }
