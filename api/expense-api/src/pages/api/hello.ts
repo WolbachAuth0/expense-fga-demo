@@ -1,4 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import { getEmailFromHeaders, getUserIdFromHeaders } from '@/utils/header_utils';
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 export default function handler(
@@ -6,6 +7,7 @@ export default function handler(
   res: NextApiResponse
 ) {
   const headers = req.headers;
-  const rawHeaders = req.rawHeaders;
-  res.status(200).json({ headers: headers, rawHeaders: rawHeaders })
+  const user_id = getUserIdFromHeaders(headers);
+  const email = getEmailFromHeaders(headers);
+  res.status(200).json({ user_id, headers })
 }
