@@ -29,6 +29,7 @@
               “Google Zanzibar” across all of their teams. In the whitepaper, they described how they made the system 
               scale to meet their needs for services like Google Drive, Google Cloud and YouTube.
             </p>
+            <br/>
             <p>
               The benefit of fine grained authorization (FGA) over traditional role based access control (RBAC) systems
               is that it permits your application to grant access to individual resources in your system. 
