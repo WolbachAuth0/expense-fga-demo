@@ -11,8 +11,8 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),
-        reports: resolve(__dirname, 'reports/index.html'),
-        profile: resolve(__dirname, 'profile/index.html'),
+        // reports: resolve(__dirname, 'reports/index.html'),
+        // profile: resolve(__dirname, 'profile/index.html'),
       },
     },
   }
