@@ -38,7 +38,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         }
         return res.status(400).json({
             success: false,
-            message: 'Bad Request',
+            message: `${email} is not the owner of this expense report, therefore cannot delete it`,
         });
     } catch (e) {
         return res.status(400).json({
