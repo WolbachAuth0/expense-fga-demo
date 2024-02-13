@@ -34,14 +34,6 @@ async function post (auth, url, data) {
   }
 }
 
-export async function getReports (auth) {
-  const url = '/list-reports'
-  const data = {
-    user_id: user(auth).sub
-  }
-  return await post(auth, url, data)
-}
-
 export async function submitReport (auth, { amount, merchant, description }) {
   const url = '/submit-report'
   const data = {
@@ -54,45 +46,27 @@ export async function submitReport (auth, { amount, merchant, description }) {
   return await post(auth, url, data)
 }
 
+export async function getReports (auth) {
+  const url = '/list-reports'
+  const data = {}
+  return await post(auth, url, data)
+}
+
 export async function approveReport (auth, report_id) {
   const url = '/approve-report'
-  const data = {
-    approver_id: user(auth).sub,
-    approver_email: user(auth).email,
-    report_id
-  }
-
-  try {
-    const accesstoken = await auth.getAccessTokenSilently()
-    const response = await http(accesstoken).post(url, data)
-    return response.data
-  } catch (error) {
-
-    if (error.response.status === 401) {
-      console.log(`The user ${user(auth).email} is not authorized to approve the expense report report_id:${report_id}.`)
-      return error.response.data
-    }
-    return error
-  }
+  const data = { report_id }
+  return await post(auth, url, data)
 }
 
 export async function disapproveReport (auth, report_id) {
   const url = '/disapprove-report'
-  const data = {
-    report_id,
-    approver_id: user(auth).sub,
-    approver_email: user(auth).email
-  }
+  const data = { report_id }
   return await post(auth, url, data)
   
 }
 
 export async function deleteReport (auth, report_id) {
   const url = '/delete-report'
-  const data = {
-    report_id,
-    approver_id: user(auth).sub,
-    approver_email: user(auth).email
-  }
+  const data = { report_id }
   return await post(auth, url, data)
 }
