@@ -39,9 +39,7 @@ export async function submitReport (auth, { amount, merchant, description }) {
   const data = {
     amount,
     merchant,
-    description,
-    submitter_id: user(auth).sub,
-    submitter_email: user(auth).email
+    description
   }
   return await post(auth, url, data)
 }

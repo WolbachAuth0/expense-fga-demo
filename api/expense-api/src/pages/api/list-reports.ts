@@ -2,10 +2,11 @@ import { ExpenseReport, getExpenseReports } from '@/utils/db_utils';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getFGAJWT } from '@/utils/token_utils';
 import { FGAListTuple, listAllTuples } from '@/utils/fga_utils';
+import { getUserIdAndEmailFromHeaders } from '@/utils/header_utils';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-    const { user_id } = req.body;
-    //const user_id = req.headers.extracted_user_id?.toString() || '';
+    const { user_id } = getUserIdAndEmailFromHeaders(req.headers);
+
     
     const fga_token = await getFGAJWT();
     const fga_payload: FGAListTuple = {
@@ -23,18 +24,25 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             // Query DB for reports where you are a submitter, approver or can approve
             const db_result = await getExpenseReports({user_id, report_ids});
 
-            // // Map DB result into separate arrays for each condition
-            // const [submitted_reports, approved_reports, approved_by_others, needs_approval_reports]: [ExpenseReport[], ExpenseReport[], ExpenseReport[], ExpenseReport[]] = db_result.reduce((acc, item) => {
-            //     acc[item.submitter_id === user_id ? 0 : item.approver_id === user_id ? 1 : !!item.approved_date ? 2 : 3].push(item);
-            //     return acc;
-            // }, [[] as ExpenseReport[], [] as ExpenseReport[], [] as ExpenseReport[], [] as ExpenseReport[]]);
+            // Map DB result into separate arrays for each condition
+            const [my_submitted_reports, my_approved_reports, team_reports_approved, team_reports_submitted, _bad_results]: [ExpenseReport[], ExpenseReport[], ExpenseReport[], ExpenseReport[], ExpenseReport[]] = 
+            db_result.reduce((acc, item) => {
+                acc[item.submitter_id === user_id && !item.approver_id ? 0 
+                    : item.submitter_id === user_id && !!item.approver_id ? 1 
+                    : item.submitter_id !== user_id && !!item.approver_id ? 2 
+                    : item.submitter_id !== user_id && !item.approver_id ? 3
+                    : 4]
+                    .push(item);
+                return acc;
+            }, [[] as ExpenseReport[], [] as ExpenseReport[], [] as ExpenseReport[], [] as ExpenseReport[], [] as ExpenseReport[]]);
             
             const result = {
-                my_submitted_reports: db_result.filter(x => x.submitter_id === user_id && !x.approver_id),
-                my_approved_reports: db_result.filter(x => x.submitter_id === user_id && !!x.approver_id),
-                team_reports_approved: db_result.filter(x => x.submitter_id !== user_id && !!x.approver_id),
-                team_reports_submitted: db_result.filter(x => x.submitter_id !== user_id && !x.approver_id)
-            }
+                my_submitted_reports,
+                my_approved_reports,
+                team_reports_approved,
+                team_reports_submitted
+            };
+
             const count = db_result.length;
             return res.status(200).json({
                 success: true,

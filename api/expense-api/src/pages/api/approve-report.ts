@@ -2,13 +2,15 @@ import { approveExpenseReport } from '@/utils/db_utils';
 import { NextApiRequest, NextApiResponse } from 'next';
 import { getFGAJWT } from '@/utils/token_utils';
 import { FGACheckTuple, checkTuple } from '@/utils/fga_utils';
+import { getUserIdAndEmailFromHeaders } from '@/utils/header_utils';
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
-    const { approver_id, report_id, approver_email } = req.body;
+    const { report_id } = req.body;
+    const { email, user_id } = getUserIdAndEmailFromHeaders(req.headers);
 
     try {
         const fga_payload: FGACheckTuple = {
-            user: `employee:${approver_id}`,
+            user: `employee:${user_id}`,
             relation: 'approver',
             object: `report:${report_id}`
         }
@@ -21,10 +23,10 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             // if allowed ...
             if (fga_result.allowed) {
                 // ... approve the expense report
-                const db_result = await approveExpenseReport({approver_id, report_id, approver_email});
+                const db_result = await approveExpenseReport({approver_id: user_id, report_id, approver_email: email});
                 return res.status(200).json({
                     success: true,
-                    message: `Expense report ${report_id} was successfully approved by ${approver_email}.`,
+                    message: `Expense report ${report_id} was successfully approved by ${email}.`,
                     result: db_result
                 });
             } else {
@@ -32,7 +34,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
                 console.log('fga_result', fga_result);
                 return res.status(401).json({
                     success: false,
-                    message: `${approver_email} has insufficient permission to update expense report report_id: ${report_id}.`,
+                    message: `${email} has insufficient permission to update expense report report_id: ${report_id}.`,
                     result: []
                 });
             }
