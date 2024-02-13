@@ -37,10 +37,17 @@
               As the user interacts with the user interface, they will attempt to perform various tasks. In this demonstration
               application for example, the user may attempt to list, submit and approve expense reports. As the user interacts with 
               UI elements, the SPA will send HTTP requests down to the REST API (5) to handle fetching and updating the expense report
-              data from the database. The user's access token (from step 4) is sent with those requests.
+              data from the database. The HTTP request sends information about the expense report which is being operated on 
+              (e.g. report_id) and who the authenticated user is (e.g. user_id) to the REST API. Then the REST API has middleware which
+              checks with the Auth0 FGA service (6) that the user (by user_id) has permission to perform the current action on the
+              specified resource (by report_id). The FGA service responds back to the API (6) with either "Allowed" or "Not Allowed".
+              If the action is "Not Allowed", the REST API responds immediately to the SPA front end with an "Unauthorized" response. 
+              But if the action is "Allowed" by the FGA service, then the API will perform any read and write actions to the database
+              necessary for this action (7) before responding back to the SPA front end with a successful response.
             </p>
           </v-card-text>
-          <v-list lines="one">
+
+          <!-- <v-list lines="one">
             <v-list-subheader title="User Authentication"></v-list-subheader>
 
             <v-list-item 
@@ -64,7 +71,7 @@
                 {{ item.tooltip }}
               </v-tooltip>
             </v-list-item>
-          </v-list>
+          </v-list> -->
         </v-card>
       </v-col>
 
