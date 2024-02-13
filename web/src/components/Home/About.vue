@@ -8,23 +8,38 @@
     <v-row>
       <v-col cols="6">
         <v-card class="ml-2 mt-2 px-2">
-          <v-card-subtitle class="bg-primary text-white">Application Architecture</v-card-subtitle>
+          <v-card-subtitle class="bg-primary text-white">Application</v-card-subtitle>
           <v-card-text>
             <p>
               This application is built to illustrate how a modern web application might use the Auth0 
               authentication (authN) and authorization (authZ) services. It consists of a Single Page Application
-              (SPA) for a user interface, a REST API and a database. At the highest level, the SPA allows
-              an authenticated user to interact with the UI, the SPA communicates with the REST API and the
-              REST API brokers changes to the database on behalf of the user.
-            </p>
-            <br/>
-            <p>
-
+              (SPA) for a user interface, a database for persisting data and a REST API to broker data between the 
+              user interface and the database. User authentication - determining who the user is - occurs at the 
+              SPA layer and is handled by the <a href="https://auth0.com/">Auth0</a> authentication service. On 
+              the other hand, user authorization - determining what the user is permitted to do - is performed 
+              at the API layer and is handle by 
+              <a href="https://auth0.com/fine-grained-authorization">Auth0 Fine Grained Authorization</a> service.
             </p>
           </v-card-text>
           
           <v-card-subtitle class="bg-primary text-white">Authentication & Authorization</v-card-subtitle>
-          
+          <v-card-text>
+            <p>
+              The diagram to the right shows a layout of the applications components and describes the Authentication
+              and authorization flow. The process begins with a user navigating to the web application (1) and initiating
+              the login. When a user clicks the login button, they will be redirected to the Auth0 Universal Login screen (2).
+              The user will enter their credentials into the UL. When the user submits their credentials (3), the Auth0 
+              authentication server will perform the verification and configured security tasks (e.g. MFA, attack protection etc.)
+              and upon success, the user will be redirected back to the front end of the application (4) with ID and Access Tokens.
+              At that point the user is successfully authenticated into the application.
+            </p>
+            <p>
+              As the user interacts with the user interface, they will attempt to perform various tasks. In this demonstration
+              application for example, the user may attempt to list, submit and approve expense reports. As the user interacts with 
+              UI elements, the SPA will send HTTP requests down to the REST API (5) to handle fetching and updating the expense report
+              data from the database. The user's access token (from step 4) is sent with those requests.
+            </p>
+          </v-card-text>
           <v-list lines="one">
             <v-list-subheader title="User Authentication"></v-list-subheader>
 
@@ -50,13 +65,6 @@
               </v-tooltip>
             </v-list-item>
           </v-list>
-
-          <v-card-text>
-            <p>
-              
-            </p>
-          </v-card-text>
-          
         </v-card>
       </v-col>
 
