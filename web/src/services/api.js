@@ -34,6 +34,18 @@ async function post(auth, url, data) {
   }
 }
 
+async function get(url) {
+  try {
+    const response = await http().get(url);
+    return response.data;
+  } catch (error) {
+    if (error.response.status == 401) {
+      return error.response.data;
+    }
+    return error;
+  }
+}
+
 export async function submitReport(auth, { amount, merchant, description }) {
   const url = "/submit-report";
   const data = {
@@ -72,4 +84,9 @@ export async function rejectReport(auth, report_id) {
   const url = "/reject-report";
   const data = { report_id };
   return await post(auth, url, data);
+}
+
+export async function getAPIStatus() {
+  const url = "/ping";
+  return await get(url);
 }
