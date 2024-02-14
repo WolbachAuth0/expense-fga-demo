@@ -12,17 +12,17 @@
           <v-card-subtitle class="bg-primary text-white">Welcome</v-card-subtitle>
           <v-card-text>
             <p>
-              The purpose of this application is to demonstrate how the Auth0 FGA service might be used in a live
+              The purpose of this application is to demonstrate how the Okta FGA service might be used in a live
               production application. This application uses a fairly simple fine grained authorization (FGA) model, 
               but it's still a model that illustrates the limitations of role based access control (RBAC) for common
               applications.
             </p>
           </v-card-text>
 
-          <v-card-subtitle class="bg-primary text-white">About Auth0 Fine Grained Authorization</v-card-subtitle>
+          <v-card-subtitle class="bg-primary text-white">About Okta Fine Grained Authorization</v-card-subtitle>
           <v-card-text>
             <p>
-              Auth0 FGA is an authorization system as a service. It is based on a concept called Relationship Based 
+              Okta FGA is an authorization system as a service. It is based on a concept called Relationship Based 
               Access Control (ReBAC). ReBAC can be understood as an evolution of Role Based Access Control (RBAC) and 
               Attribute Based Access Control (ABAC). It was inspired by a white paper published by Google a few 
               years ago, where they described how they implemented authorization internally using a system called 

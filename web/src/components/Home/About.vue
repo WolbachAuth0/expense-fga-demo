@@ -18,7 +18,7 @@
               SPA layer and is handled by the <a href="https://auth0.com/">Auth0</a> authentication service. On 
               the other hand, user authorization - determining what the user is permitted to do - is performed 
               at the API layer and is handle by 
-              <a href="https://auth0.com/fine-grained-authorization">Auth0 Fine Grained Authorization</a> service.
+              <a href="https://auth0.com/fine-grained-authorization">Okta Fine Grained Authorization</a> service.
             </p>
           </v-card-text>
           
@@ -41,7 +41,7 @@
               UI elements, the SPA will send HTTP requests down to the REST API <span class="text-primary">(5)</span> to handle 
               fetching and updating the expense report data from the database. The HTTP request sends information about the expense 
               report which is being operated on (e.g. report_id) and who the authenticated user is (e.g. user_id) to the REST API. 
-              Then the REST API has middleware which checks with the Auth0 FGA service <span class="text-primary">(6)</span> that 
+              Then the REST API has middleware which checks with the Okta FGA service <span class="text-primary">(6)</span> that 
               the user (by user_id) has permission to perform the current action on the specified resource (by report_id). The FGA 
               service responds back to the API <span class="text-primary">(7)</span> with either "Allowed" or "Not Allowed". If the 
               action is "Not Allowed", the REST API responds immediately to the SPA front end with an "Unauthorized" response 
@@ -136,7 +136,7 @@ export default {
         },
         {
           value: 6,
-          title: '6. Middleware calls Auth0 FGA API',
+          title: '6. Middleware calls Okta FGA API',
           tooltip: 'Check that user is authorized to perform action'
         },
         {
