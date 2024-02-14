@@ -7,8 +7,9 @@
             <v-tab value="2" class="bg-blue-darken-3" rounded="shaped" prepend-icon="mdi-file-plus">Submit Expense</v-tab>
         </v-tabs>
         <v-divider></v-divider>
+
         <v-progress-linear :model-value="progress.value" :color="progress.color"
-            :indeterminate="progress.indeterminate"></v-progress-linear>
+            :indeterminate="progress.indeterminate" height="7" class="my-1"></v-progress-linear>
 
         <v-window v-model="tab">
             <v-window-item :value="0">
@@ -106,7 +107,7 @@ export default {
             progress: {
                 indeterminate: false,
                 value: 100,
-                color: "success",
+                color: "secondary",
             },
             my_reports_submitted: [],
             my_reports_approved: [],
@@ -128,7 +129,7 @@ export default {
             this.progress.indeterminate = true;
             const response = await getReports(this.$auth0);
             this.progress.indeterminate = false;
-            this.progress.color = "success";
+            this.progress.color = "secondary";
             console.log(response);
 
             // store data to state
@@ -159,7 +160,7 @@ export default {
             let body = response.message;
             const announcement = {
                 text: `<h3>${header}</h3><p>${body}</p>`,
-                type: response.success ? "success" : "error",
+                type: response.success ? "secondary" : "error",
             };
             EventBus.emit("announce", announcement);
         },
