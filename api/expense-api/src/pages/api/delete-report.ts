@@ -35,7 +35,7 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
         }
       }
     }
-    return res.status(400).json({
+    return res.status(401).json({
       success: false,
       message: `${email} is not the submitter of this expense report, only submitters can delete expense reports.`,
       result: [],
