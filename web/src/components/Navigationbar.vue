@@ -2,11 +2,9 @@
     <!-- Application bar -->
 		<v-app-bar :elevation="11" rounded theme="dark">
       <template v-slot:prepend>
-        <v-app-bar-nav-icon></v-app-bar-nav-icon>
+        <!-- <v-app-bar-nav-icon></v-app-bar-nav-icon> -->
         <v-img src="/img/FGA-icon.svg" height="45" width="auto" float="left"></v-img>
       </template>
-
-      
 
       <v-app-bar-title float="left">
         {{ title }}
