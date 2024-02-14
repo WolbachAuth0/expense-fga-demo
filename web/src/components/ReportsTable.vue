@@ -17,23 +17,32 @@
                     <td>{{ item.isRejected ? formatDate(item.rejected_date) : '' }}</td>
                     <td>
 
-                        <!-- <v-btn v-if="!item.isApproved && !item.isRejected" variant="outlined" color="secondary" size="small"
-                            class="mx-2" icon="mdi-checkbox-marked-circle-outline" @click="approveReport(item.report_id)">
-                            <v-tooltip bottom>
-                                <template v-slot:activator="{ parent }">
-                                    <span v-on="on">Approve</span>
-                                </template>
-                            </v-tooltip>
-                        </v-btn> -->
+                        <!-- TODO: tooltip not working here -->
+                        <v-tooltip bottom>
+                            <template v-slot:activator="{ on }">
+                                <v-btn v-if="!item.isApproved && !item.isRejected" v-on="on" variant="outlined"
+                                    color="secondary" size="small" class="mx-2" icon="mdi-checkbox-marked-circle-outline"
+                                    @click="approveReport(item.report_id)">
+                                </v-btn>
+                            </template>
+                            <span>Approve</span>
+                        </v-tooltip>
+                        <!-- <v-tooltip bottom>
+                            <template v-slot:activator="{ on }">
+                                <button v-on="on">Hover me</button>
+                            </template>
+                            <span>Tooltip Text</span>
+                        </v-tooltip> -->
+
                         <!-- <v-tooltip bottom>
                             <template v-slot:activator="{ on }">
                                 <v-btn color="primary" dark v-on="on">Button</v-btn>
                             </template>
                             <span>Tooltip</span>
                         </v-tooltip> -->
-                        <v-btn v-if="!item.isApproved && !item.isRejected" variant="outlined" color="secondary" size="small"
+                        <!-- <v-btn v-if="!item.isApproved && !item.isRejected" variant="outlined" color="secondary" size="small"
                             class="mx-2" icon="mdi-checkbox-marked-circle-outline" @click="approveReport(item.report_id)">
-                        </v-btn>
+                        </v-btn> -->
 
                         <v-btn v-if="!item.isApproved && !item.isRejected" variant="outlined" color="warning" size="small"
                             class="mx-2" icon="mdi-alert-circle-outline" @click="rejectReport(item.report_id)">
