@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import { approveReport, disapproveReport, deleteReport, resetReport, rejectReport } from './../services/api'
+import { approveReport, deleteReport, resetReport, rejectReport } from './../services/api'
 import EventBus from './../services/EventBus'
 
 export default {
@@ -135,12 +135,6 @@ export default {
             console.log(response)
             this.toastResponse(response)
             EventBus.emit('refresh', { action: 'approved', report_id })
-        },
-        async disapproveReport(report_id) {
-            const response = await disapproveReport(this.$auth0, report_id)
-            console.log(response)
-            this.toastResponse(response)
-            EventBus.emit('refresh', { action: 'disapproved', report_id })
         },
         async deleteReport(report_id) {
             const response = await deleteReport(this.$auth0, report_id)

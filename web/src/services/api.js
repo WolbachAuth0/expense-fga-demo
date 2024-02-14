@@ -56,12 +56,6 @@ export async function approveReport(auth, report_id) {
   return await post(auth, url, data);
 }
 
-export async function disapproveReport(auth, report_id) {
-  const url = "/disapprove-report";
-  const data = { report_id };
-  return await post(auth, url, data);
-}
-
 export async function deleteReport(auth, report_id) {
   const url = "/delete-report";
   const data = { report_id };
