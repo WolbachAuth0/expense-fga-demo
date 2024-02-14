@@ -26,24 +26,29 @@
           <v-card-text>
             <p>
               The diagram to the right shows a layout of the applications components and describes the Authentication
-              and authorization flow. The process begins with a user navigating to the web application (1) and initiating
-              the login. When a user clicks the login button, they will be redirected to the Auth0 Universal Login screen (2).
-              The user will enter their credentials into the UL. When the user submits their credentials (3), the Auth0 
-              authentication server will perform the verification and configured security tasks (e.g. MFA, attack protection etc.)
-              and upon success, the user will be redirected back to the front end of the application (4) with ID and Access Tokens.
+              and authorization flow. The process begins with a user navigating to the web application 
+              <span class="text-primary">(1)</span> and initiating the login. When a user clicks the login button, 
+              they will be redirected to the Auth0 Universal Login screen <span class="text-primary">(2)</span>.
+              The user will enter their credentials into the UL. When the user submits their credentials 
+              <span class="text-primary">(3)</span>, the Auth0 authentication server will perform the verification and 
+              configured security tasks (e.g. MFA, attack protection etc.) and upon success, the user will be redirected 
+              back to the front end of the application <span class="text-primary">(4)</span> with ID and Access Tokens. 
               At that point the user is successfully authenticated into the application.
             </p>
             <p>
-              As the user interacts with the user interface, they will attempt to perform various tasks. In this demonstration
-              application for example, the user may attempt to list, submit and approve expense reports. As the user interacts with 
-              UI elements, the SPA will send HTTP requests down to the REST API (5) to handle fetching and updating the expense report
-              data from the database. The HTTP request sends information about the expense report which is being operated on 
-              (e.g. report_id) and who the authenticated user is (e.g. user_id) to the REST API. Then the REST API has middleware which
-              checks with the Auth0 FGA service (6) that the user (by user_id) has permission to perform the current action on the
-              specified resource (by report_id). The FGA service responds back to the API (6) with either "Allowed" or "Not Allowed".
-              If the action is "Not Allowed", the REST API responds immediately to the SPA front end with an "Unauthorized" response. 
-              But if the action is "Allowed" by the FGA service, then the API will perform any read and write actions to the database
-              necessary for this action (7) before responding back to the SPA front end with a successful response.
+              As the user interacts with the user interface, they will attempt to perform various tasks. For example, In this 
+              demonstration application the user may attempt to list, submit and approve expense reports. As the user interacts with 
+              UI elements, the SPA will send HTTP requests down to the REST API <span class="text-primary">(5)</span> to handle 
+              fetching and updating the expense report data from the database. The HTTP request sends information about the expense 
+              report which is being operated on (e.g. report_id) and who the authenticated user is (e.g. user_id) to the REST API. 
+              Then the REST API has middleware which checks with the Auth0 FGA service <span class="text-primary">(6)</span> that 
+              the user (by user_id) has permission to perform the current action on the specified resource (by report_id). The FGA 
+              service responds back to the API <span class="text-primary">(7)</span> with either "Allowed" or "Not Allowed". If the 
+              action is "Not Allowed", the REST API responds immediately to the SPA front end with an "Unauthorized" response 
+              <span class="text-primary">(10)</span>. But if the action is "Allowed" by the FGA service, then the API will perform 
+              any read and write actions <span class="text-primary">(8 & 9)</span> the database necessary for this action 
+              <span class="text-primary">(7)</span> before responding back to the SPA front end with a successful response 
+              <span class="text-primary">(10)</span>.
             </p>
           </v-card-text>
 
@@ -72,6 +77,7 @@
               </v-tooltip>
             </v-list-item>
           </v-list> -->
+          
         </v-card>
       </v-col>
 
