@@ -1,7 +1,10 @@
 <template>
     <v-card>
-        <v-card-title>{{ title }}</v-card-title>
-        <v-data-table-virtual :items="items" :headers="filterTableHeaders(tableType)" :loading="loading" :height="height">
+        <v-card-title>
+					<v-icon :color="tableIcon.color">{{ tableIcon.icon }}</v-icon>
+					{{ title }}
+				</v-card-title>
+        <v-data-table-virtual :items="items" :headers="filterTableHeaders" :loading="loading" :height="height">
             <template v-slot:item="{ item }">
                 <tr>
                     <td>
@@ -121,18 +124,27 @@ export default {
         },
         tableType: {
             type: String,
-            default: "All"
+            default: "All",
         }
     },
     computed: {
-        user() {
+        user () {
             return this.$auth0.user._value;
         },
-    },
-    methods: {
-        filterTableHeaders(tableType) {
-            let tableHeaders = null;
-            switch (tableType) {
+				tableIcon () {	
+            switch (this.tableType) {
+                case "Submitted":
+                    return { icon: 'mdi-help-circle-outline', color: 'primary' }
+                case "Approved":
+                    return { icon: 'mdi-checkbox-marked-circle-outline', color: 'secondary' }
+                case "Rejected":
+                    return { icon: 'mdi-alert-circle-outline', color: 'error' }
+                default:
+                    return 'mdi-help'
+            }
+        },
+				filterTableHeaders () {	
+            switch (this.tableType) {
                 case "Submitted":
                     return [...this.baseTableHeaders, ...this.endingKeyHeader];
                 case "Approved":
@@ -143,15 +155,17 @@ export default {
                     return [...this.baseTableHeaders, ...this.approvedTableHeaders, ...this.rejectedTableHeaders, ...this.endingKeyHeader];
             }
         },
-        formatDate(dateString) {
+    },
+    methods: {
+        formatDate (dateString) {
             const date = new Date(dateString);
             return new Intl.DateTimeFormat().format(date);
         },
-        transformEmailToName(email) {
+        transformEmailToName (email) {
             let name = email.split("@")[0];
             return name.charAt(0).toUpperCase() + name.slice(1);
         },
-        async approveReport(report_id) {
+        async approveReport (report_id) {
             const response = await approveReport(this.$auth0, report_id);
             console.log(response);
             this.toastResponse(response);
@@ -176,11 +190,11 @@ export default {
             EventBus.emit("refresh", { action: "deleted", report_id });
         },
         toastResponse(response) {
-            let header = response.success ? "rejected:" : "Warning:";
+            let header = response.success ? "Success:" : "Warning:";
             let body = response.message;
             const announcement = {
                 text: `<h3>${header}</h3><p>${body}</p>`,
-                type: response.success ? "success" : "error",
+                type: response.success ? "secondary" : "error",
             };
             EventBus.emit("announce", announcement);
         },
