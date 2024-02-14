@@ -7,11 +7,13 @@
                     <td><v-chip color="success">${{ parseFloat(item.amount).toFixed(2) }}</v-chip></td>
                     <td>{{ item.merchant }}</td>
                     <td>{{ item.description }}</td>
-                    <td><v-chip color="primary">{{ item.submitter_email }}</v-chip></td>
+                    <td><v-chip color="primary">{{ transformEmailToName(item.submitter_email) }}</v-chip></td>
                     <td>{{ formatDate(item.submitted_date) }}</td>
-                    <td><v-chip v-if="item.isApproved" color="primary">{{ item.approver_email }}</v-chip></td>
+                    <td><v-chip v-if="item.isApproved" color="primary">{{ transformEmailToName(item.approver_email)
+                    }}</v-chip></td>
                     <td>{{ item.isApproved ? formatDate(item.approved_date) : '' }}</td>
-                    <td><v-chip v-if="item.isRejected" color="primary">{{ item.rejecter_email }}</v-chip></td>
+                    <td><v-chip v-if="item.isRejected" color="primary">{{ transformEmailToName(item.rejecter_email)
+                    }}</v-chip></td>
                     <td>{{ item.isRejected ? formatDate(item.rejected_date) : '' }}</td>
                     <td>
 
@@ -120,6 +122,10 @@ export default {
             const date = new Date(dateString);
             // Then specify how you want your dates to be formatted
             return new Intl.DateTimeFormat('default', { dateStyle: 'long' }).format(date);
+        },
+        transformEmailToName(email) {
+            let name = email.split('@')[0];
+            return name.charAt(0).toUpperCase() + name.slice(1);
         },
         async approveReport(report_id) {
             const response = await approveReport(this.$auth0, report_id)
