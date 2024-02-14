@@ -35,6 +35,8 @@ export default {
       switch(this.type) {
         case 'success':
           return 'Success !'
+        case 'secondary':
+          return 'Success !'
         case 'error':
           return 'Error !'
         case 'warning':
@@ -49,6 +51,8 @@ export default {
       switch(this.type) {
         case 'success':
           return 'success'
+        case 'secondary':
+          return 'secondary'
         case 'error':
           return 'error'
         case 'warning':
@@ -62,6 +66,8 @@ export default {
     icon () {
       switch(this.type) {
         case 'success':
+          return 'mdi-cloud-check-outline'
+        case 'secondary':
           return 'mdi-cloud-check-outline'
         case 'error':
           return 'mdi-cloud-alert'
@@ -82,7 +88,7 @@ export default {
     outlined: { type: Boolean, default: false },
     type: {
       validator (value) {
-        return [ 'success', 'error', 'warning', 'info' ].indexOf(value) !== -1
+        return [ 'success', 'secondary', 'error', 'warning', 'info' ].indexOf(value) !== -1
       }
     }
   },
