@@ -67,7 +67,7 @@ export async function rejectExpenseReport(payload: rejectExpenseReportDto) {
 
     const result = await db
         .updateTable('expense_reports')
-        .set({ rejecter_id: rejecter_id, approved_date: today, rejecter_email: rejecter_email })
+        .set({ rejecter_id: rejecter_id, rejected_date: today, rejecter_email: rejecter_email })
         .where('report_id', '=', report_id)
         .returningAll()
         .execute();
