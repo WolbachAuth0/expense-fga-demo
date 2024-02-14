@@ -35,7 +35,7 @@
                             class="mx-2" icon="mdi-checkbox-marked-circle-outline" @click="approveReport(item.report_id)">
                         </v-btn>
 
-                        <v-btn v-if="!item.isApproved && !item.isRejected" variant="outlined" color="primary" size="small"
+                        <v-btn v-if="!item.isApproved && !item.isRejected" variant="outlined" color="warning" size="small"
                             class="mx-2" icon="mdi-alert-circle-outline" @click="rejectReport(item.report_id)">
                         </v-btn>
 
