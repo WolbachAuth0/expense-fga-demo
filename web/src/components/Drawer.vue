@@ -1,63 +1,63 @@
 <template>
 
-  <v-navigation-drawer permanent v-model="drawer" theme="dark">
-      <v-sheet color="primary" class="pa-4">
-        
-        <v-list>
-          <v-list-item
-            :title="isAuthenticated ? user.name : ''"
-            :subtitle="isAuthenticated ? user.email : ''"
-            :to="isAuthenticated ? '/profile' : '/'"
-          >
-            <template v-slot:prepend>
-              <v-avatar v-if="isAuthenticated" size="60">
-                <v-img :src="user.picture"></v-img>
-              </v-avatar>
-              <v-avatar v-else size="60" color="info">
-                <v-icon color="white">mdi-account</v-icon>
-              </v-avatar>
-            </template>
-          </v-list-item>
-        </v-list>
+  <v-navigation-drawer
+    permanent
+    expand-on-hover
+    rail
+    theme="dark"
+  >
 
-      </v-sheet>
+    <v-list>
+      <v-list-item :title="profile.title" :subtitle="profile.subtitle" :to="profile.to">
+        <template v-slot:prepend>
+          <v-avatar v-if="isAuthenticated" size="40">
+            <v-img :src="user.picture"></v-img>
+          </v-avatar>
+          <v-avatar v-else size="40" color="info">
+            <v-icon color="white">mdi-account</v-icon>
+          </v-avatar>
+        </template>
+      </v-list-item>
+    </v-list>
 
-      <v-divider></v-divider>
+    <v-divider></v-divider>
 
-      <v-list nav>
-        <v-list-item
-          prepend-icon="mdi-home"
-          title="Home"
-          to="/"
-        ></v-list-item>
+    <v-list nav>
 
-        <v-list-item v-if="isAuthenticated"
-          prepend-icon="mdi-account-supervisor-circle"
-          title="Profile"
-          to="/profile"
-        ></v-list-item>
+      <v-list-item
+        prepend-icon="mdi-home"
+        title="Home"
+        to="/"
+      ></v-list-item>
 
-        <v-list-item v-if="isAuthenticated"
-          prepend-icon="mdi-file-chart"
-          title="Expense Reports"
-          to="/reports"
-        ></v-list-item>
+      <v-list-item v-if="isAuthenticated"
+        prepend-icon="mdi-account-supervisor-circle"
+        title="Profile"
+        to="/profile"
+      ></v-list-item>
 
-        <v-list-item v-if="!isAuthenticated"
-          prepend-icon="mdi-login"
-          title="Login"
-          link
-          @click="login"
-        ></v-list-item>
+      <v-list-item v-if="isAuthenticated"
+        prepend-icon="mdi-file-chart"
+        title="Expense Reports"
+        to="/reports"
+      ></v-list-item>
 
-        <v-list-item v-if="isAuthenticated"
-          prepend-icon="mdi-logout"
-          title="Logout"
-          link
-          @click="logout"
-        ></v-list-item>
-      </v-list>
-    </v-navigation-drawer>
+      <v-list-item v-if="!isAuthenticated"
+        prepend-icon="mdi-login"
+        title="Login"
+        link
+        @click="login"
+      ></v-list-item>
+
+      <v-list-item v-if="isAuthenticated"
+        prepend-icon="mdi-logout"
+        title="Logout"
+        link
+        @click="logout"
+      ></v-list-item>
+
+    </v-list>
+  </v-navigation-drawer>
 </template>
 
 <script>
@@ -84,6 +84,13 @@ export default {
     },
     user () {
       return this.$auth0.user.value
+    },
+    profile () {
+      return {
+        title: this.isAuthenticated ? this.transformEmailToName(this.user.email) : '',
+        subtitle: this.isAuthenticated ? this.user.email : '',
+        to: this.isAuthenticated ? '/profile' : '/'
+      }
     }
   },
   methods: {
@@ -96,7 +103,11 @@ export default {
           returnTo: window.location.origin
         }
       });
-    }
+    },
+    transformEmailToName(email) {
+      let name = email.split('@')[0]
+      return name.charAt(0).toUpperCase() + name.slice(1)
+    },
   }
 }
 </script>
