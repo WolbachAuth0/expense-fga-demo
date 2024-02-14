@@ -17,61 +17,37 @@
                     <td>{{ item.isRejected ? formatDate(item.rejected_date) : '' }}</td>
                     <td>
 
-											<v-btn v-if="!item.isApproved && !item.isRejected"
-												variant="outlined"
-												color="secondary"
-												size="small"
-												class="mx-2"
-												icon="mdi-checkbox-marked-circle-outline"
-												@click="approveReport(item.report_id)"
-											>
-												<v-icon size="large" color="secondary" icon="mdi-checkbox-marked-circle-outline"></v-icon>
-												<v-tooltip activator="parent" location="bottom">
-													Approve Expense
-												</v-tooltip>
-											</v-btn>
-                            
-											<v-btn v-if="!item.isApproved && !item.isRejected"
-												variant="outlined"
-												color="warning"
-												size="small"
-												class="mx-2"
-												icon="mdi-alert-circle-outline"
-												@click="rejectReport(item.report_id)"
-											>
-												<v-icon size="large" color="warning" icon="mdi-alert-circle-outline"></v-icon>
-												<v-tooltip activator="parent" location="bottom">
-													Reject Expense
-												</v-tooltip>
-											</v-btn>
+                        <v-btn v-if="!item.isApproved && !item.isRejected" variant="outlined" color="secondary" size="small"
+                            class="mx-2" icon="mdi-checkbox-marked-circle-outline" @click="approveReport(item.report_id)">
+                            <v-icon size="large" color="secondary" icon="mdi-checkbox-marked-circle-outline"></v-icon>
+                            <v-tooltip activator="parent" location="bottom">
+                                Approve
+                            </v-tooltip>
+                        </v-btn>
 
-											<v-btn v-if="item.isApproved || item.isRejected"
-												variant="outlined"
-												color="primary"
-												size="small"
-												class="mx-2"
-												icon="mdi-keyboard-return"
-												@click="resetReport(item.report_id)"
-											>
-												<v-icon size="large" color="primary" icon="mdi-keyboard-return"></v-icon>
-												<v-tooltip activator="parent" location="bottom">
-													Reset Expense Report
-												</v-tooltip>
-											</v-btn>
+                        <v-btn v-if="!item.isApproved && !item.isRejected" variant="outlined" color="warning" size="small"
+                            class="mx-2" icon="mdi-alert-circle-outline" @click="rejectReport(item.report_id)">
+                            <v-icon size="large" color="warning" icon="mdi-alert-circle-outline"></v-icon>
+                            <v-tooltip activator="parent" location="bottom">
+                                Reject
+                            </v-tooltip>
+                        </v-btn>
 
-											<v-btn v-if="!item.isApproved && !item.isRejected"
-												variant="outlined"
-												color="error"
-												size="small"
-												class="mx-2"
-												icon="mdi-trash-can-outline"
-												@click="deleteReport(item.report_id)"
-											>
-												<v-icon size="large" color="error" icon="mdi-trash-can-outline"></v-icon>
-												<v-tooltip activator="parent" location="bottom">
-													Delete Expense Report
-												</v-tooltip>
-											</v-btn>
+                        <v-btn v-if="item.isApproved || item.isRejected" variant="outlined" color="primary" size="small"
+                            class="mx-2" icon="mdi-keyboard-return" @click="resetReport(item.report_id)">
+                            <v-icon size="large" color="primary" icon="mdi-keyboard-return"></v-icon>
+                            <v-tooltip activator="parent" location="bottom">
+                                Reset
+                            </v-tooltip>
+                        </v-btn>
+
+                        <v-btn v-if="!item.isApproved && !item.isRejected" variant="outlined" color="error" size="small"
+                            class="mx-2" icon="mdi-trash-can-outline" @click="deleteReport(item.report_id)">
+                            <v-icon size="large" color="error" icon="mdi-trash-can-outline"></v-icon>
+                            <v-tooltip activator="parent" location="bottom">
+                                Delete
+                            </v-tooltip>
+                        </v-btn>
 
                     </td>
                 </tr>
