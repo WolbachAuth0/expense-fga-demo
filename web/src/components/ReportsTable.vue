@@ -39,7 +39,7 @@
                             class="mx-2" icon="mdi-alert-circle-outline" @click="rejectReport(item.report_id)">
                         </v-btn>
 
-                        <v-btn v-if="item.isApproved || item.isRejected" variant="outlined" color="error" size="small"
+                        <v-btn v-if="item.isApproved || item.isRejected" variant="outlined" color="primary" size="small"
                             class="mx-2" icon="mdi-keyboard-return" @click="resetReport(item.report_id)">
                         </v-btn>
 
