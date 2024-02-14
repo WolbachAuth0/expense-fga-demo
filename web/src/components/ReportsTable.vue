@@ -67,12 +67,12 @@ export default {
                 { key: 'amount', title: 'Amount' },
                 { key: 'merchant', title: 'Merchant' },
                 { key: 'description', title: 'Description', sortable: true },
-                { key: 'submitter_email', title: 'Submitted By', sortable: true },
-                { key: 'submitted_date', title: 'Submitted Date', sortable: true },
-                { key: 'approver_email', title: 'Approved By', sortable: true },
-                { key: 'approved_date', title: 'Approved Date', sortable: true },
-                { key: 'rejecter_email', title: 'Rejected By', sortable: true },
-                { key: 'rejected_date', title: 'Rejected Date', sortable: true },
+                { key: 'submitter_email', title: 'Submitter', sortable: true },
+                { key: 'submitted_date', title: 'Submitted', sortable: true },
+                { key: 'approver_email', title: 'Approver', sortable: true },
+                { key: 'approved_date', title: 'Approved', sortable: true },
+                { key: 'rejecter_email', title: 'Rejecter', sortable: true },
+                { key: 'rejected_date', title: 'Rejected', sortable: true },
                 { key: 'report_id', title: '' }
             ]
         }
@@ -121,11 +121,14 @@ export default {
         formatDate(dateString) {
             const date = new Date(dateString);
             // Then specify how you want your dates to be formatted
-            return new Intl.DateTimeFormat('default', { dateStyle: 'long' }).format(date);
+            return new Intl.DateTimeFormat().format(date);
         },
         transformEmailToName(email) {
             let name = email.split('@')[0];
             return name.charAt(0).toUpperCase() + name.slice(1);
+        },
+        filterColumnTables(item) {
+            // TODO: is there a way to make the columns dynamic??
         },
         async approveReport(report_id) {
             const response = await approveReport(this.$auth0, report_id)
