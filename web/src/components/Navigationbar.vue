@@ -3,9 +3,12 @@
 		<v-app-bar :elevation="11" rounded theme="dark">
       <template v-slot:prepend>
         <v-app-bar-nav-icon></v-app-bar-nav-icon>
+        <v-img src="/img/FGA-icon.svg" height="45" width="auto" float="left"></v-img>
       </template>
 
-      <v-app-bar-title>
+      
+
+      <v-app-bar-title float="left">
         {{ title }}
       </v-app-bar-title>
 
@@ -55,7 +58,7 @@ export default {
   name: 'NavigationBar',
   data () {
     return {
-      title: 'Auth0 FGA Example App',
+      title: 'Okta FGA Example App',
       shieldSRC: 'https://cdn.auth0.com/manhattan/versions/1.3435.0/assets/./badge.png',
       logo,
       authdocs,
