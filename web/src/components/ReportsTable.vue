@@ -14,17 +14,15 @@
                     <td><v-chip v-if="item.isRejected" color="primary">{{ item.rejecter_email }}</v-chip></td>
                     <td>{{ item.isRejected ? formatDate(item.rejected_date) : '' }}</td>
                     <td>
+                        <v-btn v-if="!item.isApproved && !item.isRejected" variant="outlined" color="secondary" size="small"
+                            class="mx-2" icon="mdi-checkbox-marked-circle-outline" @click="approveReport(item.report_id)">
+                        </v-btn>
+
                         <v-btn v-if="!item.isApproved && !item.isRejected" variant="outlined" color="primary" size="small"
-                            @click="approveReport(item.report_id)">
-                            Approve
+                            class="mx-2" icon="mdi-alert-circle-outline" @click="rejectReport(item.report_id)">
                         </v-btn>
 
-                        <v-btn v-if="!item.isApproved && !item.isRejected" variant="outlined" color="error" size="small"
-                            @click="rejectReport(item.report_id)">
-                            Reject
-                        </v-btn>
-
-                        <v-btn v-if="item.isApproved || item.isRejected" variant="outlined" color="error" size="small"
+                        <v-btn v-if="item.isApproved || item.isRejected" variant="outlined" color="primary" size="small"
                             @click="resetReport(item.report_id)">
                             Reset
                         </v-btn>
@@ -55,6 +53,8 @@ export default {
                 { key: 'submitted_date', title: 'Submitted Date', sortable: true },
                 { key: 'approver_email', title: 'Approved By', sortable: true },
                 { key: 'approved_date', title: 'Approved Date', sortable: true },
+                { key: 'rejecter_email', title: 'Rejected By', sortable: true },
+                { key: 'rejected_date', title: 'Rejected Date', sortable: true },
                 { key: 'report_id', title: '' }
             ]
         }

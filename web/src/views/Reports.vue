@@ -143,8 +143,8 @@ export default {
             console.log(response)
 
             // store data to state
-            this.my_reports_submitted = response.result.my_submitted_reports?.map(processItems)
-            this.my_reports_approved = response.result.my_approved_reports?.map(processItems)
+            this.my_reports_submitted = response.result.my_reports_submitted?.map(processItems)
+            this.my_reports_approved = response.result.my_reports_approved?.map(processItems)
             this.team_reports_submitted = response.result.team_reports_submitted?.map(processItems)
             this.team_reports_approved = response.result.team_reports_approved?.map(processItems)
             this.my_reports_rejected = response.result.my_reports_rejected?.map(processItems)
@@ -161,7 +161,7 @@ export default {
         announce() {
             // show alert
             const email = this.$auth0.user._value.email
-            const counts = [this.my_reports_submitted.length, this.team_reports_submitted.length]
+            const counts = [this.my_reports_submitted?.length || 0, this.team_reports_submitted?.length || 0]
             const header = `Success:`
             let body = `We found ${counts[0]} expense reports submitted by ${email} `
             body += counts[1] > 0 ? ` and ${counts[1]} reports submitted by subordinates awaiting approval.` : 'awaiting approval.'
