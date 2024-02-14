@@ -17,6 +17,9 @@ interface ExpenseReportsTable {
     approver_id?: string | null;
     approved_date?: Date | null;
     approver_email?: string | null;
+    rejecter_id?: string | null;
+    rejected_date?: Date | null;
+    rejecter_email?: string | null;
 }
 
 const db = createKysely<Database>();
@@ -58,12 +61,39 @@ export async function approveExpenseReport(payload: approveExpenseReportDto) {
     return result;
 }
 
+export async function rejectExpenseReport(payload: rejectExpenseReportDto) {
+    const { rejecter_email, report_id, rejecter_id } = payload;
+    const today = DateTime.now().toJSDate();
+
+    const result = await db
+        .updateTable('expense_reports')
+        .set({ rejecter_id: rejecter_id, rejected_date: today, rejecter_email: rejecter_email })
+        .where('report_id', '=', report_id)
+        .returningAll()
+        .execute();
+    
+    return result;
+}
+
 export async function disapproveExpenseReport (payload: disapproveExpenseReportDto) {
     const { report_id } = payload;
 
     const result = await db
         .updateTable('expense_reports')
         .set({ approver_id: null, approved_date: null, approver_email: null })
+        .where('report_id', '=', report_id)
+        .returningAll()
+        .execute();
+    
+    return result;
+}
+
+export async function resetExpenseReport (payload: resetExpenseReportDto) {
+    const { report_id } = payload;
+
+    const result = await db
+        .updateTable('expense_reports')
+        .set({ approver_id: null, approved_date: null, approver_email: null, rejected_date: null, rejecter_email: null, rejecter_id: null })
         .where('report_id', '=', report_id)
         .returningAll()
         .execute();
@@ -105,7 +135,17 @@ export type approveExpenseReportDto = {
     approver_email: string;
 }
 
+export type rejectExpenseReportDto = {
+    report_id: number;
+    rejecter_id: string;
+    rejecter_email: string;
+}
+
 export type disapproveExpenseReportDto = {
+    report_id: number;
+}
+
+export type resetExpenseReportDto = {
     report_id: number;
 }
 
@@ -129,4 +169,7 @@ export interface ExpenseReport {
     approver_id?: string | null;
     approved_date?: Date | null;
     approver_email?: string | null;
+    rejecter_id?: string | null;
+    rejecter_email?: string | null;
+    rejected_date?: Date | null;
 }
