@@ -14,6 +14,21 @@
                     <td><v-chip v-if="item.isRejected" color="primary">{{ item.rejecter_email }}</v-chip></td>
                     <td>{{ item.isRejected ? formatDate(item.rejected_date) : '' }}</td>
                     <td>
+
+                        <!-- <v-btn v-if="!item.isApproved && !item.isRejected" variant="outlined" color="secondary" size="small"
+                            class="mx-2" icon="mdi-checkbox-marked-circle-outline" @click="approveReport(item.report_id)">
+                            <v-tooltip bottom>
+                                <template v-slot:activator="{ parent }">
+                                    <span v-on="on">Approve</span>
+                                </template>
+                            </v-tooltip>
+                        </v-btn> -->
+                        <!-- <v-tooltip bottom>
+                            <template v-slot:activator="{ on }">
+                                <v-btn color="primary" dark v-on="on">Button</v-btn>
+                            </template>
+                            <span>Tooltip</span>
+                        </v-tooltip> -->
                         <v-btn v-if="!item.isApproved && !item.isRejected" variant="outlined" color="secondary" size="small"
                             class="mx-2" icon="mdi-checkbox-marked-circle-outline" @click="approveReport(item.report_id)">
                         </v-btn>
@@ -22,14 +37,15 @@
                             class="mx-2" icon="mdi-alert-circle-outline" @click="rejectReport(item.report_id)">
                         </v-btn>
 
-                        <v-btn v-if="item.isApproved || item.isRejected" variant="outlined" color="primary" size="small"
-                            @click="resetReport(item.report_id)">
-                            Reset
+                        <v-btn v-if="item.isApproved || item.isRejected" variant="outlined" color="error" size="small"
+                            class="mx-2" icon="mdi-keyboard-return" @click="resetReport(item.report_id)">
                         </v-btn>
 
                         <v-btn v-if="!item.isApproved && !item.isRejected" variant="outlined" color="error" size="small"
                             class="mx-2" icon="mdi-trash-can-outline" @click="deleteReport(item.report_id)">
                         </v-btn>
+
+
                     </td>
                 </tr>
             </template>

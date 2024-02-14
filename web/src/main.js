@@ -4,24 +4,24 @@ import { createRouter } from "./router";
 import { createAuth0 } from "@auth0/auth0-vue";
 
 // Vuetify
-import 'vuetify/styles'
-import { createVuetify } from 'vuetify'
-import * as components from 'vuetify/components'
-import * as directives from 'vuetify/directives'
+import "vuetify/styles";
+import { createVuetify } from "vuetify";
+import * as components from "vuetify/components";
+import * as directives from "vuetify/directives";
 import { aliases, mdi } from "vuetify/lib/iconsets/mdi";
 // make sure to also import the coresponding css
 import "@mdi/font/css/materialdesignicons.css"; // Ensure you are using css-loader
-import theme from './plugins/theme'
+import theme from "./plugins/theme";
 
 // hljs stuff
-import hljs from 'highlight.js/lib/core';
-import json from 'highlight.js/lib/languages/json';
+import hljs from "highlight.js/lib/core";
+import json from "highlight.js/lib/languages/json";
 import hljsVuePlugin from "@highlightjs/vue-plugin";
 import "highlight.js/styles/github.css";
 
-const environ = import.meta.env
+const environ = import.meta.env;
 
-hljs.registerLanguage('json', json);
+hljs.registerLanguage("json", json);
 
 const vuetify = createVuetify({
   components,
@@ -31,10 +31,10 @@ const vuetify = createVuetify({
     defaultSet: "mdi",
     aliases,
     sets: {
-      mdi
+      mdi,
     },
-  }, 
-})
+  },
+});
 
 const app = createApp(App);
 app
@@ -47,9 +47,9 @@ app
       clientId: environ.VITE_AUTH0_CLIENT_ID,
       authorizationParams: {
         redirect_uri: window.location.origin,
-        audience: environ.VITE_API_AUDIENCE
+        audience: environ.VITE_API_AUDIENCE,
       },
-      cacheLocation: 'localstorage'
-    })
+      cacheLocation: "localstorage",
+    }),
   )
   .mount("#app");
