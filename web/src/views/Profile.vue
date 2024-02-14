@@ -6,6 +6,7 @@
           :src="user?.picture"
           alt="User's profile picture"
           class="rounded-circle img-fluid profile-picture"
+          width="100"
         />
       </div>
       <div class="col-md text-center text-md-left">
