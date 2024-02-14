@@ -25,22 +25,26 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
             const db_result = await getExpenseReports({user_id, report_ids});
 
             // Map DB result into separate arrays for each condition
-            const [my_submitted_reports, my_approved_reports, team_reports_approved, team_reports_submitted, _bad_results]: [ExpenseReport[], ExpenseReport[], ExpenseReport[], ExpenseReport[], ExpenseReport[]] = 
+            const [my_reports_submitted, my_reports_approved, team_reports_approved, team_reports_submitted, my_reports_rejected, team_reports_rejected, _bad_results]: [ExpenseReport[], ExpenseReport[], ExpenseReport[], ExpenseReport[], ExpenseReport[], ExpenseReport[], ExpenseReport[]] = 
             db_result.reduce((acc, item) => {
-                acc[item.submitter_id === user_id && !item.approver_id ? 0 
-                    : item.submitter_id === user_id && !!item.approver_id ? 1 
-                    : item.submitter_id !== user_id && !!item.approver_id ? 2 
-                    : item.submitter_id !== user_id && !item.approver_id ? 3
-                    : 4]
+                acc[item.submitter_id === user_id && !item.approver_id  && !item.rejecter_id? 0 // My reports not approved/rejected
+                    : item.submitter_id === user_id && !!item.approver_id ? 1 // My reports approved
+                    : item.submitter_id !== user_id && !!item.approver_id ? 2 // Team reports approved
+                    : item.submitter_id !== user_id && !item.approver_id && !item.rejecter_id ? 3 // Team reports not approved/rejected
+                    : item.submitter_id === user_id && !!item.rejecter_id ? 4 // My reports rejected
+                    : item.submitter_id !== user_id && !!item.rejecter_id ? 5 // Team reports rejected
+                    : 6]
                     .push(item);
                 return acc;
-            }, [[] as ExpenseReport[], [] as ExpenseReport[], [] as ExpenseReport[], [] as ExpenseReport[], [] as ExpenseReport[]]);
+            }, [[] as ExpenseReport[], [] as ExpenseReport[], [] as ExpenseReport[], [] as ExpenseReport[], [] as ExpenseReport[], [] as ExpenseReport[], [] as ExpenseReport[]]);
             
             const result = {
-                my_submitted_reports,
-                my_approved_reports,
+                my_reports_submitted,
+                my_reports_approved,
                 team_reports_approved,
-                team_reports_submitted
+                team_reports_submitted,
+                my_reports_rejected,
+                team_reports_rejected
             };
 
             const count = db_result.length;
