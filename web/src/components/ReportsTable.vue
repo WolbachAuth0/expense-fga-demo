@@ -72,7 +72,7 @@
 													Delete Expense Report
 												</v-tooltip>
 											</v-btn>
-											
+
                     </td>
                 </tr>
             </template>
@@ -151,9 +151,6 @@ export default {
         transformEmailToName(email) {
             let name = email.split('@')[0];
             return name.charAt(0).toUpperCase() + name.slice(1);
-        },
-        filterColumnTables(item) {
-            // TODO: is there a way to make the columns dynamic??
         },
         async approveReport(report_id) {
             const response = await approveReport(this.$auth0, report_id)
