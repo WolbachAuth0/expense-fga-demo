@@ -4,16 +4,17 @@
     permanent
     expand-on-hover
     rail
+    rail-width="82"
     theme="dark"
   >
 
     <v-list>
       <v-list-item :title="profile.title" :subtitle="profile.subtitle" :to="profile.to">
         <template v-slot:prepend>
-          <v-avatar v-if="isAuthenticated" size="40">
+          <v-avatar v-if="isAuthenticated" size="50">
             <v-img :src="user.picture"></v-img>
           </v-avatar>
-          <v-avatar v-else size="40" color="info">
+          <v-avatar v-else size="50" color="info">
             <v-icon color="white">mdi-account</v-icon>
           </v-avatar>
         </template>
@@ -24,23 +25,17 @@
 
     <v-list nav>
 
-      <v-list-item
-        prepend-icon="mdi-home"
-        title="Home"
-        to="/"
-      ></v-list-item>
+      <v-list-item prepend-icon="mdi-home" title="Home" to="/"></v-list-item>
 
-      <v-list-item v-if="isAuthenticated"
-        prepend-icon="mdi-account-supervisor-circle"
-        title="Profile"
-        to="/profile"
-      ></v-list-item>
+      <v-list-item v-if="isAuthenticated" prepend-icon="mdi-account-supervisor-circle" title="Profile" to="/profile"></v-list-item>
 
-      <v-list-item v-if="isAuthenticated"
-        prepend-icon="mdi-file-chart"
-        title="Expense Reports"
-        to="/reports"
-      ></v-list-item>
+      <v-list-item v-if="isAuthenticated" prepend-icon="mdi-file-chart" title="Expense Reports" to="/reports"></v-list-item>
+
+      <v-list-item prepend-icon="mdi-school" title="Learn More" href="https://docs.fga.dev/"></v-list-item>
+
+      <v-list-item prepend-icon="mdi-play-circle-outline" title="Get Started" href="https://dashboard.fga.dev/"></v-list-item>
+
+      <!-- login / logout list items should be last -->
 
       <v-list-item v-if="!isAuthenticated"
         prepend-icon="mdi-login"
@@ -105,7 +100,7 @@ export default {
       });
     },
     transformEmailToName(email) {
-      let name = email.split('@')[0]
+      let name = String(email).split('@')[0]
       return name.charAt(0).toUpperCase() + name.slice(1)
     },
   }
