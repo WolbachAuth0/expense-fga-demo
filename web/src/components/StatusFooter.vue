@@ -1,8 +1,7 @@
 <template>
     <v-footer class="bg-grey-darken-4" style="height: 50px; position:fixed; bottom:0; width: 100%">
         <v-row justify="center" no-gutters>
-            <h5>API Status:</h5>
-            <v-icon class="ml-2" size="x-small" :color="statusColor" icon="mdi-circle"></v-icon>
+            <b>API Status: <v-icon class="ml-2" size="x-small" :color="statusColor" icon="mdi-circle"></v-icon> </b>
         </v-row>
     </v-footer>
 </template>
@@ -20,7 +19,7 @@ export default {
     methods: {
         async getStatus() {
             const result = await getAPIStatus();
-            const color = result.message === "up" ? "light-green-accent-3" : "red-darken-3";
+            const color = result.message === "up" ? "secondary" : "error";
             this.statusColor = color;
         }
     }
