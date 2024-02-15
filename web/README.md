@@ -19,9 +19,10 @@ The project needs to be configured with your Auth0 domain and client ID in order
 To do this, first copy `auth_config.json.example` into a new file in the same folder called `auth_config.json`, and replace the values within with your own Auth0 application credentials:
 
 ```txt
-AUTH0_TENANT_DOMAIN=<YOUR AUTH0 DOMAIN>
-AUTH0_CLIENT_ID=<YOUR AUTH0 CLIENT ID>
-API_AUDIENCE=<YOUR API AUDIENCE>
+VITE_AUTH0_TENANT_DOMAIN=<the domain of your auth0 tenant or your custom domain if there is one>
+VITE_AUTH0_CLIENT_ID=<the client_id of the front end app registered in Auth0>
+VITE_API_AUDIENCE=<the audience of your api as registered in Auth0>
+VITE_API_BASEURL=<>
 ```
 
 ### Compiles and hot-reloads for development
@@ -36,16 +37,6 @@ npm run serve
 
 ```bash
 npm run build
-```
-
-### Docker build
-
-To build and run the Docker image, run `exec.sh`, or `exec.ps1` on Windows.
-
-### Lints and fixes files
-
-```bash
-npm run lint
 ```
 
 ## What is Auth0?
@@ -64,12 +55,18 @@ Auth0 helps you to:
 1.  Go to [Auth0](https://auth0.com/signup) and click Sign Up.
 2.  Use Google, GitHub or Microsoft Account to login.
 
+## What is Okta Fine Grained Authentication?
+
+Fine Grained Authorization (FGA) is Okta's [Fine-Grained Authorization](https://docs.fga.dev/intro/authorization-and-okta-fga#what-is-fine-grained-authorization-fga) at scale SaaS based on Google's [Zanzibar](https://docs.fga.dev/intro/authorization-and-okta-fga#what-is-zanzibar). As of this writing (Feb 2024), it is currently under development. It is designed to make it easy for application builders to easily add fine-grained authorization to their apps. It offers an HTTP API and has SDKs for programming languages like Node.js/JavaScript and GoLang. More languages and also policy languages like Rego are planned for the future. It is optimized for reliability and low latency at a high scale. For latency and compliance reasons we’ll have environments per jurisdiction (e.g. US, EU, AU) and also global clusters for applications that have a global user base.
+
 ## Issue Reporting
 
 If you have found a bug or if you have a feature request, please report them at this repository issues section. Please do not report security vulnerabilities on the public GitHub issue tracker. The [Responsible Disclosure Program](https://auth0.com/whitehat) details the procedure for disclosing security issues.
 
-## Author
+## Authors
 
+[Aaron Wolbach](https://github.com/WolbachAuth0)
+[Sam Yapkowitz](https://github.com/samyap4)
 [Auth0](https://auth0.com)
 
 ## License
