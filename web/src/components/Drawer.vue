@@ -43,6 +43,8 @@
 </template>
 
 <script>
+import { transformEmailAddressToFirstName } from "./../utils/string_utils";
+
 export default {
     name: 'Drawer',
     data() {
@@ -86,8 +88,7 @@ export default {
             });
         },
         transformEmailToName(email) {
-            let name = String(email).split('@')[0];
-            return name.charAt(0).toUpperCase() + name.slice(1);
+            return transformEmailAddressToFirstName(email);
         },
     }
 }
