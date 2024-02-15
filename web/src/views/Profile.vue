@@ -30,7 +30,7 @@
                   </v-list>
                   
                   <v-card-text>
-                    <code-block :code="code" language="language-json" parent="profile-view"></code-block>
+                    <code-block :code="code" language="json" parent="profile-view"></code-block>
                   </v-card-text>
 
                 </v-card>
