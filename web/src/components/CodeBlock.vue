@@ -10,7 +10,7 @@
 import * as Prism from "prismjs";
 import languageDefinition from './../plugins/openfga.js'
 import 'prismjs/components/prism-json';
-import "prismjs/themes/prism-twilight.css";
+import "prismjs/themes/prism-twilight.min.css";
 
 export default {
   name: 'CodeBlock',
