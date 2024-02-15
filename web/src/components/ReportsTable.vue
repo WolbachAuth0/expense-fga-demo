@@ -1,9 +1,9 @@
 <template>
     <v-card>
         <v-card-title>
-					<v-icon :color="tableIcon.color">{{ tableIcon.icon }}</v-icon>
-					{{ title }}
-				</v-card-title>
+            <v-icon :color="tableIcon.color">{{ tableIcon.icon }}</v-icon>
+            {{ title }}
+        </v-card-title>
         <v-data-table-virtual :items="items" :headers="filterTableHeaders" :loading="loading" :height="height">
             <template v-slot:item="{ item }">
                 <tr>
@@ -77,6 +77,7 @@ import {
     rejectReport,
 } from "./../services/api";
 import EventBus from "./../services/EventBus";
+import { transformEmailAddressToFirstName } from "./../utils/string_utils";
 
 export default {
     name: "ExpenseReports",
@@ -128,10 +129,10 @@ export default {
         }
     },
     computed: {
-        user () {
+        user() {
             return this.$auth0.user._value;
         },
-				tableIcon () {	
+        tableIcon() {
             switch (this.tableType) {
                 case "Submitted":
                     return { icon: 'mdi-help-circle-outline', color: 'primary' }
@@ -143,7 +144,7 @@ export default {
                     return 'mdi-help'
             }
         },
-				filterTableHeaders () {	
+        filterTableHeaders() {
             switch (this.tableType) {
                 case "Submitted":
                     return [...this.baseTableHeaders, ...this.endingKeyHeader];
@@ -157,15 +158,14 @@ export default {
         },
     },
     methods: {
-        formatDate (dateString) {
+        formatDate(dateString) {
             const date = new Date(dateString);
             return new Intl.DateTimeFormat().format(date);
         },
-        transformEmailToName (email) {
-            let name = email.split("@")[0];
-            return name.charAt(0).toUpperCase() + name.slice(1);
+        transformEmailToName(email) {
+            return transformEmailAddressToFirstName(email);
         },
-        async approveReport (report_id) {
+        async approveReport(report_id) {
             const response = await approveReport(this.$auth0, report_id);
             console.log(response);
             this.toastResponse(response);

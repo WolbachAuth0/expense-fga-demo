@@ -8,8 +8,8 @@
         </v-tabs>
         <v-divider></v-divider>
 
-        <v-progress-linear :model-value="progress.value" :color="progress.color"
-            :indeterminate="progress.indeterminate" height="7" class="my-1"></v-progress-linear>
+        <v-progress-linear :model-value="progress.value" :color="progress.color" :indeterminate="progress.indeterminate"
+            height="7" class="my-1"></v-progress-linear>
 
         <v-window v-model="tab">
             <v-window-item :value="0">
@@ -17,7 +17,7 @@
                     <v-row>
                         <v-col cols="12">
                             <v-card class="mx-2 mt-2 px-2">
-                                <reports-table title="Submitted, Awaiting Approval" :items="my_reports_submitted"
+                                <reports-table title="Submitted" :items="my_reports_submitted"
                                     :loading="progress.indeterminate" :height="275" tableType="Submitted"></reports-table>
                             </v-card>
                         </v-col>
@@ -48,7 +48,7 @@
                     <v-row>
                         <v-col cols="12">
                             <v-card class="mx-2 mt-2 px-2">
-                                <reports-table title="Submitted, Awaiting Approval" :items="team_reports_submitted"
+                                <reports-table title="Submitted" :items="team_reports_submitted"
                                     :loading="progress.indeterminate" :height="275" tableType="Submitted"></reports-table>
                             </v-card>
                         </v-col>
