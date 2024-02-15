@@ -13,15 +13,7 @@ import { aliases, mdi } from "vuetify/lib/iconsets/mdi";
 import "@mdi/font/css/materialdesignicons.css"; // Ensure you are using css-loader
 import theme from "./plugins/theme";
 
-// hljs stuff
-import hljs from "highlight.js/lib/core";
-import json from "highlight.js/lib/languages/json";
-import hljsVuePlugin from "@highlightjs/vue-plugin";
-import "highlight.js/styles/github.css";
-
 const environ = import.meta.env;
-
-hljs.registerLanguage("json", json);
 
 const vuetify = createVuetify({
   components,
@@ -38,7 +30,6 @@ const vuetify = createVuetify({
 
 const app = createApp(App);
 app
-  .use(hljsVuePlugin)
   .use(createRouter(app))
   .use(vuetify)
   .use(
