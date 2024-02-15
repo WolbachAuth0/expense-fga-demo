@@ -30,7 +30,7 @@
                   </v-list>
                   
                   <v-card-text>
-                    <code-block :code="user" language="language-json" parent="profile-view"></code-block>
+                    <code-block :code="code" language="language-json" parent="profile-view"></code-block>
                   </v-card-text>
 
                 </v-card>
@@ -66,11 +66,15 @@ export default {
         return null
       }
     },
+    code () {
+      const json = JSON.stringify(this.user, null, 2)
+      return json
+    },
     firstName () {
-      return transformEmailAddressToFirstName(this.user.email)
+      return transformEmailAddressToFirstName(this.user?.email)
     },
     email () {
-      return this.user.email
+      return this.user?.email
     }
   },
 };
