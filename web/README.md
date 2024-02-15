@@ -1,43 +1,15 @@
-# Scenario #1 - Logging In and Gated Content
+# About this Project
 
-This sample demonstrates:
+This application demonstrates user authentication and fine grained authorization:
 
+Authentication
 - Logging in to Auth0 using Redirect Mode
 - Accessing profile information that has been provided in the ID token
+
+Authorization
 - Gated content. The `/profile` route is not accessible without having first logged in
+- Fine Grained Authentication. User's can only approve expense reports for their subordinates
 
-## Project setup
-
-```bash
-npm install
-```
-
-### Configuration
-
-The project needs to be configured with your Auth0 domain and client ID in order for the authentication flow to work.
-
-To do this, first copy `auth_config.json.example` into a new file in the same folder called `auth_config.json`, and replace the values within with your own Auth0 application credentials:
-
-```txt
-VITE_AUTH0_TENANT_DOMAIN=<the domain of your auth0 tenant or your custom domain if there is one>
-VITE_AUTH0_CLIENT_ID=<the client_id of the front end app registered in Auth0>
-VITE_API_AUDIENCE=<the audience of your api as registered in Auth0>
-VITE_API_BASEURL=<>
-```
-
-### Compiles and hot-reloads for development
-
-```bash
-npm run serve
-```
-
-## Deployment
-
-### Compiles and minifies for production
-
-```bash
-npm run build
-```
 
 ## What is Auth0?
 
@@ -58,17 +30,55 @@ Auth0 helps you to:
 ## What is Okta Fine Grained Authentication?
 
 Fine Grained Authorization (FGA) is Okta's [Fine-Grained Authorization](https://docs.fga.dev/intro/authorization-and-okta-fga#what-is-fine-grained-authorization-fga) at scale SaaS based on Google's [Zanzibar](https://docs.fga.dev/intro/authorization-and-okta-fga#what-is-zanzibar). As of this writing (Feb 2024), it is currently under development. It is designed to make it easy for application builders to easily add fine-grained authorization to their apps. It offers an HTTP API and has SDKs for programming languages like Node.js/JavaScript and GoLang. More languages and also policy languages like Rego are planned for the future. It is optimized for reliability and low latency at a high scale. For latency and compliance reasons we’ll have environments per jurisdiction (e.g. US, EU, AU) and also global clusters for applications that have a global user base.
+## Installation
+
+```bash
+npm install
+```
+
+### Configuration
+
+```txt
+VITE_AUTH0_TENANT_DOMAIN=<the domain of your auth0 tenant or your custom domain if there is one>
+VITE_AUTH0_CLIENT_ID=<the client_id of the front end app registered in Auth0>
+VITE_API_AUDIENCE=<the audience of your api as registered in Auth0>
+VITE_API_BASEURL=<>
+```
+
+## Compiles and hot-reloads for development
+
+```bash
+npm run serve
+```
+## Environment Variables
+
+To run this project, you will need to add the following environment variables to your .env file
+
+`API_KEY`
+
+`ANOTHER_API_KEY`
+
+
+## Authors
+
+- [Aaron Wolbach](https://github.com/WolbachAuth0)
+- [Sam Yapkowitz](https://github.com/samyap4)
+- [Auth0](https://auth0.com) by [Okta](https://www.okta.com/)
+
+
+## License
+
+This project is licensed under the MIT license. See the [MIT](https://choosealicense.com/licenses/mit/) file for more info.
 
 ## Issue Reporting
 
 If you have found a bug or if you have a feature request, please report them at this repository issues section. Please do not report security vulnerabilities on the public GitHub issue tracker. The [Responsible Disclosure Program](https://auth0.com/whitehat) details the procedure for disclosing security issues.
 
-## Authors
 
-[Aaron Wolbach](https://github.com/WolbachAuth0)
-[Sam Yapkowitz](https://github.com/samyap4)
-[Auth0](https://auth0.com)
 
-## License
+## Acknowledgements
 
-This project is licensed under the MIT license. See the [LICENSE](../LICENSE) file for more info.
+ - [Awesome Readme Templates](https://awesomeopensource.com/project/elangosundar/awesome-README-templates)
+ - [Awesome README](https://github.com/matiassingers/awesome-readme)
+ - [How to write a Good readme](https://bulldogjob.com/news/449-how-to-write-a-good-readme-for-your-github-project)
+
