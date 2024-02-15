@@ -10,7 +10,7 @@
 
         <v-window-item :value="0">
           
-          <v-sheet color="grey-darken-1" elevation="16" border rounded>
+          <v-sheet color="grey-darken-1" class="pa-2" elevation="16">
             <v-row>
               <v-col cols="12">
                 <v-card class="m-2 pa-2">

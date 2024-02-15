@@ -1,10 +1,5 @@
 <template>
-  <v-sheet
-    color="grey-darken-1"
-    elevation="16"
-    border
-    rounded
-  >
+  <v-sheet color="grey-darken-1" class="pa-2" elevation="16">
     <v-row>
       <v-col cols="6">
         <v-card class="ml-2 mt-2 px-2">
@@ -50,41 +45,16 @@
               <span class="text-primary">(7)</span> before responding back to the SPA front end with a successful response 
               <span class="text-primary">(10)</span>.
             </p>
-          </v-card-text>
-
-          <!-- <v-list lines="one">
-            <v-list-subheader title="User Authentication"></v-list-subheader>
-
-            <v-list-item 
-              v-for="item in authNItems"
-              :key="item.value"
-              :title="item.title"
-            >
-              <v-tooltip activator="parent" location="bottom" v-if="item.tooltip">
-                {{ item.tooltip }}
-              </v-tooltip>
-            </v-list-item>
-
-            <v-list-subheader title="Authorization"></v-list-subheader>
-
-            <v-list-item 
-              v-for="item in authZItems"
-              :key="item.value"
-              :title="item.title"
-            >
-              <v-tooltip activator="parent" location="bottom" v-if="item.tooltip">
-                {{ item.tooltip }}
-              </v-tooltip>
-            </v-list-item>
-          </v-list> -->
-          
+          </v-card-text>     
         </v-card>
       </v-col>
 
       <v-col cols="6">
         <v-card class="mr-2 mt-2 pa-4">
           <v-card-text class="text-center">
-            <v-img :src="architecture.light" cover></v-img>
+            <v-sheet class="pa-1" color="grey-darken-2" border="rounded-xl" rounded>
+              <v-img :src="architecture.dark" rounded></v-img>
+            </v-sheet>
           </v-card-text>
         </v-card>
       </v-col>
@@ -106,45 +76,6 @@ export default {
         light: '/img/architecture-light.png',
         dark: '/img/architecture-dark.png'
       },
-      authNItems: [
-        {
-          value: 1,
-          title: '1. User navigates to application',
-          tooltip: ''
-        },
-        {
-          value: 2,
-          title: '2. User clicks login',
-          tooltip: 'User is redirected to Auth0 Universal Login (UL)'
-        },
-        {
-          value: 3,
-          title: '3. User submits credentials to Auth0',
-          tooltip: 'Credentials are sent to the Auth0 server for verification'
-        },
-        {
-          value: 4,
-          title: '4. Succeful Authentication',
-          tooltip: ' Auth0 redirects user back to application with tokens'
-        },
-      ],
-      authZItems: [
-        {
-          value: 5,
-          title: '5. User interaction',
-          tooltip: `The front end sends http requests to the REST API.`
-        },
-        {
-          value: 6,
-          title: '6. Middleware calls Okta FGA API',
-          tooltip: 'Check that user is authorized to perform action'
-        },
-        {
-          value: 7,
-          title: '7. CRUD action to database',
-          tooltip: 'If the the user is authorized, persist data and respond to request.'
-        },
-      ]
     }
   }
 }

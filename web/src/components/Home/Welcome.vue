@@ -1,10 +1,5 @@
 <template>
-  <v-sheet
-    color="grey-darken-1"
-    elevation="16"
-    border
-    rounded
-  >
+  <v-sheet color="grey-darken-1" class="pa-2" elevation="16">
     <v-row>
       <v-col cols="6">
         <v-card class="ml-2 my-2 px-2">
@@ -41,10 +36,14 @@
       <v-col cols="6">
         <v-card class="mr-2 my-2 pa-4">
           <v-card-text class="text-center">
-            <video playsinline="" autoplay="" muted="" >
-              <source :src="video.src" :type="video.type">
-              Your browser does not support the video tag.
-            </video>
+            
+            <v-sheet class="pa-1" color="grey-darken-2" border="rounded-xl" rounded>
+              <video playsinline="" autoplay="" muted="" >
+                <source :src="video.src" :type="video.type">
+                Your browser does not support the video tag.
+              </video>
+            </v-sheet>
+
           </v-card-text>
         </v-card>
       </v-col>
