@@ -14,9 +14,9 @@
       <v-col cols="7">
         <v-card class="mr-2 pa-2">
           <v-card-subtitle class="bg-primary text-white">Authorization Model</v-card-subtitle>
-          <div class="row">
-            <highlightjs language="yaml" :code="authModel" />
-          </div>
+          <v-card-text>
+          <code-block :code="authModel" language="openfga" parent="AuthModel"></code-block>
+          </v-card-text>
         </v-card>
 
         <v-card class="mr-2 pa-2">
@@ -33,9 +33,13 @@
 </template>
 
 <script>
+import CodeBlock from './../CodeBlock.vue';
 
 export default {
   name: 'AuthModel',
+  components: {
+    CodeBlock
+  },
   data () {
     return {
       orgChart: {
