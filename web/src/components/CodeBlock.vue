@@ -8,9 +8,10 @@
 
 <script>
 import * as Prism from "prismjs";
-import languageDefinition from './../plugins/openfga.js'
+import languageDefinition from './../plugins/openfga.js';
 import 'prismjs/components/prism-json';
 import "prismjs/themes/prism-twilight.min.css";
+import "./../assets/css/ofga.css"
 
 export default {
   name: 'CodeBlock',

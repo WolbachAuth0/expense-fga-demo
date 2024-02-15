@@ -1,0 +1,103 @@
+:root {
+  /* Colors */
+  --ofga-green-neon: #79ed83;
+  --ofga-green-light: #d3ffd7;
+  --ofga-green-dark: #558f69;
+
+  --ofga-cyan-neon-light: #cdfcfe;
+  --ofga-cyan-neon: #20f1f5;
+  --ofga-cyan-neon-dark: #2f7f82;
+
+  --ofga-neutral-black: #131519;
+  --ofga-neutral-darkest: #272b33;
+  --ofga-neutral-darker: #3a3d44;
+  --ofga-neutral-dark: #838892;
+  --ofga-neutral-aluminium: #bdc4cf;
+  --ofga-neutral-base: var(--ofga-neutral-aluminium);
+  --ofga-neutral-light: #d3d8df;
+  --ofga-neutral-lighter: #eaecee;
+  --ofga-neutral-lightest: #f4f6f7;
+  --ofga-neutral-white: #ffffff;
+
+  --ofga-color-default: #ffffff;
+  --ofga-color-comment: #737981;
+  --ofga-color-keyword: #aaaaaa;
+  --ofga-color-type: #79ed83;
+  --ofga-color-relation: #20f1f5;
+  --ofga-color-directly-assignable: #ceec93;
+
+  --ofga-color-primary: var(--ofga-green-neon);
+  --ofga-color-primary-dark: var(--ofga-green-dark);
+  --ofga-color-primary-light: var(--ofga-green-light);
+
+  --ofga-color-secondary: var(--ofga-cyan-neon);
+  --ofga-color-secondary-light: var(--ofga-cyan-neon-light);
+  --ofga-color-secondary-dark: var(--ofga-cyan-neon-dark);
+
+  --ofga-color-foreground: var(--ofga-neutral-white);
+  --ofga-color-background: var(--ofga-neutral-black);
+
+  /* Fonts */
+  --ofga-font-base: 'Inter', sans-serif, -apple-system, BlinkMacSystemFont, ‘Segoe UI’, Roboto, Helvetica, Arial,
+    sans-serif, ‘Apple Color Emoji’, ‘Segoe UI Emoji’, ‘Segoe UI Symbol’;
+
+  --ofga-font-highlight: 'Space Grotesk', sans-serif;
+
+  /* avoid these except for special cases */
+  --true-black: #000;
+  --true-white: #fff;
+}
+
+/* Pre - Code */
+
+pre {
+  background-color: var(--ofga-neutral-black);
+  font-size: 1rem;
+}
+
+pre code {
+  background-color: var(--ofga-neutral-black);
+}
+
+/* Prism - DSL */
+.language-openfga .token.plain {
+  color: var(--ofga-color-default);
+}
+.language-openfga .token.comment {
+  color: var(--ofga-color-comment);
+}
+
+.language-openfga .token.keyword {
+  color: var(--ofga-color-keyword) !important;
+}
+
+.language-openfga .token.condition-param-type {
+  color: var(--ofga-color-keyword) !important;
+}
+
+.language-openfga .token.type {
+  color: var(--ofga-color-type);
+}
+
+.language-openfga .token.condition {
+  color: var(--ofga-color-type);
+}
+
+.language-openfga .token.relation {
+  color: var(--ofga-color-relation);
+}
+
+.language-openfga .token.condition-param {
+  color: var(--ofga-color-relation);
+}
+
+.language-openfga .token.directly-assignable {
+  color: var(--ofga-color-directly-assignable);
+}
+
+.language-json .token.string {
+  color: var(--ofga-color-primary) !important;
+}
+.language-json .token.punctuation {
+  color: var(--ofga-color-secondary) !important;
+}
