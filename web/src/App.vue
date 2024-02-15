@@ -5,8 +5,8 @@
 
         <v-main>
             <v-container class="py-8 px-6 mb-12" fluid>
-                <announcer :visible="alert.visible" :text="alert.text" :type="alert.type" :location="alert.location"
-                    @show="show" @hide="hide"></announcer>
+                <announcer :visible="alert.visible" :text="alert.text" :type="alert.type" :location="alert.location" @show="show" @hide="hide"></announcer>
+                <github-ribbon :url="github"/>
                 <router-view />
             </v-container>
         </v-main>
@@ -15,19 +15,20 @@
 </template>
 
 <script>
-
 import NavigationBar from './components/Navigationbar.vue'
 import Drawer from './components/Drawer.vue'
 import StatusFooter from './components/StatusFooter.vue'
 import Announcer from './components/Announcer.vue'
 import EventBus from './services/EventBus'
+import GithubRibbon from './components/GithubRibbon.vue'
 
 export default {
     components: {
         NavigationBar,
         Drawer,
         Announcer,
-        StatusFooter
+        StatusFooter,
+        GithubRibbon
     },
     data() {
         return {
@@ -36,7 +37,8 @@ export default {
                 text: '',
                 type: 'success',
                 location: 'top center'
-            }
+            },
+            github: 'https://github.com/WolbachAuth0/expense-fga-demo'
         }
     },
     async mounted() {
