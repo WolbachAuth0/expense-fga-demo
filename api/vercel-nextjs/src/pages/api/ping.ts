@@ -1,4 +1,4 @@
-// Endpoint for API status checks
+// Endpoint for API status check
 import type { NextApiRequest, NextApiResponse } from "next";
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
