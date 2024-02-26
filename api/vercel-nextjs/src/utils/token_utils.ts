@@ -37,6 +37,20 @@ export async function verifyJWT(jwt: string) {
   }
 }
 
+export async function fetchAndCacheJWKS() {
+  // Clear cache
+  await kv.del("jwks");
+
+  // Grab latest from Auth0 if JWKS not found
+  const jwks = await fetch(
+    `https://${process.env.AUTH0_DOMAIN}/.well-known/jwks.json`,
+  );
+
+  // Cache JWKS for future requests
+  await kv.set("jwks", jwks);
+  return jwks;
+}
+
 export async function getFGAJWT() {
   // Check cache for FGA Access Token
   let cached_token = await kv.get("fga_token");
@@ -66,14 +80,4 @@ export async function renewFGAJWT() {
   });
   const data = await res.json();
   return data.access_token;
-}
-
-export async function fetchAndCacheJWKS() {
-  // Grab latest from Auth0 if JWKS not found
-  let JWKS = jose.createRemoteJWKSet(
-    new URL(`https://${process.env.AUTH0_DOMAIN}/.well-known/jwks.json`),
-  );
-  // Cache JWKS for future requests
-  await kv.set("jwks", JWKS);
-  return JWKS;
 }
