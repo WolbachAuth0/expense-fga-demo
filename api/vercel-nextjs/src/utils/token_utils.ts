@@ -8,35 +8,13 @@ export function checkIsJwtExpired(jwt: string) {
   }
 }
 
-export async function renewFGAJWT() {
-  const res = await fetch(`${process.env.FGA_TOKEN_ENDPOINT}`, {
-    method: "POST",
-    headers: {
-      "Content-type": "application/json",
-    },
-    body: JSON.stringify({
-      client_id: process.env.FGA_CLIENT_ID,
-      client_secret: process.env.FGA_CLIENT_SECRET,
-      audience: process.env.FGA_API_AUDIENCE,
-      grant_type: "client_credentials",
-    }),
-  });
-  const data = await res.json();
-  return data.access_token;
-}
-
 export async function verifyJWT(jwt: string) {
   // Check cache for saved JWKS
   let cached_jwks = await kv.get("jwks");
 
   let JWKS;
   if (!cached_jwks) {
-    // Grab latest from Auth0 if JWKS not found
-    JWKS = jose.createRemoteJWKSet(
-      new URL(`https://${process.env.AUTH0_DOMAIN}/.well-known/jwks.json`),
-    );
-    // Cache JWKS for future requests
-    await kv.set("jwks", JWKS);
+    JWKS = await fetchAndCacheJWKS();
   } else {
     let jwks = cached_jwks as jose.JSONWebKeySet;
     JWKS = jose.createLocalJWKSet(jwks);
@@ -71,4 +49,31 @@ export async function getFGAJWT() {
   }
 
   return fga_token;
+}
+
+export async function renewFGAJWT() {
+  const res = await fetch(`${process.env.FGA_TOKEN_ENDPOINT}`, {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json",
+    },
+    body: JSON.stringify({
+      client_id: process.env.FGA_CLIENT_ID,
+      client_secret: process.env.FGA_CLIENT_SECRET,
+      audience: process.env.FGA_API_AUDIENCE,
+      grant_type: "client_credentials",
+    }),
+  });
+  const data = await res.json();
+  return data.access_token;
+}
+
+export async function fetchAndCacheJWKS() {
+  // Grab latest from Auth0 if JWKS not found
+  let JWKS = jose.createRemoteJWKSet(
+    new URL(`https://${process.env.AUTH0_DOMAIN}/.well-known/jwks.json`),
+  );
+  // Cache JWKS for future requests
+  await kv.set("jwks", JWKS);
+  return JWKS;
 }
