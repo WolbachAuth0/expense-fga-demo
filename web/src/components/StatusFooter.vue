@@ -18,9 +18,14 @@ export default {
     },
     methods: {
         async getStatus() {
-            const result = await getAPIStatus();
-            const color = result.message === "up" ? "secondary" : "error";
-            this.statusColor = color;
+            try {
+                const result = await getAPIStatus();
+                const color = result.message === "up" ? "secondary" : "error";
+                this.statusColor = color;
+            } catch (e) {
+                // API is completely down
+                this.statusColor = "error";
+            }
         }
     }
 }
