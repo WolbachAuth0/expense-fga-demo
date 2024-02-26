@@ -1,10 +1,10 @@
 {
-  "crons": [
-    {
-      "path": "/api/fetch-jwks",
-      "schedule": "0 0 * * *"
-    }
-  ]
+  // "crons": [
+  //   {
+  //     "path": "/api/fetch-jwks",
+  //     "schedule": "0 0 * * *"
+  //   }
+  // ]
   // "headers": [
   //   {
   //     "source": "/api/(.*)",
