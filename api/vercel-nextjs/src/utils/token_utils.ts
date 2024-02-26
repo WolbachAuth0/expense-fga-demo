@@ -14,11 +14,11 @@ export async function verifyJWT(jwt: string) {
 
   let JWKS;
   if (!cached_jwks) {
-    JWKS = await fetchAndCacheJWKS();
-  } else {
-    let jwks = cached_jwks as jose.JSONWebKeySet;
-    JWKS = jose.createLocalJWKSet(jwks);
+    cached_jwks = await fetchAndCacheJWKS();
   }
+
+  let jwks = cached_jwks as jose.JSONWebKeySet;
+  JWKS = jose.createLocalJWKSet(jwks);
 
   try {
     const { payload } = await jose.jwtVerify(jwt, JWKS, {
