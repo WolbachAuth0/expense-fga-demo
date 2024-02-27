@@ -21,18 +21,24 @@ export default async function middleware(req: NextRequest, res: NextResponse) {
     // Validate all other API routes have proper authorization
     const token = req.headers.get("authorization")?.split(" ")[1];
     if (token) {
-      const decoded_token = await verifyJWT(token);
+      const { jwtError, token_payload } = await verifyJWT(token);
+      if (jwtError) {
+        res = NextResponse.json(
+          { message: "Authorization Failed", result: jwtError },
+          { status: 401 },
+        );
+      }
       if (
-        decoded_token &&
-        decoded_token.sub &&
-        (decoded_token["email"] as string)
+        token_payload &&
+        token_payload.sub &&
+        (token_payload["email"] as string)
       ) {
         // Incoming JWT is valid - forward with appropriate headers
         res = NextResponse.next();
-        res.headers.set("extracted_requester_id", decoded_token.sub);
+        res.headers.set("extracted_requester_id", token_payload.sub);
         res.headers.set(
           "extracted_requester_email",
-          decoded_token["email"] as string,
+          token_payload["email"] as string,
         );
       }
     }

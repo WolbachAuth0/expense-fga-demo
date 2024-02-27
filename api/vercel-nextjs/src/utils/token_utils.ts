@@ -11,16 +11,17 @@ export function checkIsJwtExpired(jwt: string) {
 export async function verifyJWT(jwt: string) {
   // Check cache for saved JWKS
   let cached_jwks = await kv.get("jwks");
+  let token_payload = null;
+  let jwtError = null;
 
   let JWKS;
   if (!cached_jwks) {
     cached_jwks = await fetchAndCacheJWKS();
   }
 
-  let jwks = cached_jwks as jose.JSONWebKeySet;
-  JWKS = jose.createLocalJWKSet(jwks);
-
   try {
+    let jwks = cached_jwks as jose.JSONWebKeySet;
+    JWKS = jose.createLocalJWKSet(jwks);
     const { payload } = await jose.jwtVerify(jwt, JWKS, {
       issuer: `https://${process.env.AUTH0_DOMAIN}/`,
       audience: [
@@ -30,10 +31,11 @@ export async function verifyJWT(jwt: string) {
     });
 
     // Token signature verification is valid
-    return payload;
+    token_payload = payload;
   } catch (e) {
-    // Swallowing error to be handled above
-    return false;
+    jwtError = e;
+  } finally {
+    return { token_payload, jwtError };
   }
 }
 
