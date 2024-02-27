@@ -15,7 +15,7 @@ export default async function middleware(req: NextRequest, res: NextResponse) {
 
   const path = req.nextUrl.pathname;
   // Exclude ping route for uptime check
-  if (path.startsWith("api/ping") || path.startsWith("api/fetch-jwks")) {
+  if (path.startsWith("/api/ping") || path.startsWith("/api/fetch-jwks")) {
     res = NextResponse.next();
   } else {
     // Validate all other API routes have proper authorization
