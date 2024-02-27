@@ -1,6 +1,10 @@
 // Endpoint for API status check
-import type { NextApiRequest, NextApiResponse } from "next";
+import { NextRequest, NextResponse } from "next/server";
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
-  res.status(200).json({ message: "up" });
-}
+export const config = {
+  runtime: "edge",
+};
+
+export default async (req: NextRequest) => {
+  return NextResponse.json({ message: "up" });
+};
