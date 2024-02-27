@@ -4,10 +4,6 @@ import { getFGAJWT } from "@/utils/token_utils";
 import { FGAListTuple, listAllTuples } from "@/utils/fga_utils";
 import { getUserIdAndEmailFromHeaders } from "@/utils/header_utils";
 
-export const config = {
-  runtime: "edge",
-};
-
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { user_id } = getUserIdAndEmailFromHeaders(req.headers);
 
