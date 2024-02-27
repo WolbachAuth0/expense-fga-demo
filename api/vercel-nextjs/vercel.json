@@ -1,0 +1,8 @@
+{
+  "crons": [
+    {
+      "path": "/api/fetch-jwks",
+      "schedule": "0 5 * * *"
+    }
+  ]
+}
