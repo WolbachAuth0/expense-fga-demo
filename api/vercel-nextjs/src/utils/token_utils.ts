@@ -41,10 +41,10 @@ export async function verifyJWT(jwt: string) {
 
 export async function fetchAndCacheJWKS() {
   // Grab latest from Auth0 if JWKS not found
-  const jwks = await fetch(
+  const result = await fetch(
     `https://${process.env.AUTH0_DOMAIN}/.well-known/jwks.json`,
   );
-
+  const jwks = await result.json();
   // Cache JWKS for future requests
   await kv.set("jwks", jwks);
   return jwks;
