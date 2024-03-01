@@ -26,7 +26,10 @@ export default async function middleware(req: NextRequest, res: NextResponse) {
   const ip = headers().get("x-forwarded-for");
   const { success } = await ratelimit.limit(ip ?? "anonymous");
   if (!success) {
-    return NextResponse.json({ message: "Too many requests" }, { status: 429 });
+    return NextResponse.json(
+      { message: "Too many requests", ip: ip },
+      { status: 429 },
+    );
   }
 
   const path = req.nextUrl.pathname;
