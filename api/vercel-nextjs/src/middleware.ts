@@ -5,10 +5,9 @@ import { Ratelimit } from "@upstash/ratelimit";
 import { kv } from "@vercel/kv";
 import { headers } from "next/headers";
 
-// 5 RPM
 const ratelimit = new Ratelimit({
   redis: kv,
-  limiter: Ratelimit.fixedWindow(5, "60s"),
+  limiter: Ratelimit.fixedWindow(10, "60s"),
 });
 
 export const config = {
@@ -26,10 +25,7 @@ export default async function middleware(req: NextRequest, res: NextResponse) {
   const ip = headers().get("x-forwarded-for");
   const { success } = await ratelimit.limit(ip ?? "anonymous");
   if (!success) {
-    return NextResponse.json(
-      { message: "Too many requests", ip: ip },
-      { status: 429 },
-    );
+    return NextResponse.json({ message: "Too many requests" }, { status: 429 });
   }
 
   const path = req.nextUrl.pathname;
