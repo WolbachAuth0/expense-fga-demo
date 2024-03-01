@@ -1,6 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 import { verifyJWT } from "@/utils/token_utils";
 import { cors } from "./utils/cors";
+import { Ratelimit } from "@upstash/ratelimit";
+import { kv } from "@vercel/kv";
+import { headers } from "next/headers";
+
+// 5 RPM
+const ratelimit = new Ratelimit({
+  redis: kv,
+  limiter: Ratelimit.fixedWindow(5, "60s"),
+});
 
 export const config = {
   matcher: "/api/:path*",
@@ -12,6 +21,13 @@ export default async function middleware(req: NextRequest, res: NextResponse) {
     { message: "Authorization Required" },
     { status: 401 },
   );
+
+  // Rate limit based on ip address
+  const ip = headers().get("x-forwarded-for");
+  const { success } = await ratelimit.limit(ip ?? "anonymous");
+  if (!success) {
+    return NextResponse.json({ message: "Too many requests" }, { status: 429 });
+  }
 
   const path = req.nextUrl.pathname;
   // Exclude ping route for uptime check

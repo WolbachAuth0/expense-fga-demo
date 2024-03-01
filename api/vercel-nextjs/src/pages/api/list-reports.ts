@@ -6,24 +6,24 @@ import { getUserIdAndEmailFromHeaders } from "@/utils/header_utils";
 import { Ratelimit } from "@upstash/ratelimit";
 import { kv } from "@vercel/kv";
 
-// 5 rpm
+// 30 RPM
 const ratelimit = new Ratelimit({
   redis: kv,
-  limiter: Ratelimit.fixedWindow(5, "60s"),
+  limiter: Ratelimit.fixedWindow(30, "60s"),
 });
 
 export default async (req: NextApiRequest, res: NextApiResponse) => {
   const { user_id } = getUserIdAndEmailFromHeaders(req.headers);
 
   // Rate limit based on user_id
-  const { success } = await ratelimit.limit(user_id ?? "anonymous");
-  if (!success) {
-    return res.status(429).json({
-      success: false,
-      message: `Too many requests`,
-      result: [],
-    });
-  }
+  // const { success } = await ratelimit.limit(user_id ?? "anonymous");
+  // if (!success) {
+  //   return res.status(429).json({
+  //     success: false,
+  //     message: `Too many requests`,
+  //     result: [],
+  //   });
+  // }
 
   const fga_token = await getFGAJWT();
   const fga_payload: FGAListTuple = {
