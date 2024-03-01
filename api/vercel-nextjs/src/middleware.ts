@@ -25,36 +25,36 @@ export default async function middleware(req: NextRequest, res: NextResponse) {
   const ip = headers().get("x-forwarded-for");
   const { success } = await ratelimit.limit(ip ?? "anonymous");
   if (!success) {
-    return NextResponse.json({ message: "Too many requests" }, { status: 429 });
-  }
-
-  const path = req.nextUrl.pathname;
-  // Exclude AuthZ check for /ping for uptime check and /fetch-jwks for cron job
-  if (path.startsWith("/api/ping") || path.startsWith("/api/fetch-jwks")) {
-    res = NextResponse.next();
+    res = NextResponse.json({ message: "Too many requests" }, { status: 429 });
   } else {
-    // Validate all other API routes have proper authorization
-    const token = req.headers.get("authorization")?.split(" ")[1];
-    if (token) {
-      const { jwtError, token_payload } = await verifyJWT(token);
-      if (jwtError) {
-        res = NextResponse.json(
-          { message: "Authorization Failed", result: jwtError },
-          { status: 401 },
-        );
-      }
-      if (
-        token_payload &&
-        token_payload.sub &&
-        (token_payload["email"] as string)
-      ) {
-        // Incoming JWT is valid - forward with appropriate headers
-        res = NextResponse.next();
-        res.headers.set("extracted_requester_id", token_payload.sub);
-        res.headers.set(
-          "extracted_requester_email",
-          token_payload["email"] as string,
-        );
+    const path = req.nextUrl.pathname;
+    // Exclude AuthZ check for /ping for uptime check and /fetch-jwks for cron job
+    if (path.startsWith("/api/ping") || path.startsWith("/api/fetch-jwks")) {
+      res = NextResponse.next();
+    } else {
+      // Validate all other API routes have proper authorization
+      const token = req.headers.get("authorization")?.split(" ")[1];
+      if (token) {
+        const { jwtError, token_payload } = await verifyJWT(token);
+        if (jwtError) {
+          res = NextResponse.json(
+            { message: "Authorization Failed", result: jwtError },
+            { status: 401 },
+          );
+        }
+        if (
+          token_payload &&
+          token_payload.sub &&
+          (token_payload["email"] as string)
+        ) {
+          // Incoming JWT is valid - forward with appropriate headers
+          res = NextResponse.next();
+          res.headers.set("extracted_requester_id", token_payload.sub);
+          res.headers.set(
+            "extracted_requester_email",
+            token_payload["email"] as string,
+          );
+        }
       }
     }
   }
