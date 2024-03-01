@@ -29,7 +29,7 @@ export default async function middleware(req: NextRequest, res: NextResponse) {
   }
 
   const path = req.nextUrl.pathname;
-  // Exclude ping route for uptime check
+  // Exclude AuthZ check for /ping for uptime check and /fetch-jwks for cron job
   if (path.startsWith("/api/ping") || path.startsWith("/api/fetch-jwks")) {
     res = NextResponse.next();
   } else {
