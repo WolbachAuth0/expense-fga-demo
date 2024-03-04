@@ -7,7 +7,7 @@ import { headers } from "next/headers";
 
 const ratelimit = new Ratelimit({
   redis: kv,
-  limiter: Ratelimit.fixedWindow(10, "60s"),
+  limiter: Ratelimit.fixedWindow(25, "60s"),
 });
 
 export const config = {
