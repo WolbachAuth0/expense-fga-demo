@@ -40,7 +40,6 @@ app
         redirect_uri: window.location.origin,
         audience: environ.VITE_API_AUDIENCE,
       },
-      cacheLocation: "localstorage",
     }),
   )
   .mount("#app");
