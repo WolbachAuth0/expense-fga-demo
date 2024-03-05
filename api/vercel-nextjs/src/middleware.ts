@@ -42,18 +42,25 @@ export default async function middleware(req: NextRequest, res: NextResponse) {
             { status: 401 },
           );
         }
-        if (
-          token_payload &&
-          token_payload.sub &&
-          (token_payload["email"] as string)
-        ) {
-          // Incoming JWT is valid - forward with appropriate headers
+        if (token_payload) {
+          // Incoming JWT is valid - parse email and user to forward through headers
+          let user_id = token_payload.sub ?? "";
+          let email = (token_payload["email"] as string) ?? "";
+
+          // Handle M2M use case
+          if (!email) {
+            // TODO: make these custom namespaces as ENV configs
+            user_id = token_payload[
+              "https://api.expense0.com/m2m_user_id"
+            ] as string;
+            email = token_payload[
+              "https://api.expense0.com/m2m_email"
+            ] as string;
+          }
+
           res = NextResponse.next();
-          res.headers.set("extracted_requester_id", token_payload.sub);
-          res.headers.set(
-            "extracted_requester_email",
-            token_payload["email"] as string,
-          );
+          res.headers.set("extracted_requester_id", user_id);
+          res.headers.set("extracted_requester_email", email);
         }
       }
     }
