@@ -28,7 +28,10 @@ export default async function middleware(req: NextRequest, res: NextResponse) {
   const ip = headers().get("x-forwarded-for");
   const { success } = await ratelimit.limit(ip ?? "anonymous");
   if (!success) {
-    res = NextResponse.json({ message: "Too many requests" }, { status: 429 });
+    res = NextResponse.json(
+      { message: "Too many requests", success: false },
+      { status: 429 },
+    );
   } else {
     const path = req.nextUrl.pathname;
     // Exclude AuthZ check for /ping for uptime check and /fetch-jwks for cron job
