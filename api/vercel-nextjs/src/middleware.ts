@@ -7,7 +7,10 @@ import { headers } from "next/headers";
 
 const ratelimit = new Ratelimit({
   redis: kv,
-  limiter: Ratelimit.fixedWindow(25, "60s"),
+  limiter: Ratelimit.fixedWindow(
+    Number(process.env.RATE_LIMIT_PER_MINUTE) ?? 25,
+    "60s",
+  ),
 });
 
 export const config = {
@@ -25,7 +28,10 @@ export default async function middleware(req: NextRequest, res: NextResponse) {
   const ip = headers().get("x-forwarded-for");
   const { success } = await ratelimit.limit(ip ?? "anonymous");
   if (!success) {
-    res = NextResponse.json({ message: "Too many requests" }, { status: 429 });
+    res = NextResponse.json(
+      { message: "Too many requests", success: false },
+      { status: 429 },
+    );
   } else {
     const path = req.nextUrl.pathname;
     // Exclude AuthZ check for /ping for uptime check and /fetch-jwks for cron job
@@ -49,13 +55,10 @@ export default async function middleware(req: NextRequest, res: NextResponse) {
 
           // Handle M2M use case
           if (!email) {
-            // TODO: make these custom namespaces as ENV configs
             user_id = token_payload[
-              "https://api.expense0.com/m2m_user_id"
+              process.env.M2M_USER_ID_CLAIM ?? ""
             ] as string;
-            email = token_payload[
-              "https://api.expense0.com/m2m_email"
-            ] as string;
+            email = token_payload[process.env.M2M_EMAIL_CLAIM ?? ""] as string;
           }
 
           res = NextResponse.next();
