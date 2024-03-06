@@ -4,6 +4,7 @@ import { cors } from "./utils/cors";
 import { Ratelimit } from "@upstash/ratelimit";
 import { kv } from "@vercel/kv";
 import { headers } from "next/headers";
+import { timestampToDate } from "./utils/date_utils";
 
 const ratelimit = new Ratelimit({
   redis: kv,
@@ -26,10 +27,13 @@ export default async function middleware(req: NextRequest, res: NextResponse) {
 
   // Rate limit based on ip address
   const ip = headers().get("x-forwarded-for");
-  const { success } = await ratelimit.limit(ip ?? "anonymous");
+  const { success, limit, reset } = await ratelimit.limit(ip ?? "anonymous");
   if (!success) {
     res = NextResponse.json(
-      { message: "Too many requests", success: false },
+      {
+        message: `There are too many requests.  Current limit is ${limit} requests per minute.  Cooldown resets at ${timestampToDate(reset)}`,
+        success: false,
+      },
       { status: 429 },
     );
   } else {
