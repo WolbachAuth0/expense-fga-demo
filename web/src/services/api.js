@@ -27,10 +27,7 @@ async function post(auth, url, data) {
     const response = await http(accesstoken).post(url, data);
     return response.data;
   } catch (error) {
-    if (error.response.status == 401) {
-      return error.response.data;
-    }
-    return error;
+    return httpErrorHandler(error)
   }
 }
 
@@ -39,11 +36,17 @@ async function get(url) {
     const response = await http().get(url);
     return response.data;
   } catch (error) {
-    if (error.response.status == 401) {
-      return error.response.data;
-    }
-    return error;
+    return httpErrorHandler(error)
   }
+}
+
+function httpErrorHandler (err) {
+  if (err.response.status == 401) {
+    return err.response.data;
+  } else if (err.response.status == 429) {
+    return err.response.data
+  }
+  return err
 }
 
 export async function submitReport(auth, { amount, merchant, description }) {
