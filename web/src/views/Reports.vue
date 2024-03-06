@@ -132,21 +132,22 @@ export default {
             this.progress.color = "secondary";
             console.log(response);
 
-            // store data to state
-            this.my_reports_submitted =
-                response.result.my_reports_submitted?.map(processItems);
-            this.my_reports_approved =
-                response.result.my_reports_approved?.map(processItems);
-            this.team_reports_submitted =
-                response.result.team_reports_submitted?.map(processItems);
-            this.team_reports_approved =
-                response.result.team_reports_approved?.map(processItems);
-            this.my_reports_rejected =
-                response.result.my_reports_rejected?.map(processItems);
-            this.team_reports_rejected =
-                response.result.team_reports_rejected?.map(processItems);
-            this.tab = this.tab || 0;
-
+            if (response.success) {
+                // store data to state
+                this.my_reports_submitted =
+                    response.result.my_reports_submitted?.map(processItems);
+                this.my_reports_approved =
+                    response.result.my_reports_approved?.map(processItems);
+                this.team_reports_submitted =
+                    response.result.team_reports_submitted?.map(processItems);
+                this.team_reports_approved =
+                    response.result.team_reports_approved?.map(processItems);
+                this.my_reports_rejected =
+                    response.result.my_reports_rejected?.map(processItems);
+                this.team_reports_rejected =
+                    response.result.team_reports_rejected?.map(processItems);
+                this.tab = this.tab || 0;
+            }
             return response
             function processItems(x) {
                 x.isApproved = !!x.approver_id;
