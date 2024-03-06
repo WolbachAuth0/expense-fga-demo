@@ -4,7 +4,6 @@ import { cors } from "./utils/cors";
 import { Ratelimit } from "@upstash/ratelimit";
 import { kv } from "@vercel/kv";
 import { headers } from "next/headers";
-import { timestampToDate } from "./utils/date_utils";
 
 const ratelimit = new Ratelimit({
   redis: kv,
@@ -31,7 +30,7 @@ export default async function middleware(req: NextRequest, res: NextResponse) {
   if (!success) {
     res = NextResponse.json(
       {
-        message: `There are too many requests.  Current limit is ${limit} requests per minute.  Cooldown resets at ${timestampToDate(reset)}`,
+        message: `There are too many requests.  Current limit is ${limit} requests per minute.  Cooldown resets at ${reset}`,
         success: false,
       },
       { status: 429 },
