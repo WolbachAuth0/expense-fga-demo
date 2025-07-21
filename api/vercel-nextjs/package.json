@@ -28,5 +28,8 @@
   },
   "devDependencies": {
     "@types/luxon": "^3.4.2"
+  },
+  "engines": {
+    "node": "22.x"
   }
 }
